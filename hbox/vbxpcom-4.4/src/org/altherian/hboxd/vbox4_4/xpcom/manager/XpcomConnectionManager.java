@@ -46,10 +46,6 @@ public class XpcomConnectionManager {
       
       System.setProperty("vbox.home", home);
       vboxManager = VirtualBoxManager.createInstance(null);
-      if (!vboxManager.getVBox().getAPIVersion().contentEquals("4_4")) {
-         throw new HypervisorException("Missmatch API Connector: Server is " + vboxManager.getVBox().getAPIVersion()
-               + " but the connector handles 4_4");
-      }
    }
    
    public void stop() {

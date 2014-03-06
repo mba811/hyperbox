@@ -74,21 +74,12 @@ public final class VmDetailedView implements _MachineReceiver, _Refreshable {
    }
    
    private void update() {
-      if (!SwingUtilities.isEventDispatchThread()) {
-         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-               update();
-            }
-         });
-      } else {
-         summaryTab.show(mOut);
-         tabs.setEnabledAt(tabs.indexOfComponent(summaryTab.getComponent()), true);
-         snapTab.show(mOut);
-         tabs.setEnabledAt(tabs.indexOfComponent(snapTab.getComponent()), true);
-         displayTab.show(mOut);
-         tabs.setEnabledAt(tabs.indexOfComponent(displayTab.getComponent()), true);
-      }
+      summaryTab.show(mOut);
+      tabs.setEnabledAt(tabs.indexOfComponent(summaryTab.getComponent()), true);
+      snapTab.show(mOut);
+      tabs.setEnabledAt(tabs.indexOfComponent(snapTab.getComponent()), true);
+      displayTab.show(mOut);
+      tabs.setEnabledAt(tabs.indexOfComponent(displayTab.getComponent()), true);
    }
    
    public void setUserSelection(MachineOutput mOut) {
@@ -102,37 +93,21 @@ public final class VmDetailedView implements _MachineReceiver, _Refreshable {
    
    @Handler
    public void getMachineUpdate(MachineDataChangedEvent ev) {
-      Logger.track();
       if (ev.getUuid().contentEquals(mOut.getUuid())) {
-         Logger.track();
          put(ev.getMachine());
       }
    }
    
    @Handler
    public void getMachineRemove(MachineRemovedEvent ev) {
-      Logger.track();
       if (ev.getUuid().contentEquals(mOut.getUuid())) {
-         Logger.track();
          clear();
       }
    }
    
    private void clear() {
-      Logger.track();
-      
-      if (!SwingUtilities.isEventDispatchThread()) {
-         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-               clear();
-            }
-         });
-      } else {
-         Logger.track();
-         summaryTab.clear();
-         displayTab.clear();
-      }
+      summaryTab.clear();
+      displayTab.clear();
    }
    
    @Override
@@ -161,8 +136,6 @@ public final class VmDetailedView implements _MachineReceiver, _Refreshable {
    
    @Override
    public void put(MachineOutput mOut) {
-      Logger.track();
-      
       this.mOut = mOut;
       update();
    }

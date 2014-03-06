@@ -73,7 +73,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -129,7 +128,6 @@ public final class InfrastructureView implements _VmSelector, _ServerSelector, _
       tree.setRootVisible(false);
       tree.setShowsRootHandles(true);
       treeView = new JScrollPane(tree);
-      treeView.setBorder(BorderFactory.createEmptyBorder());
       
       vmView = new VmDetailedView();
       srvView = new ServerViewer();
@@ -141,10 +139,8 @@ public final class InfrastructureView implements _VmSelector, _ServerSelector, _
       detailViews.add(conView.getComponent(), EntityTypes.Connector.getId());
       detailViews.add(vmView.getComponent(), EntityTypes.Machine.getId());
       detailViews.add(srvView.getComponent(), EntityTypes.Server.getId());
-      JScrollPane detailPane = new JScrollPane(detailViews);
-      detailPane.setBorder(BorderFactory.createEmptyBorder());
       
-      vSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeView, detailPane);
+      vSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeView, detailViews);
       vSplit.setResizeWeight(0);
       vSplit.setDividerLocation(Integer.parseInt(PreferencesManager.get(InfrastructureView.class.getName()).getProperty(
             JSplitPane.DIVIDER_LOCATION_PROPERTY, "168")));
@@ -152,7 +148,7 @@ public final class InfrastructureView implements _VmSelector, _ServerSelector, _
          
          @Override
          public void propertyChange(PropertyChangeEvent evt) {
-            PreferencesManager.get(this.getClass().getName()).setProperty(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt.getNewValue().toString());
+            PreferencesManager.get(InfrastructureView.class.getName()).setProperty(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt.getNewValue().toString());
          }
       });
       

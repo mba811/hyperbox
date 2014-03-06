@@ -60,10 +60,9 @@ public class TaskListWorker extends HSwingWorker<Void, TaskOutput, _TaskListRece
       
       try {
          get();
-         getReceiver().loadingFinished(true, null);
+         getReceiver().loadingFinished(false, null);
       } catch (Throwable e) {
-         Logger.exception(e);
-         getReceiver().loadingFinished(false, e.getMessage());
+         getReceiver().loadingFinished(true, e.getMessage());
       }
    }
    
