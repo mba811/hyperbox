@@ -26,10 +26,8 @@ import org.altherian.tool.AxStrings;
 import org.altherian.tool.logging.Logger;
 import org.altherian.vbox.VirtualBox;
 import org.altherian.vbox4_4.VBoxHypervisor;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.virtualbox_4_4.VBoxException;
 import org.virtualbox_4_4.VirtualBoxManager;
 
@@ -119,10 +117,10 @@ public final class VBoxWSHypervisor extends VBoxHypervisor {
       }
    }
 
-@Override
-public void importAppliance(String applianceFile) {
-	// TODO Auto-generated method stub
-	
-}
+   @Override
+   public void importAppliance(String applianceFile) {
+      // TODO Auto-generated method stub
+
+   }
 
 }

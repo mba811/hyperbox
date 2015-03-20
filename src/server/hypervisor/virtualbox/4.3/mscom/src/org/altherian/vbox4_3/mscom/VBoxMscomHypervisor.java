@@ -49,10 +49,10 @@ public class VBoxMscomHypervisor extends VBoxHypervisor {
       return getMgr().getSessionObject();
    }
 
-@Override
-public void importAppliance(String applianceFile) {
-	// TODO Auto-generated method stub
-	
-}
+   @Override
+   public void importAppliance(String applianceFile) {
+      // TODO Auto-generated method stub
+
+   }
 
 }

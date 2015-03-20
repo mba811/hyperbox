@@ -26,9 +26,7 @@ import org.altherian.tool.AxStrings;
 import org.altherian.tool.logging.Logger;
 import org.altherian.vbox.VirtualBox;
 import org.altherian.vbox4_2.VBoxHypervisor;
-
 import java.io.File;
-
 import org.virtualbox_4_2.ISession;
 import org.virtualbox_4_2.VirtualBoxManager;
 
@@ -86,10 +84,10 @@ public final class VBoxXpcomHypervisor extends VBoxHypervisor {
       return getMgr().getSessionObject();
    }
 
-@Override
-public void importAppliance(String applianceFile) {
-	// TODO Auto-generated method stub
-	
-}
+   @Override
+   public void importAppliance(String applianceFile) {
+      // TODO Auto-generated method stub
+
+   }
 
 }
