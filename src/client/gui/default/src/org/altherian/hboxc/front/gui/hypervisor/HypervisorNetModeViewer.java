@@ -20,9 +20,7 @@
 
 package org.altherian.hboxc.front.gui.hypervisor;
 
-import net.engio.mbassy.listener.Handler;
 import net.miginfocom.swing.MigLayout;
-import org.altherian.hbox.comm.out.event.net.NetAdaptorEventOut;
 import org.altherian.hbox.comm.out.network.NetAdaptorOut;
 import org.altherian.hbox.comm.out.network.NetModeOut;
 import org.altherian.hboxc.front.gui.ViewEventManager;
@@ -61,16 +59,6 @@ public class HypervisorNetModeViewer implements _Refreshable, _NetAdaptorListRec
 
    public JComponent getComponent() {
       return panel;
-   }
-
-   @Handler
-   private void putNetAdaptorEvent(NetAdaptorEventOut ev) {
-      if (mode.getId().equals(ev.getNetMode())) {
-         Logger.debug(mode.getId() + " is " + ev.getNetMode() + " - refreshing...");
-         refresh();
-      } else {
-         Logger.debug(mode.getId() + " is not " + ev.getNetMode() + " - skipping refresh...");
-      }
    }
 
    @Override

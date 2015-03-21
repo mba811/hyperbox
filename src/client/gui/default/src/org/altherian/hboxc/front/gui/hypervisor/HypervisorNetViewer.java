@@ -23,6 +23,7 @@ package org.altherian.hboxc.front.gui.hypervisor;
 import net.engio.mbassy.listener.Handler;
 import net.miginfocom.swing.MigLayout;
 import org.altherian.hbox.comm.out.event.hypervisor.HypervisorConnectionStateEventOut;
+import org.altherian.hbox.comm.out.event.net.NetAdaptorEventOut;
 import org.altherian.hbox.comm.out.network.NetModeOut;
 import org.altherian.hboxc.event.connector.ConnectorStateChangedEvent;
 import org.altherian.hboxc.front.gui.ViewEventManager;
@@ -32,7 +33,9 @@ import org.altherian.hboxc.front.gui.worker.receiver._NetModeListReceiver;
 import org.altherian.hboxc.front.gui.workers.NetModeListWorker;
 import org.altherian.tool.logging.Logger;
 import java.awt.Component;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -46,6 +49,8 @@ public class HypervisorNetViewer implements _Refreshable, _NetModeListReceiver {
    private JPanel dataPanel;
    private JPanel panel;
 
+   private Map<String, HypervisorNetModeViewer> compModes = new HashMap<String, HypervisorNetModeViewer>();
+
    public HypervisorNetViewer(String srvId) {
       this.srvId = srvId;
 
@@ -57,8 +62,8 @@ public class HypervisorNetViewer implements _Refreshable, _NetModeListReceiver {
       panel.add(dataPanel, "grow, push, wrap, hidemode 3");
 
       RefreshUtil.set(panel, this);
-      refresh();
       ViewEventManager.register(this);
+      refresh();
    }
 
    public JComponent getComponent() {
@@ -81,6 +86,16 @@ public class HypervisorNetViewer implements _Refreshable, _NetModeListReceiver {
    private void putConnectorConnectionStateEvent(ConnectorStateChangedEvent ev) {
       if (ev.getConnector().getServerId().equals(srvId)) {
          refresh();
+      }
+   }
+
+   @Handler
+   private void putNetAdaptorEvent(NetAdaptorEventOut ev) {
+      if (compModes.containsKey(ev.getNetMode())) {
+         Logger.debug("Refreshing panel for mode " + ev.getNetMode());
+         compModes.get(ev.getNetMode()).refresh();
+      } else {
+         Logger.debug("No panel for mode " + ev.getNetMode() + ", skipping refresh");
       }
    }
 
@@ -116,6 +131,7 @@ public class HypervisorNetViewer implements _Refreshable, _NetModeListReceiver {
       for (NetModeOut modeOut : modesOut) {
          if (modeOut.canLinkAdaptor()) {
             HypervisorNetModeViewer viewer = new HypervisorNetModeViewer(srvId, modeOut);
+            compModes.put(modeOut.getId(), viewer);
             viewer.getComponent().setBorder(BorderFactory.createTitledBorder(modeOut.getLabel()));
             dataPanel.add(viewer.getComponent(), "growx, pushx, wrap");
          } else {
