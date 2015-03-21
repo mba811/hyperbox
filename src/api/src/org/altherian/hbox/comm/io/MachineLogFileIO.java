@@ -20,9 +20,9 @@
 
 package org.altherian.hbox.comm.io;
 
+import org.altherian.hbox.hypervisor._MachineLogFile;
 import java.util.ArrayList;
 import java.util.List;
-import org.altherian.hbox.hypervisor._MachineLogFile;
 
 public class MachineLogFileIO implements _MachineLogFile {
 

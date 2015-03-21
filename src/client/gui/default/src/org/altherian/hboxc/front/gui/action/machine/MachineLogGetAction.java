@@ -1,13 +1,13 @@
 package org.altherian.hboxc.front.gui.action.machine;
 
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
 import org.altherian.hbox.comm.HypervisorTasks;
 import org.altherian.hbox.hypervisor._MachineLogFile;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui.builder.IconBuilder;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JDialog;
+import javax.swing.JTextArea;
 
 public class MachineLogGetAction extends AbstractAction {
 
