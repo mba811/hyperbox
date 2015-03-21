@@ -57,8 +57,7 @@ public class VmEditDialog {
 
    private final String GENERAL = "General";
    private final String SYSTEM = "System";
-   private final String CONSOLE = "Console";
-   private final String DISPLAY = "Display";
+   private final String OUTPUT = "Output";
    private final String STORAGE = "Storage";
    private final String AUDIO = "Audio";
    private final String NETWORK = "Network";
@@ -83,8 +82,7 @@ public class VmEditDialog {
 
    private GeneralVmEdit generalEdit;
    private SystemVmEdit systemEdit;
-   private ConsoleVmEdit consoleEdit;
-   private DisplayVmEdit displayEdit;
+   private OutputVmEdit outputEdit;
    private StorageVmEdit storageEdit;
    private AudioVmEdit audioEdit;
    private NetworkVmEdit networkEdit;
@@ -94,8 +92,7 @@ public class VmEditDialog {
    public VmEditDialog() {
       generalEdit = new GeneralVmEdit();
       systemEdit = new SystemVmEdit();
-      consoleEdit = new ConsoleVmEdit();
-      displayEdit = new DisplayVmEdit();
+      outputEdit = new OutputVmEdit();
       storageEdit = new StorageVmEdit();
       audioEdit = new AudioVmEdit();
       networkEdit = new NetworkVmEdit();
@@ -110,8 +107,7 @@ public class VmEditDialog {
 
       sectionPanels.add(generalEdit.getComp(), GENERAL);
       sectionPanels.add(systemEdit.getComp(), SYSTEM);
-      sectionPanels.add(consoleEdit.getComp(), CONSOLE);
-      sectionPanels.add(displayEdit.getComp(), DISPLAY);
+      sectionPanels.add(outputEdit.getComp(), OUTPUT);
       sectionPanels.add(storageEdit.getComp(), STORAGE);
       sectionPanels.add(audioEdit.getComp(), AUDIO);
       sectionPanels.add(networkEdit.getComp(), NETWORK);
@@ -119,8 +115,7 @@ public class VmEditDialog {
       listModel = new DefaultListModel();
       listModel.addElement(GENERAL);
       listModel.addElement(SYSTEM);
-      listModel.addElement(CONSOLE);
-      listModel.addElement(DISPLAY);
+      listModel.addElement(OUTPUT);
       listModel.addElement(STORAGE);
       listModel.addElement(AUDIO);
       listModel.addElement(NETWORK);
@@ -179,8 +174,7 @@ public class VmEditDialog {
    public void save() {
       generalEdit.save();
       systemEdit.save();
-      consoleEdit.save();
-      displayEdit.save();
+      outputEdit.save();
       storageEdit.save();
       audioEdit.save();
       networkEdit.save();
@@ -246,9 +240,7 @@ public class VmEditDialog {
             label.setIcon(IconBuilder.getEntityType(EntityType.Machine));
          } else if (label.getText() == SYSTEM) {
             label.setIcon(IconBuilder.getEntityType(EntityType.CPU));
-         } else if (label.getText() == CONSOLE) {
-            label.setIcon(IconBuilder.getEntityType(EntityType.Console));
-         } else if (label.getText() == DISPLAY) {
+         } else if (label.getText() == OUTPUT) {
             label.setIcon(IconBuilder.getEntityType(EntityType.Display));
          } else if (label.getText() == STORAGE) {
             label.setIcon(IconBuilder.getEntityType(EntityType.HardDisk));
@@ -292,8 +284,7 @@ public class VmEditDialog {
          } else {
             generalEdit.update(mOut, mIn);
             systemEdit.update(mOut, mIn);
-            consoleEdit.update(mOut, mIn);
-            displayEdit.update(mOut, mIn);
+            outputEdit.update(mOut, mIn);
             storageEdit.update(mOut, mIn);
             audioEdit.update(mOut, mIn);
             networkEdit.update(mOut, mIn);

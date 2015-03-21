@@ -1,6 +1,6 @@
 /*
  * Hyperbox - Enterprise Virtualization Manager
- * Copyright (C) 2014 Maxime Dor
+ * Copyright (C) 2015 - Maxime Dor
  * 
  * http://hyperbox.altherian.org
  * 
@@ -11,11 +11,12 @@
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
  */
 
 package org.altherian.hboxc.front.gui.vm.edit;
@@ -29,17 +30,21 @@ import org.altherian.hbox.comm.io.StringSettingIO;
 import org.altherian.hbox.comm.out.hypervisor.MachineOut;
 import org.altherian.hbox.constant.MachineAttribute;
 import org.altherian.hboxc.front.gui.Gui;
+import java.awt.Color;
 import java.awt.Component;
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ConsoleVmEdit {
+public class OutputVmEdit {
 
    private MachineIn mIn;
    private MachineOut mOut;
 
+   private JPanel consolePanel;
+   private JPanel displayPanel;
    private JPanel panel;
 
    private JLabel enableLabel;
@@ -49,6 +54,10 @@ public class ConsoleVmEdit {
    private JLabel authTimeoutLabel;
    private JLabel allowMultiConnLabel;
    private JLabel vncPassLabel;
+   private JLabel vramLabel;
+   private JLabel monitorCountLabel;
+   private JLabel accel2dLabel;
+   private JLabel accel3dLabel;
 
    private JCheckBox enableValue;
    private JTextField portValue;
@@ -57,8 +66,12 @@ public class ConsoleVmEdit {
    private JTextField authTimeoutValue;
    private JCheckBox allowMultiConnValue;
    private JTextField vncPassField;
+   private JTextField vramField;
+   private JTextField monitorCountField;
+   private JCheckBox accel2dBox;
+   private JCheckBox accel3dBox;
 
-   public ConsoleVmEdit() {
+   public OutputVmEdit() {
       enableLabel = new JLabel("Enabled");
       portLabel = new JLabel("Port");
       addressLabel = new JLabel("Address");
@@ -75,19 +88,45 @@ public class ConsoleVmEdit {
       allowMultiConnValue = new JCheckBox();
       vncPassField = new JTextField();
 
+      vramLabel = new JLabel("VRAM");
+      vramField = new JTextField();
+      monitorCountLabel = new JLabel("Monitors");
+      monitorCountField = new JTextField();
+      accel2dLabel = new JLabel("2D Acceleration");
+      accel2dBox = new JCheckBox();
+      accel3dLabel = new JLabel("3D Acceleration");
+      accel3dBox = new JCheckBox();
+
+      displayPanel = new JPanel(new MigLayout());
+      displayPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Graphics"));
+      displayPanel.add(vramLabel);
+      displayPanel.add(vramField, "growx,pushx,wrap");
+      displayPanel.add(monitorCountLabel);
+      displayPanel.add(monitorCountField, "growx,pushx,wrap");
+      displayPanel.add(accel2dLabel);
+      displayPanel.add(accel2dBox, "growx,pushx,wrap");
+      displayPanel.add(accel3dLabel);
+      displayPanel.add(accel3dBox, "growx,pushx,wrap");
+
+
+      consolePanel = new JPanel(new MigLayout());
+      consolePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Console"));
+      consolePanel.add(enableLabel);
+      consolePanel.add(enableValue, "growx, pushx, wrap");
+      consolePanel.add(portLabel);
+      consolePanel.add(portValue, "growx, pushx, wrap");
+      consolePanel.add(addressLabel);
+      consolePanel.add(addressValue, "growx, pushx, wrap");
+      consolePanel.add(authTypeLabel);
+      consolePanel.add(authTypeValue, "growx, pushx, wrap");
+      consolePanel.add(authTimeoutLabel);
+      consolePanel.add(authTimeoutValue, "growx, pushx, wrap");
+      consolePanel.add(allowMultiConnLabel);
+      consolePanel.add(allowMultiConnValue, "growx, pushx, wrap");
+
       panel = new JPanel(new MigLayout());
-      panel.add(enableLabel);
-      panel.add(enableValue, "growx, pushx, wrap");
-      panel.add(portLabel);
-      panel.add(portValue, "growx, pushx, wrap");
-      panel.add(addressLabel);
-      panel.add(addressValue, "growx, pushx, wrap");
-      panel.add(authTypeLabel);
-      panel.add(authTypeValue, "growx, pushx, wrap");
-      panel.add(authTimeoutLabel);
-      panel.add(authTimeoutValue, "growx, pushx, wrap");
-      panel.add(allowMultiConnLabel);
-      panel.add(allowMultiConnValue, "growx, pushx, wrap");
+      panel.add(displayPanel, "growx,pushx,wrap");
+      panel.add(consolePanel, "growx,pushx,wrap");
    }
 
    public Component getComp() {
@@ -113,6 +152,11 @@ public class ConsoleVmEdit {
                   .getString());
          }
       }
+
+      vramField.setText(mOut.getSetting(MachineAttribute.VRAM).getString());
+      monitorCountField.setText(mOut.getSetting(MachineAttribute.MonitorCount).getString());
+      accel2dBox.setSelected(mOut.getSetting(MachineAttribute.Accelerate2dVideo).getBoolean());
+      accel3dBox.setSelected(mOut.getSetting(MachineAttribute.Accelerate3d).getBoolean());
    }
 
    public void save() {
@@ -138,6 +182,19 @@ public class ConsoleVmEdit {
          ConsoleIn conIn = new ConsoleIn();
          conIn.setSetting(new StringSettingIO("VNCPassword", vncPassField.getText()));
          mIn.addDevice(conIn);
+      }
+
+      if (!mOut.getSetting(MachineAttribute.VRAM).getString().contentEquals(vramField.getText())) {
+         mIn.setSetting(new PositiveNumberSettingIO(MachineAttribute.VRAM, Long.parseLong(vramField.getText())));
+      }
+      if (!mOut.getSetting(MachineAttribute.MonitorCount).getString().contentEquals(monitorCountField.getText())) {
+         mIn.setSetting(new PositiveNumberSettingIO(MachineAttribute.MonitorCount, Long.parseLong(monitorCountField.getText())));
+      }
+      if (!mOut.getSetting(MachineAttribute.Accelerate2dVideo).getBoolean().equals(accel2dBox.isSelected())) {
+         mIn.setSetting(new BooleanSettingIO(MachineAttribute.Accelerate2dVideo, accel2dBox.isSelected()));
+      }
+      if (!mOut.getSetting(MachineAttribute.Accelerate3d).getBoolean().equals(accel3dBox.isSelected())) {
+         mIn.setSetting(new BooleanSettingIO(MachineAttribute.Accelerate3d, accel3dBox.isSelected()));
       }
    }
 
