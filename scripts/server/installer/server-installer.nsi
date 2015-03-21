@@ -1,6 +1,6 @@
 /*
  * Hyperbox - Enterprise Virtualization Manager
- * Copyright (C) 2013 Maxime Dor
+ * Copyright (C) 2013-2015 Maxime Dor
  * 
  * http://hyperbox.altherian.org
  * 
@@ -38,6 +38,10 @@ ExecWait '$INSTDIR\hboxd.exe delete hboxd'
 # Legacy location of hboxd.exe
 IfFileExists $INSTDIR\bin\hboxd.exe 0 +2
 ExecWait '$INSTDIR\bin\hboxd.exe delete hboxd'
+
+# Removing libraries and binaries
+RMDir /r "$INSTDIR\bin"
+RMDir /r "$INSTDIR\lib"
 
 File /r "@SERVER_OUT_BIN_DIR@\*.*"
 WriteUninstaller $INSTDIR\uninstaller.exe

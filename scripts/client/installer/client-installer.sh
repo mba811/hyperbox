@@ -1,7 +1,8 @@
+#!/bin/bash
 ###########################################################################
 #
 # Hyperbox - Enterprise Virtualization Manager
-# Copyright (C) 2013 Maxime Dor
+# Copyright (C) 2013-2015 Maxime Dor
 # 
 # http://hyperbox.altherian.org
 # 
@@ -20,9 +21,26 @@
 #
 ###########################################################################
 
-#!/bin/bash
-
 INSTALL_DIR="/opt/hboxc"
+LOG_FILE="/var/log/hboxc-install.log"
+
+function log {
+	echo "$@" >> $LOG_FILE
+}
+
+function logandout {
+	log "$@"
+	echo "$@"
+}
+
+function abort {
+	logandout "$@"
+	log "Aborting install"
+	echo "An error occurred and the installation will now be cancelled. Check log file for more details: $LOG_FILE"
+	log "Installation finished at "$(date "+%d-%I-%Y @ %H:%m")
+	exit 1
+}
+
 
 if ! [ -x $INSTALL_DIR ]; then
 	mkdir $INSTALL_DIR
@@ -32,6 +50,10 @@ if ! [ -x $INSTALL_DIR ]; then
 		echo Fail Create install dir
 		exit 1
 	fi
+else
+	log "Cleaning up old binaries"
+	rm -rf $INSTALL_DIR/bin 2>&1 >> $LOG_FILE
+	rm -rf $INSTALL_DIR/lib 2>&1 >> $LOG_FILE
 fi
 
 cp -r ./* $INSTALL_DIR
@@ -89,4 +111,6 @@ else
         echo fail cleanup
         exit 1
 fi
+
+echo Installation finished successfully
 

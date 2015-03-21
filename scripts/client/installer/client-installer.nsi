@@ -1,6 +1,6 @@
 /*
  * Hyperbox - Enterprise Virtualization Manager
- * Copyright (C) 2013 Maxime Dor
+ * Copyright (C) 2013-2015 Maxime Dor
  * 
  * http://hyperbox.altherian.org
  * 
@@ -31,6 +31,8 @@ Page instfiles
 
 Section "Core files"
 SetOutPath $INSTDIR
+RMDir /r "$INSTDIR\bin"
+RMDir /r "$INSTDIR\lib"
 File /r "@CLIENT_OUT_BIN_DIR@\*.*"
 WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd

@@ -2,7 +2,7 @@
 ###########################################################################
 #
 # Hyperbox - Enterprise Virtualization Manager
-# Copyright (C) 2013 Maxime Dor
+# Copyright (C) 2013-2015 Maxime Dor
 # 
 # http://hyperbox.altherian.org
 # 
@@ -22,7 +22,7 @@
 ###########################################################################
 
 INSTALL_DIR="/opt/hboxd"
-LOG_FILE="/var/log/install-hboxd.log"
+LOG_FILE="/var/log/hboxd-install.log"
 RUNAS="hyperbox"
 IS_DEBIAN_BASED=false
 IS_REDHAT_BASED=false
@@ -60,10 +60,10 @@ function run {
 
 function abort {
 	logandout "$@"
-	log "Abording install" >> $LOG_FILE
-	echo "An error occured and the installation will now be canceled. View $LOG_FILE for more details"
+	log "Aborting install"
+	echo "An error occurred and the installation will now be cancelled. Check log file for more details: $LOG_FILE"
 	cleanUp
-	echo "Installation finish at "$(date "+%d-%I-%Y @ %H:%m") >> $LOG_FILE
+	log "Installation finished at "$(date "+%d-%I-%Y @ %H:%m")
 	exit 1
 }
 
@@ -260,6 +260,10 @@ function copyFiles {
 	        if [ $? -ne 0 ]; then
 	        	abort "Failed to create install dir"
 		fi
+	else
+		log "Cleaning up old binaries"
+		rm -rf $INSTALL_DIR/bin 2>&1 >> $LOG_FILE
+		rm -rf $INSTALL_DIR/lib 2>&1 >> $LOG_FILE
 	fi
 	
 	echo Will install to $INSTALL_DIR
