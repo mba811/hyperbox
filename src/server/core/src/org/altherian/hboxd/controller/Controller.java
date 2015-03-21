@@ -41,6 +41,8 @@ import org.altherian.hboxd.session.SessionContext;
 import org.altherian.tool.logging.LogLevel;
 import org.altherian.tool.logging.Logger;
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -138,11 +140,19 @@ public final class Controller implements _Controller {
 
          ShutdownAction.setController(this);
 
+         Logger.verbose("-------- Environment variables -------");
          for (String name : System.getenv().keySet()) {
             if (name.startsWith(Configuration.CFG_ENV_PREFIX + Configuration.CFG_ENV_SEPERATOR)) {
-               Logger.info("Environment Variable: " + name + " | " + System.getenv(name));
+               Logger.verbose(name + " | " + System.getenv(name));
             }
          }
+         Logger.verbose("--------------------------------------");
+
+         Logger.verbose("-------- Classpath entries -----------");
+         for (URL classPathEntry : ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()) {
+            Logger.verbose(classPathEntry);
+         }
+         Logger.verbose("--------------------------------------");
 
          startBack();
          startFront();

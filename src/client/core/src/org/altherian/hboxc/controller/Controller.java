@@ -45,6 +45,8 @@ import org.altherian.tool.logging.Logger;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -97,11 +99,8 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
          // TODO create Console view
       }
 
-      try {
-         front = HyperboxClient.loadClass(_Front.class, classToLoad);
-      } catch (HyperboxRuntimeException e) {
-         throw new HyperboxException(e);
-      }
+      Logger.info("Loading frontend class:" + classToLoad);
+      front = HyperboxClient.loadClass(_Front.class, classToLoad);
    }
 
    public void start() throws HyperboxException {
@@ -125,9 +124,19 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
             System.exit(1);
          }
 
+         Logger.verbose("-------- Environment variables -------");
          for (String name : System.getenv().keySet()) {
-            Logger.debug(name + ": " + System.getenv(name));
+            if (name.startsWith(Configuration.CFG_ENV_PREFIX + Configuration.CFG_ENV_SEPERATOR)) {
+               Logger.verbose(name + " | " + System.getenv(name));
+            }
          }
+         Logger.verbose("--------------------------------------");
+
+         Logger.verbose("-------- Classpath entries -----------");
+         for (URL classPathEntry : ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()) {
+            Logger.verbose(classPathEntry);
+         }
+         Logger.verbose("--------------------------------------");
 
          EventManager.get().start();
 
@@ -153,7 +162,6 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
    }
 
    public void stop() {
-
       try {
          if (core != null) {
             core.stop();
@@ -175,18 +183,15 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
 
    @Override
    public void post(MessageInput mIn) {
-
       msgWorker.post(mIn);
    }
 
    @Override
    public void putRequest(Request request) {
-
       msgWorker.post(new MessageInput(request));
    }
 
    private class RequestWorker implements _ClientMessageReceiver, Runnable {
-
       private boolean running;
       private Thread thread;
       private BlockingQueue<MessageInput> queue;
@@ -200,7 +205,6 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
       }
 
       public void start() throws HyperboxException {
-
          running = true;
          queue = new LinkedBlockingQueue<MessageInput>();
          thread = new Thread(this, "FRQMGR");
@@ -209,7 +213,6 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
       }
 
       public void stop() {
-
          running = false;
          thread.interrupt();
          try {
@@ -231,13 +234,11 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
 
                try {
                   if (actionsMap.containsKey(mIn.getRequest().getName())) {
-
                      _ClientControllerAction action = actionsMap.get(mIn.getRequest().getName());
                      recv.putAnswer(new Answer(mIn.getRequest(), action.getStartReturn()));
                      action.run(core, front, req, recv);
                      recv.putAnswer(new Answer(mIn.getRequest(), action.getFinishReturn()));
                   } else {
-
                      if (req.has(ServerIn.class)) {
                         core.getServer(req.get(ServerIn.class).getId()).sendRequest(req);
                      } else if (req.has(MachineIn.class)) {
@@ -256,11 +257,9 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
                   front.postError(e);
                }
             } catch (InterruptedException e) {
-
                Logger.debug("Got interupted, halting");
                running = false;
             } catch (Throwable e) {
-
                Logger.error("Unknown error : " + e.getMessage());
                Logger.exception(e);
                front.postError(e, "Unexpected error occured: " + e.getMessage());
