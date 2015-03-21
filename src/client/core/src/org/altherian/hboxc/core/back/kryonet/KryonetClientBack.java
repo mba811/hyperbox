@@ -29,7 +29,6 @@ import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hbox.kryonet.KryoRegister;
-import org.altherian.hbox.kryonet.KryoUncaughtExceptionHandler;
 import org.altherian.hbox.kryonet.KryonetDefaultSettings;
 import org.altherian.hboxc.back._Backend;
 import org.altherian.hboxc.event.EventManager;
@@ -38,11 +37,14 @@ import org.altherian.hboxc.event.backend.BackendStateEvent;
 import org.altherian.hboxc.state.BackendConnectionState;
 import org.altherian.hboxc.state.BackendStates;
 import org.altherian.tool.logging.Logger;
-import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.KryoNetException;
 import com.esotericsoftware.kryonet.Listener;
 
 public final class KryonetClientBack implements _Backend {
@@ -52,15 +54,18 @@ public final class KryonetClientBack implements _Backend {
    private volatile BackendStates state = BackendStates.Stopped;
    private volatile BackendConnectionState connState = BackendConnectionState.Disconnected;
 
+   private Thread mainThread = Thread.currentThread();
+   private Queue<Throwable> updateThreadEx = new LinkedList<Throwable>();
+
    @Override
    public String getId() {
       return "Kryonet";
    }
 
    private void setState(BackendStates state) {
-
       if ((state != null) && !this.state.equals(state)) {
          this.state = state;
+         Logger.info("Kryonet Connector state: " + state);
          EventManager.post(new BackendStateEvent(this, state));
       } else {
          Logger.debug("Got a null state or state matches current one");
@@ -68,7 +73,6 @@ public final class KryonetClientBack implements _Backend {
    }
 
    private void setState(BackendConnectionState connState) {
-
       if ((connState != null) && !this.connState.equals(connState)) {
          this.connState = connState;
          EventManager.post(new BackendConnectionStateEvent(this, connState));
@@ -79,7 +83,6 @@ public final class KryonetClientBack implements _Backend {
 
    @Override
    public void start() throws HyperboxException {
-
       setState(BackendStates.Starting);
       try {
          Logger.info("Backend Init Sequence started");
@@ -90,9 +93,9 @@ public final class KryonetClientBack implements _Backend {
                KryonetDefaultSettings.CFGVAL_KRYO_NET_OBJECT_BUFFER_SIZE));
          client = new Client(netBufferWriteSize, netBufferObjectSize);
          client.start();
-         KryoRegister.register(client.getKryo());
-         client.addListener(new MainListener());
          client.getUpdateThread().setUncaughtExceptionHandler(new KryoUncaughtExceptionHandler());
+         client.addListener(new MainListener());
+         KryoRegister.register(client.getKryo());
          Logger.info("Backend Init Sequence completed");
          setState(BackendStates.Started);
       } catch (NumberFormatException e) {
@@ -112,7 +115,6 @@ public final class KryonetClientBack implements _Backend {
 
    @Override
    public void stop() {
-
       setState(BackendStates.Stopping);
       disconnect();
       if (client != null) {
@@ -128,7 +130,6 @@ public final class KryonetClientBack implements _Backend {
 
    @Override
    public void connect(String address) throws HyperboxException {
-
       if (!state.equals(BackendStates.Started)) {
          throw new HyperboxException("Backend is not initialized");
       }
@@ -148,23 +149,25 @@ public final class KryonetClientBack implements _Backend {
 
       try {
          client.connect(5000, host, port);
-         client.getUpdateThread().setUncaughtExceptionHandler(new KryoUncaughtExceptionHandler());
-         Logger.info("Backend connected");
          setState(BackendConnectionState.Connected);
-      } catch (IOException e) {
-         String message = "Backend connect error - " + e.getClass().getSimpleName() + ": " + e.getMessage();
-         if (e.getCause() != null) {
-            message = message + e.getCause().getMessage();
+      } catch (Throwable e) {
+         try {
+            if (!updateThreadEx.isEmpty()) {
+               e = updateThreadEx.poll();
+               if (e instanceof KryoNetException) {
+                  throw new HyperboxRuntimeException("Server is using an incompatible network protocol version", e);
+               }
+            }
+            throw new HyperboxRuntimeException(e);
+         } finally {
+            Logger.debug(e.getMessage());
+            disconnect();
          }
-         Logger.debug(message);
-         disconnect();
-         throw new HyperboxException(e);
       }
    }
 
    @Override
    public void disconnect() {
-
       if ((client != null) && client.isConnected()) {
          setState(BackendConnectionState.Disconnecting);
          client.close();
@@ -179,7 +182,6 @@ public final class KryonetClientBack implements _Backend {
 
    @Override
    public void putRequest(Request req) {
-
       if (!isConnected()) {
          Logger.debug("Tried to send a message but client is not connected");
          throw new HyperboxRuntimeException("Client is not connected to a server");
@@ -198,7 +200,6 @@ public final class KryonetClientBack implements _Backend {
 
       @Override
       public void connected(Connection connection) {
-
          Logger.info(connection.getRemoteAddressTCP().getAddress() + " connected.");
          setState(BackendConnectionState.Connected);
       }
@@ -224,9 +225,22 @@ public final class KryonetClientBack implements _Backend {
 
       @Override
       public void disconnected(Connection connection) {
-
          Logger.info("Disconnected from Hyperbox server");
          disconnect();
+      }
+   }
+
+   private class KryoUncaughtExceptionHandler implements UncaughtExceptionHandler {
+
+      @Override
+      public void uncaughtException(Thread arg0, Throwable arg1) {
+         Logger.error("Uncaught exception in Kryonet Update Thread: " + arg1.getMessage());
+         try {
+            updateThreadEx.add(arg1);
+            mainThread.interrupt();
+         } catch (Throwable t) {
+            Logger.error("Failed to insert exception of update thread: " + t.getMessage());
+         }
       }
    }
 

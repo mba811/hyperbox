@@ -28,7 +28,7 @@ public class HyperboxRuntimeException extends RuntimeException {
    }
 
    public HyperboxRuntimeException(Throwable t) {
-      super(t);
+      super(t.getMessage(), t);
    }
 
    public HyperboxRuntimeException(String s, Throwable t) {

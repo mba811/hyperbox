@@ -131,7 +131,7 @@ public class ServerViewer implements _Refreshable, _ServerReceiver {
    @Handler
    public void putServerEvent(ServerEvent ev) {
 
-      if ((srvId != null) && ev.getServer().getId().equals(srvId)) {
+      if ((srvId != null) && srvId.equals(ev.getServer().getId())) {
          refresh();
       }
    }

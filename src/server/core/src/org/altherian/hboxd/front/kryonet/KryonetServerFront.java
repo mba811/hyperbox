@@ -61,13 +61,12 @@ public class KryonetServerFront implements _Front {
                KryonetDefaultSettings.CFGVAL_KRYO_NET_OBJECT_BUFFER_SIZE));
          server = new Server(netBufferWriteSize, netBufferObjectSize);
          server.start();
+         server.getUpdateThread().setUncaughtExceptionHandler(new KryoUncaughtExceptionHandler());
          KryoRegister.register(server.getKryo());
 
          server.bind(port);
          server.addListener(new MainListener());
-         server.getUpdateThread().setUncaughtExceptionHandler(new KryoUncaughtExceptionHandler());
          Logger.info("Kryonet connector is listening on port " + port);
-         Logger.debug("Uncaught exception handler: " + server.getUpdateThread().getUncaughtExceptionHandler().getClass().getName());
       } catch (NumberFormatException e) {
          stop();
          throw new HyperboxException("Unable to start the Kryonet server : " + e.getLocalizedMessage());

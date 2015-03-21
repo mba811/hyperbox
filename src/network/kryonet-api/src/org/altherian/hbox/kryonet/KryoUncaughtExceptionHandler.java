@@ -31,4 +31,5 @@ public class KryoUncaughtExceptionHandler implements UncaughtExceptionHandler {
       Logger.error("Uncaught exception in Kryonet Update Thread: " + arg1.getMessage());
       Logger.exception(arg1);
    }
+
 }
