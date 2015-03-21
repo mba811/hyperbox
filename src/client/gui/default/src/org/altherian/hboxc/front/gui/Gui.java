@@ -43,6 +43,7 @@ import org.altherian.hboxc.state.CoreState;
 import org.altherian.tool.logging.Logger;
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.util.List;
 import java.util.Set;
@@ -168,6 +169,9 @@ public final class Gui implements _Front {
       protected void dispatchEvent(AWTEvent newEvent) {
          try {
             super.dispatchEvent(newEvent);
+         } catch (HeadlessException e) {
+            System.err.println("Cannot use GUI, headless environment detected");
+            System.exit(1);
          } catch (Throwable t) {
             displayError(t);
          }

@@ -42,9 +42,7 @@ import org.altherian.hboxc.front._Front;
 import org.altherian.hboxc.front.minimal.MiniUI;
 import org.altherian.tool.logging.LogLevel;
 import org.altherian.tool.logging.Logger;
-import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
@@ -61,15 +59,26 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
    private Map<String, _ClientControllerAction> actionsMap;
 
    static {
-      Logger.raw(getHeader());
       try {
+         PreferencesManager.init();
+
+         String defaultLogFilePath = PreferencesManager.getUserPrefPath() + File.separator + "log" + File.separator + "hbox.log";
+         String logFile = Configuration.getSetting("log.file", defaultLogFilePath);
+         if (!logFile.toLowerCase().contentEquals("none")) {
+            Logger.log(logFile, 4);
+         }
+
+         String logLevel = Configuration.getSetting("log.level", LogLevel.Info.toString());
+         Logger.setLevel(LogLevel.valueOf(logLevel));
+
+         Logger.raw(getHeader());
          if (new File(Hyperbox.getConfigFilePath()).exists()) {
             Configuration.init(Hyperbox.getConfigFilePath());
          } else {
             Logger.debug("Default config file does not exist, skipping: " + Hyperbox.getConfigFilePath());
          }
-      } catch (HyperboxException e) {
-         Logger.error(e);
+      } catch (Throwable e) {
+         e.printStackTrace();
          System.exit(1);
       }
    }
@@ -89,45 +98,22 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
    }
 
    private void loadFront() throws HyperboxException {
-      String classToLoad = MiniUI.class.getName();
+      String classToLoad = Configuration.getSetting("view.class", "org.altherian.hboxc.front.gui.Gui");
 
-      if (Configuration.hasSetting("view.class")) {
-         classToLoad = Configuration.getSetting("view.class");
-      } else if (!GraphicsEnvironment.isHeadless()) {
-         classToLoad = "org.altherian.hboxc.front.gui.Gui";
-      } else {
-         // TODO create Console view
-      }
-
-      Logger.info("Loading frontend class:" + classToLoad);
+      Logger.info("Loading frontend class: " + classToLoad);
       front = HyperboxClient.loadClass(_Front.class, classToLoad);
    }
 
    public void start() throws HyperboxException {
-
       try {
-         PreferencesManager.init();
-
          loadFront();
-
-         String logLevel = Configuration.getSetting("log.level", LogLevel.Info.toString());
-         Logger.setLevel(LogLevel.valueOf(logLevel));
-
-         String defaultLogFilePath = PreferencesManager.getUserPrefPath() + File.separator + "log" + File.separator + "hbox.log";
-         try {
-            String logFile = Configuration.getSetting("log.file", defaultLogFilePath);
-            if (!logFile.toLowerCase().contentEquals("none")) {
-               Logger.log(logFile, 4);
-            }
-         } catch (IOException e) {
-            front.postError(e, "Launch error: " + e.getMessage());
-            System.exit(1);
-         }
 
          Logger.verbose("-------- Environment variables -------");
          for (String name : System.getenv().keySet()) {
             if (name.startsWith(Configuration.CFG_ENV_PREFIX + Configuration.CFG_ENV_SEPERATOR)) {
                Logger.verbose(name + " | " + System.getenv(name));
+            } else {
+               Logger.debug(name + " | " + System.getenv(name));
             }
          }
          Logger.verbose("--------------------------------------");

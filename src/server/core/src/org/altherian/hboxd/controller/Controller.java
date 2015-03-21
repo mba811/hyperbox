@@ -144,6 +144,8 @@ public final class Controller implements _Controller {
          for (String name : System.getenv().keySet()) {
             if (name.startsWith(Configuration.CFG_ENV_PREFIX + Configuration.CFG_ENV_SEPERATOR)) {
                Logger.verbose(name + " | " + System.getenv(name));
+            } else {
+               Logger.debug(name + " | " + System.getenv(name));
             }
          }
          Logger.verbose("--------------------------------------");

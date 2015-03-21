@@ -124,7 +124,6 @@ public class Logger {
 
    public static void log(String fileName) throws IOException {
       if (fileName != null) {
-         System.out.println("Configure filename: " + fileName);
          logFileName = fileName;
 
          File file = new File(logFileName);

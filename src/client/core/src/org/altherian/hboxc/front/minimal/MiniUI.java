@@ -25,7 +25,6 @@ import org.altherian.hbox.comm._RequestReceiver;
 import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.core._CoreReader;
 import org.altherian.hboxc.front._Front;
-import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -49,15 +48,12 @@ public final class MiniUI implements _Front {
 
    @Override
    public void postError(String description, Throwable t) {
-      if (GraphicsEnvironment.isHeadless()) {
-         System.out.println("Fatal error occured during startup: " + t.getMessage());
-      } else {
-         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-         } catch (Throwable t1) {
-            // we don't care, we just tried in case of
-         }
+      System.out.println("Fatal error occured during startup: " + t.getMessage());
+      try {
+         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
          JOptionPane.showMessageDialog(null, "Fatal error occured during startup: " + t.getMessage(), "Fatal error", JOptionPane.ERROR_MESSAGE);
+      } catch (Throwable t1) {
+         // we don't care, we just tried in case of
       }
    }
 
