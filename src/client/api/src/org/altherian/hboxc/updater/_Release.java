@@ -20,6 +20,7 @@
 
 package org.altherian.hboxc.updater;
 
+import org.altherian.tool.Version;
 import java.net.URL;
 import java.util.Date;
 
@@ -27,9 +28,7 @@ public interface _Release {
 
    public String getChannel();
 
-   public String getVersion();
-
-   public String getRevision();
+   public Version getVersion();
 
    public Date getDate();
 

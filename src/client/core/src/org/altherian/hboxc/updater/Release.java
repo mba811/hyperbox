@@ -20,22 +20,21 @@
 
 package org.altherian.hboxc.updater;
 
+import org.altherian.tool.Version;
 import java.net.URL;
 import java.util.Date;
 
 public class Release implements _Release {
 
    private String channel;
-   private String version;
-   private String revision;
+   private Version version;
    private Date date;
    private URL downloadUrl;
    private URL changelogUrl;
 
-   public Release(String channel, String version, String revision, Date releaseDate, URL downloadUrl, URL changelogUrl) {
+   public Release(String channel, Version version, Date releaseDate, URL downloadUrl, URL changelogUrl) {
       this.channel = channel;
       this.version = version;
-      this.revision = revision;
       this.downloadUrl = downloadUrl;
       this.changelogUrl = changelogUrl;
    }
@@ -46,13 +45,8 @@ public class Release implements _Release {
    }
 
    @Override
-   public String getVersion() {
+   public Version getVersion() {
       return version;
-   }
-
-   @Override
-   public String getRevision() {
-      return revision;
    }
 
    @Override

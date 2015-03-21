@@ -143,7 +143,7 @@ public class Updater implements _Updater {
 
    @Override
    public boolean hasUpdate() {
-      return (Hyperbox.getVersion() != Version.UNKNOWN) && (update != null) && !Hyperbox.getVersion().equals(new Version(update.getVersion()));
+      return (Hyperbox.getVersion() != Version.UNKNOWN) && (update != null) && update.getVersion().isUpdate(Hyperbox.getVersion());
    }
 
    @Override
@@ -185,33 +185,38 @@ public class Updater implements _Updater {
                   throw new UpdaterRepositoryInvalidFormatException("Invalid update data - expected at least 4 values, got " + releaseRaw.length);
                }
 
-               String version = releaseRaw[0];
-               String revision = releaseRaw[1];
-               Date releaseDate;
+               Date releaseDate = null;
                URL downloadUrl;
-               URL changeLogUrl;
+               URL changeLogUrl = null;
 
-               try {
-                  releaseDate = new Date(Long.parseLong(releaseRaw[2]) * 1000l);
-               } catch (NumberFormatException e) {
-                  throw new UpdaterRepositoryInvalidFormatException("Invalid timestamp");
+               Version version = new Version(releaseRaw[0]);
+               if (!version.isValid()) {
+                  throw new UpdaterRepositoryInvalidFormatException("Invalid version number: " + releaseRaw[1]);
                }
+
+               // String revision = releaseRaw[1]; // Currently ignored
 
                try {
                   downloadUrl = new URL(releaseRaw[3]);
                } catch (MalformedURLException e) {
-                  throw new UpdaterRepositoryInvalidFormatException("Invalid download URL");
+                  throw new UpdaterRepositoryInvalidFormatException("Invalid download URL: " + releaseRaw[3]);
+               }
+
+               try {
+                  releaseDate = new Date(Long.parseLong(releaseRaw[2]) * 1000l);
+               } catch (NumberFormatException e) {
+                  Logger.warning("Invalid timestamp: " + releaseRaw[2]);
                }
 
                try {
                   changeLogUrl = new URL(releaseRaw[4]);
                } catch (MalformedURLException e) {
-                  throw new UpdaterRepositoryInvalidFormatException("Invalid changelog URL");
+                  Logger.warning("Invalid changelog URL: " + releaseRaw[4]);
                }
 
-               update = new Release(getChannel(), version, revision, releaseDate, downloadUrl, changeLogUrl);
+               update = new Release(getChannel(), version, releaseDate, downloadUrl, changeLogUrl);
                isLastScheduleSuccessful = true;
-               Logger.verbose("Advertised version: " + update.getVersion() + "r" + update.getRevision());
+               Logger.verbose("Advertised version: " + update.getVersion());
                if (hasUpdate()) {
                   Logger.info("New update is available: " + getUpdate().getVersion());
                   EventManager.post(new UpdaterUpdateAvailableEvent());

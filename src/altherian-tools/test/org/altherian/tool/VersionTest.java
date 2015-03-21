@@ -61,4 +61,19 @@ public class VersionTest {
       assertTrue((new Version(v3_4_5r67)).equals(new Version(v3_4_5r67)));
    }
 
+   @Test
+   public void update() {
+      Version first = new Version(v1_0_0);
+      Version second = new Version(v2_3_4);
+      Version third = new Version(v3_4_5r67);
+
+      assertFalse(first.isUpdate(second));
+      assertFalse(first.isUpdate(third));
+      assertFalse(second.isUpdate(third));
+      assertTrue(second.isUpdate(first));
+      assertTrue(third.isUpdate(first));
+      assertTrue(third.isUpdate(second));
+
+   }
+
 }

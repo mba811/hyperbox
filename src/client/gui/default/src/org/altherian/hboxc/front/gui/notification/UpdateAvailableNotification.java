@@ -39,7 +39,7 @@ public class UpdateAvailableNotification extends NotificationInfo {
    public UpdateAvailableNotification(_Release release) {
       downloadUrl = release.getDownloadURL();
       setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      setText("New update available: " + release.getVersion() + "." + release.getRevision() + " - " + downloadUrl);
+      setText("New update available: " + release.getVersion() + " - " + downloadUrl);
       addMouseListener(new MouseListener());
    }
 

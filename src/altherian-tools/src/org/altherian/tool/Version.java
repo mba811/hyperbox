@@ -90,6 +90,36 @@ public class Version {
             && (getMinor() >= otherVersion.getMinor());
    }
 
+   /**
+    * Check if this version is an update compared to the given version
+    * 
+    * @param o Version to check against
+    * @return true if this version is an update, false if not
+    */
+   public boolean isUpdate(Version o) {
+      if (!o.isValid()) {
+         return false;
+      }
+
+      if (getMajor() > o.getMajor()) {
+         return true;
+      }
+
+      if (getMajor() == o.getMajor()) {
+         if (getMinor() > o.getMinor()) {
+            return true;
+         }
+
+         if (getMinor() == o.getMinor()) {
+            if (getPatch() > o.getPatch()) {
+               return true;
+            }
+         }
+      }
+
+      return false;
+   }
+
    public int getMajor() {
       validate();
       return _major;
