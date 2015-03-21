@@ -32,6 +32,7 @@ import org.altherian.hboxc.front.gui.worker.receiver._NetworkInterfaceTypeReceiv
 import org.altherian.hboxc.front.gui.workers.NetworkAttachModeListWorker;
 import org.altherian.hboxc.front.gui.workers.NetworkAttachNameListWorker;
 import org.altherian.hboxc.front.gui.workers.NetworkInterfaceTypeListWorker;
+import org.altherian.tool.AxStrings;
 import org.altherian.tool.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +49,8 @@ public class NetworkInterfaceViewer {
    private NetworkInterfaceOut nicOut;
    private NetworkInterfaceIn nicIn;
 
+   private String loadingItem = "Loading...";
+
    private JLabel enableNicLabel = new JLabel();
    private JCheckBox enableNicValue = new JCheckBox();
    private JLabel connectedLabel = new JLabel();
@@ -57,7 +60,7 @@ public class NetworkInterfaceViewer {
    private JLabel attachNameLabel = new JLabel();
    private JComboBox attachNameValue = new JComboBox();
    private JLabel adapterTypeLabel = new JLabel();
-   private JComboBox adapaterTypeValue = new JComboBox();
+   private JComboBox adapterTypeValue = new JComboBox();
    private JLabel macAddrLabel = new JLabel();
    private JTextField macAddrValue = new JTextField(30);
 
@@ -78,8 +81,15 @@ public class NetworkInterfaceViewer {
       this.nicOut = nicOut;
 
       setLabels();
-      init();
-      apply(nicOut);
+
+      enableNicValue.setSelected(false);
+      connectedValue.setSelected(false);
+      attachModeValue.addActionListener(new AttachTypeListener());
+      attachModeValue.removeAllItems();
+      attachNameValue.setEditable(true);
+      attachNameValue.removeAllItems();
+      adapterTypeValue.removeAllItems();
+      macAddrValue.setText(null);
 
       mainPanel.add(enableNicLabel);
       mainPanel.add(enableNicValue, "growx, pushx, wrap");
@@ -90,9 +100,16 @@ public class NetworkInterfaceViewer {
       mainPanel.add(attachNameLabel);
       mainPanel.add(attachNameValue, "growx, pushx, wrap");
       mainPanel.add(adapterTypeLabel);
-      mainPanel.add(adapaterTypeValue, "growx, pushx, wrap");
+      mainPanel.add(adapterTypeValue, "growx, pushx, wrap");
       mainPanel.add(macAddrLabel);
       mainPanel.add(macAddrValue, "growx, pushx, wrap");
+
+      enableNicValue.setSelected(nicOut.isEnabled());
+      connectedValue.setSelected(nicOut.isCableConnected());
+      macAddrValue.setText(nicOut.getMacAddress());
+
+      NetworkAttachModeListWorker.execute(new NetworkModeReceiver(), srvId);
+      NetworkInterfaceTypeListWorker.execute(new NetworkInterfaceTypeReceiver(), srvId);
    }
 
    public NetworkInterfaceViewer(String srvId, NetworkInterfaceOut nicOut, NetworkInterfaceIn nicIn) {
@@ -100,36 +117,14 @@ public class NetworkInterfaceViewer {
       this.nicIn = nicIn;
    }
 
-   private void init() {
-      enableNicValue.setSelected(false);
-      connectedValue.setSelected(false);
-      attachModeValue.addActionListener(new AttachTypeListener());
-      attachModeValue.removeAllItems();
-      attachNameValue.setEditable(true);
-      attachNameValue.removeAllItems();
-      adapaterTypeValue.removeAllItems();
-      macAddrValue.setText(null);
-   }
-
    private void setLabels() {
+      loadingItem = "Loading...";
       enableNicLabel.setText("Enabled");
       connectedLabel.setText("Cable Connected");
       attachToLabel.setText("Attach Mode");
       attachNameLabel.setText("Attach To");
       adapterTypeLabel.setText("Adapter Type");
       macAddrLabel.setText("MAC Address");
-   }
-
-   private void apply(NetworkInterfaceOut nicOut) {
-      NetworkAttachModeListWorker.execute(new NetworkModeReceiver(), srvId);
-      NetworkInterfaceTypeListWorker.execute(new NetworkInterfaceTypeReceiver(), srvId);
-
-      enableNicValue.setSelected(nicOut.isEnabled());
-      connectedValue.setSelected(nicOut.isCableConnected());
-
-      attachNameValue.setSelectedItem(nicOut.getAttachName());
-      adapaterTypeValue.setSelectedItem(nicOut.getAdapterType());
-      macAddrValue.setText(nicOut.getMacAddress());
    }
 
    public JPanel getPanel() {
@@ -154,8 +149,8 @@ public class NetworkInterfaceViewer {
                nicIn.setAttachName(attachNameValue.getSelectedItem().toString());
             }
 
-            if (!adapaterTypeValue.getSelectedItem().toString().contentEquals(nicOut.getAdapterType())) {
-               nicIn.setAdapterType(adapaterTypeValue.getSelectedItem().toString());
+            if (!adapterTypeValue.getSelectedItem().toString().contentEquals(nicOut.getAdapterType())) {
+               nicIn.setAdapterType(adapterTypeValue.getSelectedItem().toString());
             }
 
             if (!macAddrValue.getText().contentEquals(nicOut.getMacAddress())) {
@@ -175,13 +170,18 @@ public class NetworkInterfaceViewer {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-         if (attachModeValue.isEnabled()) {
-            String attachTypeId = attachModeValue.getSelectedItem().toString();
-            if ((attachTypeId != null) && !attachTypeId.isEmpty()) {
-               Logger.debug(attachTypeId + " was selected as attachment type, fetching list of attachment names");
-               NetworkAttachNameListWorker.execute(new NetworkAttachNameReceiver(), srvId, attachTypeId);
-            }
+         if (attachModeValue.getSelectedItem() == loadingItem) {
+            return;
          }
+
+         String attachTypeId = attachModeValue.getSelectedItem().toString();
+         if (AxStrings.isEmpty(attachTypeId)) {
+            Logger.info("Selected attach mode value is empty, skipping listing of attach type");
+            return;
+         }
+
+         Logger.info(attachTypeId + " was selected as attachment type, fetching list of attachment names");
+         NetworkAttachNameListWorker.execute(new NetworkAttachNameReceiver(), srvId, attachTypeId);
       }
    }
 
@@ -189,27 +189,28 @@ public class NetworkInterfaceViewer {
 
       @Override
       public void loadingStarted() {
-         adapaterTypeValue.setEnabled(false);
-         adapaterTypeValue.removeAllItems();
-         adapaterTypeValue.addItem("Loading...");
+         adapterTypeValue.setEnabled(false);
+         adapterTypeValue.removeAllItems();
+         adapterTypeValue.addItem(loadingItem);
+         adapterTypeValue.setSelectedItem(loadingItem);
       }
 
       @Override
       public void loadingFinished(boolean isSuccessful, String message) {
          if (isSuccessful) {
-            adapaterTypeValue.removeItem("Loading...");
-            adapaterTypeValue.setSelectedItem(nicOut.getAdapterType());
+            adapterTypeValue.removeItem(loadingItem);
+            adapterTypeValue.setSelectedItem(nicOut.getAdapterType());
          } else {
-            adapaterTypeValue.removeAllItems();
-            adapaterTypeValue.addItem("Error loading network interface types: " + message);
+            adapterTypeValue.removeAllItems();
+            adapterTypeValue.addItem("Error loading network interface types: " + message);
          }
-         adapaterTypeValue.setEnabled(true);
+         adapterTypeValue.setEnabled(true);
       }
 
       @Override
       public void add(List<NetworkInterfaceTypeOut> objOutList) {
          for (NetworkInterfaceTypeOut adapterType : objOutList) {
-            adapaterTypeValue.addItem(adapterType.getId());
+            adapterTypeValue.addItem(adapterType.getId());
          }
       }
 
@@ -221,13 +222,14 @@ public class NetworkInterfaceViewer {
       public void loadingStarted() {
          attachModeValue.setEnabled(false);
          attachModeValue.removeAllItems();
-         attachModeValue.addItem("Loading...");
+         attachModeValue.addItem(loadingItem);
+         attachModeValue.setSelectedItem(loadingItem);
       }
 
       @Override
       public void loadingFinished(boolean isSuccessful, String message) {
          if (isSuccessful) {
-            attachModeValue.removeItem("Loading...");
+            attachModeValue.removeItem(loadingItem);
             attachModeValue.setSelectedItem(nicOut.getAttachMode());
          } else {
             attachModeValue.removeAllItems();
@@ -252,13 +254,14 @@ public class NetworkInterfaceViewer {
          attachModeValue.setEnabled(false);
          attachNameValue.setEnabled(false);
          attachNameValue.removeAllItems();
-         attachNameValue.addItem("Loading...");
+         attachNameValue.addItem(loadingItem);
+         attachNameValue.setSelectedItem(loadingItem);
       }
 
       @Override
       public void loadingFinished(boolean isSuccessful, String message) {
          if (isSuccessful) {
-            attachNameValue.removeItem("Loading...");
+            attachNameValue.removeItem(loadingItem);
             if (attachModeValue.getSelectedItem().equals(nicOut.getAttachMode())) {
                attachNameValue.setSelectedItem(nicOut.getAttachName());
             } else {
