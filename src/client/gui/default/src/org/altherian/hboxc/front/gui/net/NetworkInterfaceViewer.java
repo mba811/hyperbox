@@ -133,29 +133,13 @@ public class NetworkInterfaceViewer {
 
    public NetworkInterfaceIn save() {
       if (nicIn != null) {
-         if (enableNicValue.isEnabled() && (enableNicValue.isSelected() != nicOut.isEnabled())) {
-            nicIn.setEnabled(enableNicValue.isSelected());
-         }
+         nicIn.setEnabled(enableNicValue.isSelected());
          if (enableNicValue.isEnabled()) {
-            if (connectedValue.isSelected() != nicOut.isCableConnected()) {
-               nicIn.setCableConnected(connectedValue.isSelected());
-            }
-            if (!attachModeValue.getSelectedItem().toString().contentEquals(nicOut.getAttachMode())) {
-               nicIn.setAttachMode(attachModeValue.getSelectedItem().toString());
-            }
-
-            if (attachNameValue.isEnabled() && (attachNameValue.getSelectedItem() != null)
-                  && !attachNameValue.getSelectedItem().toString().contentEquals(nicOut.getAttachName())) {
-               nicIn.setAttachName(attachNameValue.getSelectedItem().toString());
-            }
-
-            if (!adapterTypeValue.getSelectedItem().toString().contentEquals(nicOut.getAdapterType())) {
-               nicIn.setAdapterType(adapterTypeValue.getSelectedItem().toString());
-            }
-
-            if (!macAddrValue.getText().contentEquals(nicOut.getMacAddress())) {
-               nicIn.setMacAddress(macAddrValue.getText());
-            }
+            nicIn.setCableConnected(connectedValue.isSelected());
+            nicIn.setAttachMode(attachModeValue.getSelectedItem().toString());
+            nicIn.setAttachName(attachNameValue.getSelectedItem().toString());
+            nicIn.setAdapterType(adapterTypeValue.getSelectedItem().toString());
+            nicIn.setMacAddress(macAddrValue.getText());
          }
       }
 
