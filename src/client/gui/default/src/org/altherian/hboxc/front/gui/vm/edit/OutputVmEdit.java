@@ -164,7 +164,7 @@ public class OutputVmEdit {
          mIn.setSetting(new BooleanSettingIO(MachineAttribute.VrdeEnabled, enableValue.isSelected()));
       }
       if (!mOut.getSetting(MachineAttribute.VrdePort).getString().contentEquals(portValue.getText())) {
-         mIn.setSetting(new PositiveNumberSettingIO(MachineAttribute.VrdePort, Long.parseLong(portValue.getText())));
+         mIn.setSetting(new StringSettingIO(MachineAttribute.VrdePort, portValue.getText()));
       }
       if (!mOut.getSetting(MachineAttribute.VrdeAddress).getString().contentEquals(addressValue.getText())) {
          mIn.setSetting(new StringSettingIO(MachineAttribute.VrdeAddress, addressValue.getText()));
