@@ -40,7 +40,6 @@ import org.altherian.hboxc.front.gui.action.machine.MachineCreateAction;
 import org.altherian.hboxc.front.gui.action.machine.MachineDeleteAction;
 import org.altherian.hboxc.front.gui.action.machine.MachineEditAction;
 import org.altherian.hboxc.front.gui.action.machine.MachineLockAction;
-import org.altherian.hboxc.front.gui.action.machine.MachineLogGetAction;
 import org.altherian.hboxc.front.gui.action.machine.MachinePauseAction;
 import org.altherian.hboxc.front.gui.action.machine.MachineRegisterAction;
 import org.altherian.hboxc.front.gui.action.machine.MachineResetAction;
@@ -93,7 +92,7 @@ public class PopupMenuBuilder {
       machineMenu.add(new JMenuItem(new MachineStopAction(select)));
       machineMenu.add(new JMenuItem(new MachineResetAction(select)));
       machineMenu.add(new JMenuItem(new MachineAcpiPowerAction(select)));
-      machineMenu.add(new JMenuItem(new MachineLogGetAction(mOut.getServerId(), mOut.getId(), "")));
+      //machineMenu.add(new JMenuItem(new MachineLogGetAction(mOut.getServerId(), mOut.getId(), "")));
       machineMenu.add(new JSeparator());
       machineMenu.add(new JMenuItem(new MachineSaveStateAction(select)));
       machineMenu.add(new JMenuItem(new MachinePauseAction(select)));
