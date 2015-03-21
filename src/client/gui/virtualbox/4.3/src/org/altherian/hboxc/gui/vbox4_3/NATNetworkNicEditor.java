@@ -30,10 +30,12 @@ import org.altherian.hbox.comm.io.NetService_IP6_IO;
 import org.altherian.hbox.comm.io.NetService_NAT_IO;
 import org.altherian.hbox.comm.out.network.NetAdaptorOut;
 import org.altherian.hbox.constant.NetServiceType;
+import org.altherian.hboxc.exception.InputValidationException;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui.hypervisor._NetAdaptorConfigureView;
 import org.altherian.hboxc.front.gui.net.NATNetworkNATRulesDialog;
 import org.altherian.helper.swing.JCheckBoxUtils;
+import org.altherian.tool.AxStrings;
 import org.altherian.tool.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -224,6 +226,9 @@ public class NATNetworkNicEditor implements _NetAdaptorConfigureView {
 
    @Override
    public NetAdaptorIn getInput() {
+      if (AxStrings.isEmpty(nameValue.getText())) {
+         throw new InputValidationException("Name cannot be empty");
+      }
       NetAdaptorIn naIn = new NetAdaptorIn(modeId, adaptId);
       naIn.setLabel(nameValue.getText());
       if (adaptId != null) {
