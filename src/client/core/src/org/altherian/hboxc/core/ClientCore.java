@@ -155,7 +155,7 @@ public class ClientCore implements _Core {
          setState(CoreState.Started);
       } catch (Throwable e) {
          stop();
-         throw new HyperboxRuntimeException(e.getMessage(), e);
+         throw new HyperboxRuntimeException("Error during core start sequence", e);
       }
    }
 
@@ -230,7 +230,6 @@ public class ClientCore implements _Core {
 
    @Override
    public _ConsoleViewer addConsoleViewer(String hypervisorId, String moduleId, String viewerPath, String viewerArgs) {
-
       String id = hypervisorId + moduleId;
       if (consoleViewers.containsKey(id)) {
          throw new HyperboxRuntimeException("Console viewer already exist for this Hypervisor and Module");

@@ -114,7 +114,6 @@ public class UserProfileCoreStorage implements _CoreStorage {
 
    @Override
    public void storeViewers(Collection<_ConsoleViewer> viewers) {
-
       if (viewers.isEmpty() && !hasConsoleViewers()) {
          Logger.debug("Nothing was created, skipping");
       } else {
@@ -134,7 +133,6 @@ public class UserProfileCoreStorage implements _CoreStorage {
 
    @Override
    public void storeConnectors(Collection<_Connector> conns) {
-
       if (conns.isEmpty() && !hasConnectors()) {
          Logger.debug("Nothing was created, skipping");
       } else {
@@ -154,20 +152,17 @@ public class UserProfileCoreStorage implements _CoreStorage {
 
    @Override
    public boolean hasConsoleViewers() {
-
       return consoleViewersFile.exists() && consoleViewersFile.isFile() && consoleViewersFile.canRead();
    }
 
    @Override
    public boolean hasConnectors() {
-
       return connectorFile.exists() && connectorFile.isFile() && connectorFile.canRead();
    }
 
    @SuppressWarnings("unchecked")
    @Override
    public Collection<_ConsoleViewer> loadViewers() {
-
       Logger.debug("Loading console viewers from " + consoleViewersFile.getAbsolutePath());
       return (Collection<_ConsoleViewer>) storage.fromXML(consoleViewersFile);
    }
@@ -175,14 +170,12 @@ public class UserProfileCoreStorage implements _CoreStorage {
    @SuppressWarnings("unchecked")
    @Override
    public Collection<_Connector> loadConnectors() {
-
       Logger.debug("Loading connectors from " + connectorFile.getAbsolutePath());
       return (Collection<_Connector>) storage.fromXML(connectorFile);
    }
 
    @Override
    public void storeConnectorCredentials(String id, UserIn usrIn) {
-
       try {
          OutputStream fileStream = new FileOutputStream(connectorCredFolder.getAbsolutePath() + File.separator + id + ".xml");
          Logger.debug("Saving Connector ID " + id + " credentials to " + connectorCredFolder.getAbsolutePath() + File.separator + id + ".xml");
@@ -198,7 +191,6 @@ public class UserProfileCoreStorage implements _CoreStorage {
 
    @Override
    public UserIn loadConnectorCredentials(String id) {
-
       Logger.debug("Loading Connector ID " + id + " credentials from " + connectorCredFolder.getAbsolutePath() + File.separator + id + ".xml");
       return (UserIn) storage.fromXML(new File(connectorCredFolder.getAbsolutePath() + File.separator + id + ".xml"));
    }
