@@ -77,7 +77,7 @@ public class Connector implements _Connector {
 
    @Override
    public String getLabel() {
-      return !AxStrings.isEmpty(label) ? label : getServer() != null ? getServer().getName() : getAddress();
+      return AxStrings.getNonEmpty(label, getServer().getName(), getAddress());
    }
 
    @Override
@@ -102,7 +102,7 @@ public class Connector implements _Connector {
 
    @Override
    public void setAddress(String address) {
-      if (address.isEmpty()) {
+      if (AxStrings.isEmpty(address)) {
          throw new HyperboxRuntimeException("Address cannot be empty");
       }
 
@@ -132,9 +132,8 @@ public class Connector implements _Connector {
 
          return server;
       } catch (Throwable e) {
-         Logger.exception(e);
          disconnect();
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxRuntimeException("Failed to connect to server", e);
       }
    }
 

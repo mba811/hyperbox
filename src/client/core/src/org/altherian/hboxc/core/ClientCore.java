@@ -249,7 +249,6 @@ public class ClientCore implements _Core {
 
    @Override
    public void removeConsoleViewer(String id) {
-
       _ConsoleViewer viewer = getConsoleViewer(id);
       viewer.remove();
       consoleViewers.remove(id);
@@ -301,7 +300,6 @@ public class ClientCore implements _Core {
 
    @Override
    public _Connector addConnector(ConnectorInput conIn, UserIn usrIn) {
-
       _Connector conn = ConnectorFactory.get(connectIdGen.getId(), conIn.getLabel(), conIn.getAddress(), usrIn.getUsername(), conIn.getBackendId());
       storage.storeConnectorCredentials(conn.getId(), usrIn);
       conns.put(conn.getId(), conn);
@@ -312,7 +310,6 @@ public class ClientCore implements _Core {
 
    @Override
    public _Connector modifyConnector(ConnectorInput conIn, UserIn usrIn) {
-
       _Connector conn = getConnector(conIn.getId());
       ConnectorFactory.update(conn, conIn);
       if (usrIn != null) {
@@ -326,7 +323,6 @@ public class ClientCore implements _Core {
 
    @Override
    public _Connector connect(String id) {
-
       _Connector conn = getConnector(id);
       UserIn usrIn = storage.loadConnectorCredentials(conn.getId());
       _Server srv = conn.connect(usrIn);
@@ -336,14 +332,12 @@ public class ClientCore implements _Core {
 
    @Override
    public void disconnect(String id) {
-
       _Connector conn = getConnector(id);
       conn.disconnect();
    }
 
    @Override
    public void removeConnector(String id) {
-
       disconnect(id);
 
       _Connector conn = conns.remove(id);

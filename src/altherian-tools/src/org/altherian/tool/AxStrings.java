@@ -43,6 +43,18 @@ public class AxStrings {
       }
    }
 
+   public static String getNonEmpty(Object candidate, Object... failovers) {
+      if (!isEmpty(candidate)) {
+         return candidate.toString();
+      }
+
+      if (failovers.length == 1) {
+         return failovers[0].toString();
+      }
+
+      return getNonEmpty(failovers);
+   }
+
    /**
     * Return true if a String is null or empty
     *
