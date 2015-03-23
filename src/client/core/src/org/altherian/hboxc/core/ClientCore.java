@@ -88,7 +88,6 @@ public class ClientCore implements _Core {
    private _Updater updater;
 
    private void setState(CoreState state) {
-
       if (!this.state.equals(state)) {
          Logger.verbose("Changing Core State to " + state);
          this.state = state;
@@ -141,7 +140,6 @@ public class ClientCore implements _Core {
 
    @Override
    public void start() throws HyperboxException {
-
       setState(CoreState.Starting);
 
       consoleViewers = new HashMap<String, _ConsoleViewer>();
@@ -163,7 +161,6 @@ public class ClientCore implements _Core {
 
    @Override
    public void stop() {
-
       if (getCoreState().equals(CoreState.Started) || getCoreState().equals(CoreState.Starting)) {
          setState(CoreState.Stopping);
 
@@ -364,13 +361,11 @@ public class ClientCore implements _Core {
 
    @Handler
    protected void putServerDisconnected(ServerDisconnectedEvent ev) {
-
       servers.remove(ev.getServer().getId());
    }
 
    @Handler
    private void putStarted(CoreStateEvent ev) {
-
       if (CoreState.Started.equals(ev.getState())) {
          updater.start();
       }

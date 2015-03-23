@@ -45,7 +45,6 @@ import java.util.WeakHashMap;
 public class CoreReader implements _CoreReader {
 
    private _Core core;
-
    private Map<_ServerReader, _ServerReader> cachedServerReaders = new WeakHashMap<_ServerReader, _ServerReader>();
 
    public CoreReader(_Core core) {
@@ -106,7 +105,6 @@ public class CoreReader implements _CoreReader {
 
    @Handler
    protected void putServerDisconnected(ServerDisconnectedEvent ev) {
-
       cachedServerReaders.remove(core.getServer(ev.getServer().getId()));
    }
 

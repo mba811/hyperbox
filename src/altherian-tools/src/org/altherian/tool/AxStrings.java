@@ -81,4 +81,8 @@ public class AxStrings {
       return true;
    }
 
+   public static boolean equals(String l, String r) {
+      return (l != null) && (r != null) && l.equals(r);
+   }
+
 }

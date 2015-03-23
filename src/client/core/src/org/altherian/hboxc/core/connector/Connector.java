@@ -48,7 +48,6 @@ public class Connector implements _Connector {
    private ConnectionState state;
 
    public Connector(String id, String label, String address, String username, String backendId) {
-
       this.id = id;
       setLabel(label);
       setAddress(address);
@@ -57,7 +56,6 @@ public class Connector implements _Connector {
    }
 
    private void setState(ConnectionState state) {
-
       if ((this.state == null) || !this.state.equals(state)) {
          this.state = state;
          if (state.equals(ConnectionState.Connected)) {
@@ -104,7 +102,6 @@ public class Connector implements _Connector {
 
    @Override
    public void setAddress(String address) {
-
       if (address.isEmpty()) {
          throw new HyperboxRuntimeException("Address cannot be empty");
       }
@@ -119,13 +116,11 @@ public class Connector implements _Connector {
 
    @Override
    public void setBackendId(String backendId) {
-
       this.backendId = backendId;
    }
 
    @Override
    public _Server connect(UserIn usrIn) {
-
       setState(ConnectionState.Connecting);
 
       try {
@@ -145,7 +140,6 @@ public class Connector implements _Connector {
 
    @Override
    public void disconnect() {
-
       if (getState().equals(ConnectionState.Connected) || getState().equals(ConnectionState.Connecting)) {
          setState(ConnectionState.Disconnecting);
 
@@ -171,6 +165,7 @@ public class Connector implements _Connector {
       if (!isConnected()) {
          throw new HyperboxRuntimeException("Server is not connected");
       }
+
       return server;
    }
 
@@ -180,9 +175,8 @@ public class Connector implements _Connector {
    }
 
    @Handler
-   public void putServerDisconnectEvent(ServerDisconnectedEvent ev) {
-
-      if (ev.getServer().getId().equals(server.getId())) {
+   private void putServerDisconnectEvent(ServerDisconnectedEvent ev) {
+      if (AxStrings.equals(ev.getServer().getId(), server.getId())) {
          disconnect();
       }
    }
