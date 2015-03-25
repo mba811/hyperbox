@@ -171,6 +171,7 @@ public final class Gui implements _Front {
             super.dispatchEvent(newEvent);
          } catch (HeadlessException e) {
             System.err.println("Cannot use GUI, headless environment detected");
+            e.printStackTrace();
             System.exit(1);
          } catch (Throwable t) {
             displayError(t);
