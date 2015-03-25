@@ -1,25 +1,27 @@
 /*
  * Hyperbox - Enterprise Virtualization Manager
  * Copyright (C) 2014 Maxime Dor
- * 
+ *
  * http://hyperbox.altherian.org
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.altherian.hboxc.core.server;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.engio.mbassy.listener.Handler;
 import org.altherian.hbox.comm.Command;
 import org.altherian.hbox.comm.HyperboxTasks;
@@ -43,7 +45,6 @@ import org.altherian.hboxc.comm.utils.Transaction;
 import org.altherian.hboxc.event.EventManager;
 import org.altherian.hboxc.server._Hypervisor;
 import org.altherian.hboxc.server._Server;
-import java.util.List;
 
 public class Hypervisor implements _Hypervisor {
 
@@ -178,8 +179,13 @@ public class Hypervisor implements _Hypervisor {
 
    @Override
    public List<String> getLogFileList(String vmId) {
-      // TODO Auto-generated method stub
-      return null;
+      Request req = new Request(Command.VBOX, HypervisorTasks.MachineLogFileList);
+      req.set(MachineIn.class, new MachineIn(vmId));
+      List<String> returnList = new ArrayList<String>();
+      for (MachineLogFileIO logIo : srv.sendRequest(req).extractItems(MachineLogFileIO.class)) {
+         returnList.add(logIo.getId());
+      }
+      return returnList;
    }
 
    @Override

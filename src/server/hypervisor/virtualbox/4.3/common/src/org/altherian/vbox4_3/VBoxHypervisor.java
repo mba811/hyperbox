@@ -1,25 +1,30 @@
 /*
  * Hyperbox - Enterprise Virtualization Manager
  * Copyright (C) 2013 Maxime Dor
- * 
+ *
  * http://hyperbox.altherian.org
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.altherian.vbox4_3;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.engio.mbassy.listener.Handler;
 import org.altherian.hbox.Configuration;
 import org.altherian.hbox.comm.io.MachineLogFileIO;
@@ -72,11 +77,6 @@ import org.altherian.vbox4_3.storage.VBoxMedium;
 import org.altherian.vbox4_3.storage.VBoxStorageControllerSubType;
 import org.altherian.vbox4_3.storage.VBoxStorageControllerType;
 import org.altherian.vbox4_3.vm.VBoxMachine;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.virtualbox_4_3.AccessMode;
 import org.virtualbox_4_3.CleanupMode;
 import org.virtualbox_4_3.DeviceType;
@@ -892,8 +892,8 @@ public abstract class VBoxHypervisor implements _Hypervisor {
    public List<String> getLogFileList(String vmId) {
       List<String> ret = new ArrayList<String>();
       long i = 0;
-      while (!vbMgr.getVBox().findMachine(vmId).queryLogFilename(i).isEmpty()) {
-         ret.add(vbMgr.getVBox().findMachine(vmId).queryLogFilename(i));
+      while (!vbMgr.getVBox().findMachine(vmId).queryLogFilename(i).isEmpty()) { // empty if no log at that index
+         ret.add(Long.toString(i));
          i++;
       }
 

@@ -21,8 +21,10 @@
 
 package org.altherian.hboxc.front.gui.vm;
 
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import org.altherian.hbox.hypervisor._MachineLogFile;
 import org.altherian.hboxc.front.gui.Gui;
@@ -39,15 +41,20 @@ public class MachineLogFileViewer {
       _srvId = srvId;
       _vmId = vmId;
 
-      _MachineLogFile logIo = Gui.getServer(_srvId).getHypervisor().getLogFile(_vmId, "0");
+      List<String> logList = Gui.getServer(_srvId).getHypervisor().getLogFileList(_vmId);
 
-      JDialog dialog = JDialogBuilder.get("VM Log viewer");
-      JTextArea text = new JTextArea();
-      for (String line : logIo.getLog()) {
-         text.append(line + "\n");
+      dialog = JDialogBuilder.get("VM Log viewer");
+      JTabbedPane tabs = new JTabbedPane();
+      for (String logName : logList) {
+         _MachineLogFile logIo = Gui.getServer(_srvId).getHypervisor().getLogFile(_vmId, logName);
+         JTextArea text = new JTextArea();
+         for (String line : logIo.getLog()) {
+            text.append(line + "\n");
+         }
+         tabs.addTab(logName, new JScrollPane(text));
       }
 
-      dialog.getContentPane().add(new JScrollPane(text));
+      dialog.getContentPane().add(tabs, "grow,push");
       dialog.setSize(800, 600);
       dialog.setLocationRelativeTo(dialog.getParent());
    }
