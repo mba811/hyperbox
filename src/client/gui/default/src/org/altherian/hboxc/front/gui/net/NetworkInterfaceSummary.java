@@ -50,11 +50,12 @@ public class NetworkInterfaceSummary extends JPanel implements _GuestNetworkInte
       nicValue = JTextFieldUtils.createAsLabel(nicOut.getAdapterType() + " using " + nicOut.getAttachMode()
             + (AxStrings.isEmpty(nicOut.getAttachName()) ? "" : " on " + nicOut.getAttachName()));
       ipv4Value = JTextFieldUtils.createAsLabel(nicOut.getMacAddress());
-      add(new JLabel("Adapter " + (nicOut.getNicId() + 1)), "wrap");
+      add(new JLabel("Adapter " + (nicOut.getNicId() + 1)));
+      add(new JLabel(""), "growx,pushx,wrap");
       add(new JLabel(""));
-      add(nicValue, "wrap");
+      add(nicValue, "right, growx, pushx, wrap");
       add(new JLabel(""));
-      add(ipv4Value, "wrap");
+      add(ipv4Value, "right, growx, pushx, wrap");
       refresh();
    }
 
