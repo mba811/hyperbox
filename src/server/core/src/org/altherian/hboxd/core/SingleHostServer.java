@@ -157,8 +157,9 @@ public class SingleHostServer implements _Hyperbox, _Server {
 
    @Override
    public void start() throws HyperboxException {
-
       setState(ServerState.Starting);
+
+      // System.out.println(ProcessRunner.runAndWait(new String[] { "wmic", "os", "get", "lastbootuptime" }).getStdOut());
 
       persistor.start();
       HBoxServer.initPersistor(persistor);

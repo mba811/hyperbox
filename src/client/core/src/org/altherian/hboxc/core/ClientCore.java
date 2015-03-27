@@ -396,7 +396,7 @@ public class ClientCore implements _Core {
       Logger.info("Starting Console viewer " + cView.getViewerPath() + " for machine " + m.getUuid() + " on server " + srv.getId()
             + " with arguments: " + arg);
       try {
-         ProcessRunner.run(new ProcessBuilder(new String[] { cView.getViewerPath(), arg }).start());
+         ProcessRunner.runHeadless(new ProcessBuilder(new String[] { cView.getViewerPath(), arg }).start());
       } catch (Throwable t) {
          throw new HyperboxRuntimeException("Couldn't launch Console Viewer", t);
       }
