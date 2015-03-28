@@ -20,11 +20,6 @@
 
 package org.altherian.vbox4_3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import net.engio.mbassy.listener.Handler;
 import org.altherian.hbox.Configuration;
 import org.altherian.hbox.comm.io.MachineLogFileIO;
@@ -77,6 +72,11 @@ import org.altherian.vbox4_3.storage.VBoxMedium;
 import org.altherian.vbox4_3.storage.VBoxStorageControllerSubType;
 import org.altherian.vbox4_3.storage.VBoxStorageControllerType;
 import org.altherian.vbox4_3.vm.VBoxMachine;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.virtualbox_4_3.AccessMode;
 import org.virtualbox_4_3.CleanupMode;
 import org.virtualbox_4_3.DeviceType;
@@ -912,7 +912,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
          i = i + 65536;
       } while (ret.length > 0);
       List<String> loglist = Arrays.asList(log.toString().split(System.getProperty("line.separator")));
-      _MachineLogFile logObj = new MachineLogFileIO(vmId, vbMgr.getVBox().findMachine(vmId).queryLogFilename(logId), loglist);
+      _MachineLogFile logObj = new MachineLogFileIO(Long.toString(logId), vbMgr.getVBox().findMachine(vmId).queryLogFilename(logId), loglist);
       return logObj;
    }
 

@@ -21,14 +21,15 @@
 
 package org.altherian.hboxc.front.gui.vm;
 
+import org.altherian.hbox.hypervisor._MachineLogFile;
+import org.altherian.hboxc.front.gui.Gui;
+import org.altherian.hboxc.front.gui.builder.JDialogBuilder;
+import java.io.File;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import org.altherian.hbox.hypervisor._MachineLogFile;
-import org.altherian.hboxc.front.gui.Gui;
-import org.altherian.hboxc.front.gui.builder.JDialogBuilder;
 
 public class MachineLogFileViewer {
 
@@ -41,17 +42,17 @@ public class MachineLogFileViewer {
       _srvId = srvId;
       _vmId = vmId;
 
-      List<String> logList = Gui.getServer(_srvId).getHypervisor().getLogFileList(_vmId);
+      List<String> logIdList = Gui.getServer(_srvId).getHypervisor().getLogFileList(_vmId);
 
       dialog = JDialogBuilder.get("VM Log viewer");
       JTabbedPane tabs = new JTabbedPane();
-      for (String logName : logList) {
-         _MachineLogFile logIo = Gui.getServer(_srvId).getHypervisor().getLogFile(_vmId, logName);
+      for (String logId : logIdList) {
+         _MachineLogFile logIo = Gui.getServer(_srvId).getHypervisor().getLogFile(_vmId, logId);
          JTextArea text = new JTextArea();
          for (String line : logIo.getLog()) {
             text.append(line + "\n");
          }
-         tabs.addTab(logName, new JScrollPane(text));
+         tabs.addTab((new File(logIo.getFileName())).getName(), new JScrollPane(text));
       }
 
       dialog.getContentPane().add(tabs, "grow,push");

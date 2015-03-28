@@ -59,17 +59,4 @@ public class MachineLogFileIO implements _MachineLogFile {
       this.id = id;
    }
 
-   /*   public void setId(String id) {
-         this.id = id;
-      }
-
-      public void setLog(List<String> log) {
-         this.log = log;
-      }
-
-      public void setFileName(String filename) {
-         this.filename = filename;
-      }
-    */
-
 }
