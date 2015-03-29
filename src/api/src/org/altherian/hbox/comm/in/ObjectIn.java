@@ -25,7 +25,6 @@ import org.altherian.hbox.comm.io.NullSettingIO;
 import org.altherian.hbox.comm.io.SettingIO;
 import org.altherian.hbox.comm.io.StringSettingIO;
 import org.altherian.hbox.constant.EntityType;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.tool.AxStrings;
 import org.altherian.tool.logging.Logger;
 import java.util.ArrayList;
@@ -135,7 +134,6 @@ public abstract class ObjectIn<T extends Enum<?>> implements _Actionnable {
     *
     * @param name The name of the wanted setting.
     * @return The setting object containing the value.
-    * @throws HyperboxRuntimeException In case the setting does not exist.
     * @see #hasSetting(String)
     */
    public SettingIO getSetting(String name) {
@@ -154,7 +152,6 @@ public abstract class ObjectIn<T extends Enum<?>> implements _Actionnable {
     *
     * @param name The MachineSettings enum id to use
     * @return a SettingIO object that contains the setting data.
-    * @throws HyperboxRuntimeException In case the setting does not exist.
     * @see #hasSetting(Enum)
     */
    public SettingIO getSetting(Enum<?> name) {

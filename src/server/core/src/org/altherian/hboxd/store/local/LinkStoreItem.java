@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.store.local;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.exception.StoreException;
 import org.altherian.hboxd.store._Store;
 import org.altherian.hboxd.store._StoreItem;
@@ -36,7 +36,7 @@ public class LinkStoreItem implements _StoreItem {
 
    public LinkStoreItem(_Store store, File path) {
       if (!path.isAbsolute()) {
-         throw new HyperboxRuntimeException(path + " must be a full path");
+         throw new HyperboxException(path + " must be a full path");
       }
 
       this.store = store;

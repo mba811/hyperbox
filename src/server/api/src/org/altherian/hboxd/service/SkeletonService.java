@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.service;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.exception.ServiceException;
 import org.altherian.hbox.states.ServiceState;
 import org.altherian.hboxd.event.EventManager;
@@ -77,7 +77,7 @@ public abstract class SkeletonService implements _Service, Runnable {
    }
 
    @Override
-   public void start() throws HyperboxRuntimeException {
+   public void start() throws HyperboxException {
 
       serviceThread = new Thread(this, "Service ID " + getClass().getSimpleName());
       serviceThread.setUncaughtExceptionHandler(new ServiceExceptionHander());

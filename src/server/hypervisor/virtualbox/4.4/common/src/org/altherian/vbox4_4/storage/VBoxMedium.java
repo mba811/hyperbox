@@ -21,7 +21,7 @@
 package org.altherian.vbox4_4.storage;
 
 import org.altherian.hbox.constant.MediumAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.hypervisor.storage._RawMedium;
 import org.altherian.hboxd.hypervisor.vm._RawVM;
 import org.altherian.hboxd.task._ProgressTracker;
@@ -153,7 +153,7 @@ public final class VBoxMedium implements _RawMedium {
             return false;
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -167,7 +167,7 @@ public final class VBoxMedium implements _RawMedium {
             return null;
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -181,7 +181,7 @@ public final class VBoxMedium implements _RawMedium {
             return true;
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -195,7 +195,7 @@ public final class VBoxMedium implements _RawMedium {
          }
          return childs;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -209,7 +209,7 @@ public final class VBoxMedium implements _RawMedium {
             return null;
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -234,7 +234,7 @@ public final class VBoxMedium implements _RawMedium {
       try {
          return rawMedium.getLastAccessError();
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -248,7 +248,7 @@ public final class VBoxMedium implements _RawMedium {
          }
          return linkedMachines;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

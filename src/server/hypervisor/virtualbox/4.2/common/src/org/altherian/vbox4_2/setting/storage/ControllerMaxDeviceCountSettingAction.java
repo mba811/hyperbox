@@ -21,7 +21,7 @@
 package org.altherian.vbox4_2.setting.storage;
 
 import org.altherian.hbox.constant.StorageControllerAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.setting._Setting;
 import org.altherian.vbox.settings.storage.ControllerMaxDeviceCountSetting;
 import org.altherian.vbox4_2.setting._StorageControllerSettingAction;
@@ -43,7 +43,7 @@ public final class ControllerMaxDeviceCountSettingAction implements _StorageCont
    @Override
    public void set(IStorageController sct, _Setting setting) {
       if (setting.getNumber() != get(sct).getNumber()) {
-         throw new HyperboxRuntimeException("Read-only setting");
+         throw new HyperboxException("Read-only setting");
       }
    }
 

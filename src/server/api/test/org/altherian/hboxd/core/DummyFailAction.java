@@ -22,7 +22,7 @@ package org.altherian.hboxd.core;
 
 import org.altherian.hbox.comm.Command;
 import org.altherian.hbox.comm.Request;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.core.action.ASingleTaskAction;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +43,7 @@ public class DummyFailAction extends ASingleTaskAction {
 
    @Override
    public void run(Request request, _Hyperbox hbox) {
-      throw new HyperboxRuntimeException("I failed!");
+      throw new HyperboxException("I failed!");
    }
 
 }

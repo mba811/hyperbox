@@ -21,7 +21,7 @@
 
 package org.altherian.hboxc.exception;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 /**
  * If the server disconnected during a transaction
@@ -30,7 +30,7 @@ import org.altherian.hbox.exception.HyperboxRuntimeException;
  * 
  */
 @SuppressWarnings("serial")
-public class ServerDisconnectedException extends HyperboxRuntimeException {
+public class ServerDisconnectedException extends HyperboxException {
 
    public ServerDisconnectedException() {
       this("Server disconnected during the transaction");

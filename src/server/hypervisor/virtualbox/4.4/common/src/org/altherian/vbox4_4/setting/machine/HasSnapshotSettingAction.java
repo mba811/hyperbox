@@ -21,7 +21,7 @@
 package org.altherian.vbox4_4.setting.machine;
 
 import org.altherian.hbox.constant.MachineAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.setting.BooleanSetting;
 import org.altherian.setting._Setting;
 import org.altherian.vbox4_4.setting._MachineSettingAction;
@@ -42,7 +42,7 @@ public class HasSnapshotSettingAction implements _MachineSettingAction {
 
    @Override
    public void set(IMachine machine, _Setting setting) {
-      throw new HyperboxRuntimeException("Read-only setting");
+      throw new HyperboxException("Read-only setting");
    }
 
    @Override

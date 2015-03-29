@@ -21,7 +21,6 @@
 package org.altherian.hboxc.factory;
 
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.HyperboxClient;
 import org.altherian.hboxc.back._Backend;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class BackendFactory {
             backends.put(backend.getId(), backend.getClass().getName());
          }
       } catch (HyperboxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

@@ -21,7 +21,7 @@
 package org.altherian.hboxc.front.gui.tasks;
 
 import org.altherian.hbox.comm.out.TaskOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui.utils.AbstractOutputListTableModel;
 import org.altherian.tool.TimeFormater;
@@ -56,7 +56,7 @@ public final class TaskListTableModel extends AbstractOutputListTableModel<TaskO
       if (columnLabel == SERVER) {
          try {
             return Gui.getServerInfo(tOut.getServerId()).getName();
-         } catch (HyperboxRuntimeException e) {
+         } catch (HyperboxException e) {
             // TODO catch proper exception
             // server disconnected meanwhile, we'll return the ID instead
             return tOut.getServerId();

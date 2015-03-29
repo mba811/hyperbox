@@ -26,7 +26,7 @@ import org.altherian.hbox.comm.out.network.NetworkInterfaceOut;
 import org.altherian.hbox.comm.out.storage.StorageControllerOut;
 import org.altherian.hbox.constant.EntityType;
 import org.altherian.hbox.constant.MachineAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.MachineStates;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class MachineOut extends ObjectOut {
          List<NetworkInterfaceOut> nicList) {
       this(serverId, uuid, settings);
       if (state == null) {
-         throw new HyperboxRuntimeException("State cannot be null or empty");
+         throw new HyperboxException("State cannot be null or empty");
       }
       this.state = state.getId();
       for (StorageControllerOut scOut : scList) {
@@ -65,7 +65,7 @@ public class MachineOut extends ObjectOut {
    public MachineOut(String serverId, String uuid, String state, List<SettingIO> settings) {
       this(serverId, uuid, settings);
       if (state == null) {
-         throw new HyperboxRuntimeException("State cannot be null or empty");
+         throw new HyperboxException("State cannot be null or empty");
       }
       this.state = state;
    }

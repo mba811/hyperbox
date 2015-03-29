@@ -21,7 +21,7 @@
 package org.altherian.vbox4_4.setting.storage;
 
 import org.altherian.hbox.constant.MediumAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.setting.StringSetting;
 import org.altherian.setting._Setting;
 import org.altherian.vbox4_4.setting._MediumSettingAction;
@@ -36,7 +36,7 @@ public class MediumMediumFormatSettingAction implements _MediumSettingAction {
 
    @Override
    public void set(IMedium medium, _Setting setting) {
-      throw new HyperboxRuntimeException("Read-only setting");
+      throw new HyperboxException("Read-only setting");
    }
 
    @Override

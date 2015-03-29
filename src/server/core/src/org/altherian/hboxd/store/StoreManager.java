@@ -23,7 +23,6 @@ package org.altherian.hboxd.store;
 import org.altherian.hbox.comm.SecurityAction;
 import org.altherian.hbox.comm.SecurityItem;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.factory.StoreFactory;
 import org.altherian.hboxd.persistence._StorePersistor;
 import org.altherian.hboxd.security.SecurityContext;
@@ -103,7 +102,7 @@ public final class StoreManager implements _StoreManager {
       SecurityContext.get().authorize(SecurityItem.Store, SecurityAction.Get, id);
 
       if (!stores.containsKey(id)) {
-         throw new HyperboxRuntimeException("Cannot find a Store with \"" + id + "\" as ID");
+         throw new HyperboxException("Cannot find a Store with \"" + id + "\" as ID");
       }
 
       return stores.get(id);
@@ -117,10 +116,10 @@ public final class StoreManager implements _StoreManager {
       File path = new File(location);
 
       if (path.exists()) {
-         throw new HyperboxRuntimeException("This path already exist, cannot create the store");
+         throw new HyperboxException("This path already exist, cannot create the store");
       }
       if (!path.mkdirs()) {
-         throw new HyperboxRuntimeException("Unable to create the store, folder creation failed");
+         throw new HyperboxException("Unable to create the store, folder creation failed");
       }
 
       return registerStore(location, label);
@@ -135,13 +134,13 @@ public final class StoreManager implements _StoreManager {
 
       Logger.debug("Trying to register " + path.getAbsolutePath() + " under " + label);
       if (!path.exists()) {
-         throw new HyperboxRuntimeException("Store location must exist");
+         throw new HyperboxException("Store location must exist");
       }
       if (!path.isDirectory()) {
-         throw new HyperboxRuntimeException("Store location must represent a directory");
+         throw new HyperboxException("Store location must represent a directory");
       }
       if (!path.isAbsolute()) {
-         throw new HyperboxRuntimeException("Store location must be an absolute path");
+         throw new HyperboxException("Store location must be an absolute path");
       }
 
       // TODO implement registration event
@@ -169,7 +168,7 @@ public final class StoreManager implements _StoreManager {
       SecurityContext.get().authorize(SecurityItem.Store, SecurityAction.Delete, id);
 
       if (!new File(getStore(id).getLocation()).delete()) {
-         throw new HyperboxRuntimeException("Unable to delete the store");
+         throw new HyperboxException("Unable to delete the store");
       }
       unregisterStore(id);
    }

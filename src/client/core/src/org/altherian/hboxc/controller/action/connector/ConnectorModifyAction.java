@@ -27,7 +27,6 @@ import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.comm._AnswerReceiver;
 import org.altherian.hbox.comm.in.UserIn;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.comm.input.ConnectorInput;
 import org.altherian.hboxc.comm.io.factory.ConnectorIoFactory;
 import org.altherian.hboxc.controller.ClientTasks;
@@ -49,7 +48,7 @@ public class ConnectorModifyAction extends AbstractClientControllerSingleAction 
       UserIn usrIn = req.get(UserIn.class);
       _Connector conn = core.modifyConnector(conIn, usrIn);
       if (conn.isConnected()) {
-         throw new HyperboxRuntimeException("Cannot modify a server connection while connected. Disconnect first");
+         throw new HyperboxException("Cannot modify a server connection while connected. Disconnect first");
       }
       recv.putAnswer(new Answer(req, AnswerType.DATA, ConnectorIoFactory.get(conn)));
    }

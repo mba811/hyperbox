@@ -26,7 +26,6 @@ import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.comm._RequestReceiver;
 import org.altherian.hbox.comm.out.ServerOut;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.HyperboxClient;
 import org.altherian.hboxc.controller.ClientTasks;
 import org.altherian.hboxc.controller.MessageInput;
@@ -232,9 +231,9 @@ public final class Gui implements _Front {
                return model;
             }
          }
-         throw new HyperboxRuntimeException("No hypervisor model for " + hypId);
+         throw new HyperboxException("No hypervisor model for " + hypId);
       } catch (HyperboxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
 
    }

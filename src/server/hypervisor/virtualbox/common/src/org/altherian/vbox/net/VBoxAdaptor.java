@@ -20,7 +20,7 @@
 
 package org.altherian.vbox.net;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NetAdaptor;
 import org.altherian.hbox.hypervisor.net._NetMode;
 import org.altherian.hbox.hypervisor.net._NetService;
@@ -65,7 +65,7 @@ public class VBoxAdaptor implements _NetAdaptor {
    @Override
    public void setLabel(String label) {
       if (!mode.canRenameAdaptor()) {
-         throw new HyperboxRuntimeException("Cannot set label on interface type " + mode.getLabel());
+         throw new HyperboxException("Cannot set label on interface type " + mode.getLabel());
       }
 
       Logger.warning("Renaming " + mode.getLabel() + " interface is not implemented");
@@ -95,16 +95,16 @@ public class VBoxAdaptor implements _NetAdaptor {
    }
 
    protected void process(_NetService service) {
-      throw new HyperboxRuntimeException("Service type " + service.getType() + " is not supported on " + getMode().getId() + " adaptor");
+      throw new HyperboxException("Service type " + service.getType() + " is not supported on " + getMode().getId() + " adaptor");
    }
 
    @Override
    public _NetService getService(String serviceTypeId) {
-      throw new HyperboxRuntimeException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
+      throw new HyperboxException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
    }
 
    protected void throwUnsupportedServiceType(String serviceTypeId) {
-      throw new HyperboxRuntimeException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
+      throw new HyperboxException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
    }
 
 }

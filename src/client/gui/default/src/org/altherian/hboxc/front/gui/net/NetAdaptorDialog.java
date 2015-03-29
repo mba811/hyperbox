@@ -23,7 +23,7 @@ package org.altherian.hboxc.front.gui.net;
 import net.miginfocom.swing.MigLayout;
 import org.altherian.hbox.comm.in.NetAdaptorIn;
 import org.altherian.hbox.comm.out.network.NetAdaptorOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui._Cancelable;
 import org.altherian.hboxc.front.gui._Saveable;
@@ -98,7 +98,7 @@ public class NetAdaptorDialog implements _Saveable, _Cancelable {
    public static NetAdaptorIn getInput(String srvId, String modeId, String adaptId) {
       try {
          return new NetAdaptorDialog(srvId, modeId, adaptId).getInput();
-      } catch (HyperboxRuntimeException e) {
+      } catch (HyperboxException e) {
          Gui.showError(e.getMessage());
          return null;
       }

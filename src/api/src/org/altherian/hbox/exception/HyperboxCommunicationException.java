@@ -21,7 +21,7 @@
 package org.altherian.hbox.exception;
 
 @SuppressWarnings("serial")
-public class HyperboxCommunicationException extends HyperboxRuntimeException {
+public class HyperboxCommunicationException extends HyperboxException {
 
    public HyperboxCommunicationException(String s) {
       super(s);

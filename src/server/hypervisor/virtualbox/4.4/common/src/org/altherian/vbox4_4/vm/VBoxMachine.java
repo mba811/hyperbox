@@ -24,7 +24,7 @@ import org.altherian.hbox.constant.MachineAttribute;
 import org.altherian.hbox.constant.StorageControllerType;
 import org.altherian.hbox.data.Machine;
 import org.altherian.hbox.exception.FeatureNotImplementedException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.exception.MachineException;
 import org.altherian.hbox.states.ACPI;
 import org.altherian.hbox.states.MachineStates;
@@ -418,7 +418,7 @@ public final class VBoxMachine implements _RawVM {
             i++;
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException("Unable to list NICs", e);
+         throw new HyperboxException("Unable to list NICs", e);
       }
 
       return nics;
@@ -432,7 +432,7 @@ public final class VBoxMachine implements _RawVM {
          getRaw().getNetworkAdapter(nicId);
          return new VBoxNetworkInterface(this, nicId);
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException("Couldn't get NIC #" + nicId + " from " + getName() + " because : " + e.getMessage());
+         throw new HyperboxException("Couldn't get NIC #" + nicId + " from " + getName() + " because : " + e.getMessage());
       }
    }
 
@@ -445,7 +445,7 @@ public final class VBoxMachine implements _RawVM {
          }
          return storageCtrls;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -507,7 +507,7 @@ public final class VBoxMachine implements _RawVM {
          _RawSnapshot rawSnap = new VBoxSnapshot(snap);
          return rawSnap;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -516,7 +516,7 @@ public final class VBoxMachine implements _RawVM {
       try {
          return new VBoxSnapshot(getRaw().getCurrentSnapshot());
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

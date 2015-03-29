@@ -24,7 +24,7 @@ package org.altherian.vbox4_4.vm;
 import org.altherian.hbox.constant.EntityType;
 import org.altherian.hbox.constant.MachineAttribute;
 import org.altherian.hbox.exception.ConfigurationException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.hypervisor.vm.device._RawConsole;
 import org.altherian.setting.BooleanSetting;
 import org.altherian.setting.PositiveNumberSetting;
@@ -164,7 +164,7 @@ public class VBoxConsole implements _RawConsole {
          Logger.debug("Setting VRDE Property with key " + key + " and value " + value);
          session.getMachine().getVRDEServer().setVRDEProperty(key, value);
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       } finally {
          VBoxSessionManager.get().unlockAuto(machine.getUuid(), true);
       }

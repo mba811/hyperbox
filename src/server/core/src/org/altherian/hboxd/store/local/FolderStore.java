@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.store.local;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.store._Store;
 import org.altherian.hboxd.store._StoreItem;
 import java.io.File;
@@ -33,13 +33,13 @@ public final class FolderStore implements _Store {
 
    public FolderStore(String id, String name, File path) {
       if (!path.exists()) {
-         throw new HyperboxRuntimeException(location.getAbsolutePath() + " does not exist");
+         throw new HyperboxException(location.getAbsolutePath() + " does not exist");
       }
       if (!path.isDirectory()) {
-         throw new HyperboxRuntimeException(location.getAbsolutePath() + " is not a folder");
+         throw new HyperboxException(location.getAbsolutePath() + " is not a folder");
       }
       if (!path.isAbsolute()) {
-         throw new HyperboxRuntimeException(location.getAbsolutePath() + " must be a full path");
+         throw new HyperboxException(location.getAbsolutePath() + " must be a full path");
       }
 
       this.id = id;
@@ -76,10 +76,10 @@ public final class FolderStore implements _Store {
    public _StoreItem getItem(String path) {
       File newItemPath = path.startsWith(getLocation()) ? new File(path) : new File(getLocation() + path);
       if (!newItemPath.exists()) {
-         throw new HyperboxRuntimeException(newItemPath.getAbsolutePath() + " is not a valid location");
+         throw new HyperboxException(newItemPath.getAbsolutePath() + " is not a valid location");
       }
       if (!newItemPath.canRead()) {
-         throw new HyperboxRuntimeException(newItemPath.getAbsolutePath() + " is not readable");
+         throw new HyperboxException(newItemPath.getAbsolutePath() + " is not readable");
       }
       if (newItemPath.isDirectory()) {
          return new FolderStoreItem(this, newItemPath);

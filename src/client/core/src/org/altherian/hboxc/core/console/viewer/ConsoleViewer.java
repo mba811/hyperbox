@@ -21,7 +21,7 @@
 
 package org.altherian.hboxc.core.console.viewer;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.comm.io.factory.ConsoleViewerIoFactory;
 import org.altherian.hboxc.core._ConsoleViewer;
 import org.altherian.hboxc.event.EventManager;
@@ -97,13 +97,13 @@ public class ConsoleViewer implements _ConsoleViewer {
    @Override
    public void save() {
       if (!viewerPath.exists()) {
-         throw new HyperboxRuntimeException(viewerPath + " does not exist");
+         throw new HyperboxException(viewerPath + " does not exist");
       }
       if (!viewerPath.isAbsolute()) {
-         throw new HyperboxRuntimeException(viewerPath + " is not an absolute path");
+         throw new HyperboxException(viewerPath + " is not an absolute path");
       }
       if (!viewerPath.isFile()) {
-         throw new HyperboxRuntimeException(viewerPath + " is not a file");
+         throw new HyperboxException(viewerPath + " is not a file");
       }
 
       EventManager.get().post(new ConsoleViewerModifiedEvent(ConsoleViewerIoFactory.getOut(this)));

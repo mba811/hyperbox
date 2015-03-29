@@ -34,7 +34,6 @@ import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.constant.ServerAttribute;
 import org.altherian.hbox.constant.ServerType;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hbox.states.ServerConnectionState;
 import org.altherian.hbox.states.ServerState;
 import org.altherian.hboxd.HBoxServer;
@@ -365,7 +364,7 @@ public class SingleHostServer implements _Hyperbox, _Server {
       secMgr.authorize(SecurityItem.Hypervisor, SecurityAction.Connect);
 
       if (!hypervisors.containsKey(hypervisorId)) {
-         throw new HyperboxRuntimeException("No Hypervisor is registered under this ID: " + hypervisorId);
+         throw new HyperboxException("No Hypervisor is registered under this ID: " + hypervisorId);
       }
 
       try {
@@ -380,13 +379,13 @@ public class SingleHostServer implements _Hyperbox, _Server {
          HBoxServer.setSetting(CFGKEY_CORE_HYP_AUTO, 1);
          EventManager.post(new ServerConnectionStateEvent(this, ServerConnectionState.Connected));
       } catch (IllegalArgumentException e) {
-         throw new HyperboxRuntimeException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
+         throw new HyperboxException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
       } catch (SecurityException e) {
-         throw new HyperboxRuntimeException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
+         throw new HyperboxException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
       } catch (InstantiationException e) {
-         throw new HyperboxRuntimeException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
+         throw new HyperboxException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
       } catch (IllegalAccessException e) {
-         throw new HyperboxRuntimeException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
+         throw new HyperboxException("Hypervisor cannot be loaded due to bad format: " + e.getMessage(), e);
       }
    }
 
@@ -465,7 +464,7 @@ public class SingleHostServer implements _Hyperbox, _Server {
    @Override
    public List<_Machine> listMachines() {
       if (!isConnected()) {
-         throw new HyperboxRuntimeException("Server is not connected");
+         throw new HyperboxException("Server is not connected");
       }
 
       List<_Machine> vms = new ArrayList<_Machine>();
@@ -531,7 +530,7 @@ public class SingleHostServer implements _Hyperbox, _Server {
    @Override
    public _Host getHost() {
       if (!isConnected()) {
-         throw new HyperboxRuntimeException("Hypervisor is not connected - cannot retrieve host information");
+         throw new HyperboxException("Hypervisor is not connected - cannot retrieve host information");
       }
 
       return new Host(hypervisor.getHost());

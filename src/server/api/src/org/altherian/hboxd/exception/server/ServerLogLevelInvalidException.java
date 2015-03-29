@@ -20,10 +20,10 @@
 
 package org.altherian.hboxd.exception.server;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class ServerLogLevelInvalidException extends HyperboxRuntimeException {
+public class ServerLogLevelInvalidException extends HyperboxException {
 
    public ServerLogLevelInvalidException(String message, String logLevel) {
       super(message + ": " + logLevel);

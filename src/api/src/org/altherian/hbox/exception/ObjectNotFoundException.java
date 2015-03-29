@@ -21,7 +21,7 @@
 package org.altherian.hbox.exception;
 
 @SuppressWarnings("serial")
-public class ObjectNotFoundException extends HyperboxRuntimeException {
+public class ObjectNotFoundException extends HyperboxException {
 
    public ObjectNotFoundException() {
       super("Object was not found");

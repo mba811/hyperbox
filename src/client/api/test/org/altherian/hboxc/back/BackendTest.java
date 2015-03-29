@@ -39,7 +39,6 @@ import org.altherian.hbox.comm.out.storage.MediumOut;
 import org.altherian.hbox.comm.output.MachineOutputTest;
 import org.altherian.hbox.comm.output.MediumOutputTest;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.comm.utils.Transaction;
 import org.altherian.hboxc.event.EventManager;
 import org.altherian.tool.logging.LogLevel;
@@ -204,7 +203,7 @@ public abstract class BackendTest {
       }
    }
 
-   @Test(expected = HyperboxRuntimeException.class)
+   @Test(expected = HyperboxException.class)
    public void sendDisconnectedFail() {
       backend.disconnect();
       backend.putRequest(new Request(Command.HBOX, HyperboxTasks.Hello));

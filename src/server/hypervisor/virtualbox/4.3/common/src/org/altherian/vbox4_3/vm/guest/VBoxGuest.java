@@ -20,7 +20,7 @@
 
 package org.altherian.vbox4_3.vm.guest;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.hypervisor.vm.guest._RawGuest;
 import org.altherian.hboxd.hypervisor.vm.guest._RawGuestNetworkInterface;
 import org.altherian.hboxd.hypervisor.vm.guest._RawHypervisorTools;
@@ -68,7 +68,7 @@ public class VBoxGuest implements _RawGuest {
       try {
          return !session.getConsole().getGuest().getAdditionsStatus(AdditionsRunLevelType.None);
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       } finally {
          unlockAuto();
       }
@@ -81,7 +81,7 @@ public class VBoxGuest implements _RawGuest {
       try {
          return null;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       } finally {
          unlockAuto();
       }

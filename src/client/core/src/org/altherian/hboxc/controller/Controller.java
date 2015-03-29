@@ -29,7 +29,6 @@ import org.altherian.hbox.comm._RequestReceiver;
 import org.altherian.hbox.comm.in.MachineIn;
 import org.altherian.hbox.comm.in.ServerIn;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.Hyperbox;
 import org.altherian.hboxc.HyperboxClient;
 import org.altherian.hboxc.PreferencesManager;
@@ -186,7 +185,7 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
       public void post(MessageInput mIn) {
 
          if (!queue.offer(mIn)) {
-            throw new HyperboxRuntimeException("Couldn't queue the request : queue is full (" + queue.size() + " messages)");
+            throw new HyperboxException("Couldn't queue the request : queue is full (" + queue.size() + " messages)");
          }
       }
 
@@ -230,15 +229,12 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
                      } else if (req.has(MachineIn.class)) {
                         core.getServer(req.get(MachineIn.class).getServerId()).sendRequest(req);
                      } else {
-                        throw new HyperboxRuntimeException("Server ID or Machine ID is required for generic requests");
+                        throw new HyperboxException("Server ID or Machine ID is required for generic requests");
                      }
                   }
                } catch (ServerDisconnectedException e) {
                   Logger.error(e);
                } catch (HyperboxException e) {
-                  Logger.error("Unable to perform the request [ " + req.getName() + " ] : " + e.getMessage());
-                  front.postError(e);
-               } catch (HyperboxRuntimeException e) {
                   Logger.error("Unable to perform the request [ " + req.getName() + " ] : " + e.getMessage());
                   front.postError(e);
                }

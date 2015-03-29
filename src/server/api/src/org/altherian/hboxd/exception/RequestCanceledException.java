@@ -21,10 +21,10 @@
 package org.altherian.hboxd.exception;
 
 import org.altherian.hbox.comm.Request;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class RequestCanceledException extends HyperboxRuntimeException {
+public class RequestCanceledException extends HyperboxException {
 
    public RequestCanceledException(Request t) {
       super("Request #" + t.getExchangeId() + " has been canceled");

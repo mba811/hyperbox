@@ -25,7 +25,6 @@ import org.altherian.hbox.Configuration;
 import org.altherian.hbox.comm.in.UserIn;
 import org.altherian.hbox.constant.EntityType;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.core._ConsoleViewer;
 import org.altherian.hboxc.core.connector.Connector;
 import org.altherian.hboxc.core.connector._Connector;
@@ -126,7 +125,7 @@ public class UserProfileCoreStorage implements _CoreStorage {
                fileStream.close();
             }
          } catch (Throwable t) {
-            throw new HyperboxRuntimeException("Unable to store viewers: " + t.getMessage());
+            throw new HyperboxException("Unable to store viewers: " + t.getMessage());
          }
       }
    }
@@ -145,7 +144,7 @@ public class UserProfileCoreStorage implements _CoreStorage {
                fileStream.close();
             }
          } catch (Throwable t) {
-            throw new HyperboxRuntimeException("Unable to store connectors: " + t.getMessage());
+            throw new HyperboxException("Unable to store connectors: " + t.getMessage());
          }
       }
    }
@@ -185,7 +184,7 @@ public class UserProfileCoreStorage implements _CoreStorage {
             fileStream.close();
          }
       } catch (Throwable t) {
-         throw new HyperboxRuntimeException("Unable to store Connector credentials: " + t.getMessage());
+         throw new HyperboxException("Unable to store Connector credentials: " + t.getMessage());
       }
    }
 
@@ -199,7 +198,7 @@ public class UserProfileCoreStorage implements _CoreStorage {
    public void removeConnectorCredentials(String id) {
       File credFile = new File(connectorCredFolder.getAbsolutePath() + File.separator + id + ".xml");
       if (!credFile.delete()) {
-         throw new HyperboxRuntimeException("Unable to delete credentials file, remove manually");
+         throw new HyperboxException("Unable to delete credentials file, remove manually");
       }
    }
 

@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.store.local;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.store._Store;
 import org.altherian.hboxd.store._StoreItem;
 import java.io.File;
@@ -35,13 +35,13 @@ public final class FolderStoreItem implements _StoreItem {
    public FolderStoreItem(_Store store, File path) {
       path = path.getAbsoluteFile();
       if (!path.exists()) {
-         throw new HyperboxRuntimeException(path + " does not exist");
+         throw new HyperboxException(path + " does not exist");
       }
       if (!path.isDirectory()) {
-         throw new HyperboxRuntimeException(path + " is not a folder");
+         throw new HyperboxException(path + " is not a folder");
       }
       if (!path.isAbsolute()) {
-         throw new HyperboxRuntimeException(path + " must be a full path");
+         throw new HyperboxException(path + " must be a full path");
       }
 
       this.store = store;

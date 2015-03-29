@@ -25,7 +25,6 @@ import org.altherian.hbox.comm.in.UserIn;
 import org.altherian.hbox.comm.out.hypervisor.MachineOut;
 import org.altherian.hbox.constant.MachineAttribute;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.back._Backend;
 import org.altherian.hboxc.comm.input.ConnectorInput;
 import org.altherian.hboxc.comm.io.factory.ConnectorIoFactory;
@@ -155,7 +154,7 @@ public class ClientCore implements _Core {
          setState(CoreState.Started);
       } catch (Throwable e) {
          stop();
-         throw new HyperboxRuntimeException("Error during core start sequence", e);
+         throw new HyperboxException("Error during core start sequence", e);
       }
    }
 
@@ -232,7 +231,7 @@ public class ClientCore implements _Core {
    public _ConsoleViewer addConsoleViewer(String hypervisorId, String moduleId, String viewerPath, String viewerArgs) {
       String id = hypervisorId + moduleId;
       if (consoleViewers.containsKey(id)) {
-         throw new HyperboxRuntimeException("Console viewer already exist for this Hypervisor and Module");
+         throw new HyperboxException("Console viewer already exist for this Hypervisor and Module");
       }
 
       _ConsoleViewer conView = ConsoleViewerFactory.get(hypervisorId, moduleId, viewerPath, viewerArgs);
@@ -269,7 +268,7 @@ public class ClientCore implements _Core {
    @Override
    public _Server getServer(String id) {
       if (!servers.containsKey(id)) {
-         throw new HyperboxRuntimeException("No Server for ID " + id);
+         throw new HyperboxException("No Server for ID " + id);
       }
       return servers.get(id);
    }
@@ -371,7 +370,7 @@ public class ClientCore implements _Core {
             return con;
          }
       }
-      throw new HyperboxRuntimeException("No connected server was found under ID " + serverId);
+      throw new HyperboxException("No connected server was found under ID " + serverId);
    }
 
    @Override
@@ -398,7 +397,7 @@ public class ClientCore implements _Core {
       try {
          ProcessRunner.runHeadless(new ProcessBuilder(new String[] { cView.getViewerPath(), arg }).start());
       } catch (Throwable t) {
-         throw new HyperboxRuntimeException("Couldn't launch Console Viewer", t);
+         throw new HyperboxException("Couldn't launch Console Viewer", t);
       }
 
    }

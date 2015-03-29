@@ -20,11 +20,11 @@
 
 package org.altherian.hboxd.exception.server;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.server._Server;
 
 @SuppressWarnings("serial")
-public final class ServerNotFoundException extends HyperboxRuntimeException {
+public final class ServerNotFoundException extends HyperboxException {
 
    public ServerNotFoundException(String id) {
       super("Server [" + id + "] was not found");

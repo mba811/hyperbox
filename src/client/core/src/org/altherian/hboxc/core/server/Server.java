@@ -73,7 +73,6 @@ import org.altherian.hbox.comm.out.storage.StorageControllerSubTypeOut;
 import org.altherian.hbox.comm.out.storage.StorageControllerTypeOut;
 import org.altherian.hbox.comm.out.storage.StorageDeviceAttachmentOut;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.back._Backend;
 import org.altherian.hboxc.comm.io.factory.ServerIoFactory;
 import org.altherian.hboxc.comm.utils.Transaction;
@@ -172,12 +171,12 @@ public class Server implements _Server, _AnswerReceiver {
 
       if (type.equals(RequestProcessType.WaitForRequest)) {
          if (!t.sendAndWait()) {
-            throw new HyperboxRuntimeException(t.getError());
+            throw new HyperboxException(t.getError());
          }
       }
       if (type.equals(RequestProcessType.WaitForTask)) {
          if (!t.sendAndWaitForTask()) {
-            throw new HyperboxRuntimeException(t.getError());
+            throw new HyperboxException(t.getError());
          }
       }
 
@@ -187,38 +186,38 @@ public class Server implements _Server, _AnswerReceiver {
    @Override
    public MachineOut createMachine(MachineIn mIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public MachineOut registerMachine(MachineIn mIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public MachineOut modifyMachine(MachineIn mIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public MachineOut unregisterMachine(MachineIn mIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public MachineOut deleteMachine(MachineIn mIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public void startMachine(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachinePowerOn, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to start the VM : " + trans.getError());
+         throw new HyperboxException("Unable to start the VM : " + trans.getError());
       }
    }
 
@@ -226,7 +225,7 @@ public class Server implements _Server, _AnswerReceiver {
    public void stopMachine(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachinePowerOff, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to stop the VM : " + trans.getError());
+         throw new HyperboxException("Unable to stop the VM : " + trans.getError());
       }
    }
 
@@ -234,39 +233,39 @@ public class Server implements _Server, _AnswerReceiver {
    public void acpiPowerMachine(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachineAcpiPowerButton, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to send ACPI Power signal to the VM : " + trans.getError());
+         throw new HyperboxException("Unable to send ACPI Power signal to the VM : " + trans.getError());
       }
    }
 
    @Override
    public UserOut addUser(UserIn uIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public UserOut modifyUser(UserIn uIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public UserOut deleteUser(UserIn uIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public SessionOut closeSession(SessionIn sIn) {
       // TODO To implement
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public MachineOut getMachine(MachineIn mIn) {
       Transaction t = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachineGet, mIn));
       if (!t.sendAndWait()) {
-         throw new HyperboxRuntimeException(t.getError());
+         throw new HyperboxException(t.getError());
       }
 
       MachineOut mOut = t.extractItem(MachineOut.class);
@@ -282,7 +281,7 @@ public class Server implements _Server, _AnswerReceiver {
    public MediumOut getMedium(MediumIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MediumGet, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve medium : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve medium : " + trans.getError());
       }
 
       return trans.extractItem(MediumOut.class);
@@ -291,14 +290,14 @@ public class Server implements _Server, _AnswerReceiver {
    @Override
    public SessionOut getSession(SessionIn sIn) {
       // TODO Auto-generated method stub
-      throw new HyperboxRuntimeException("Not implemented");
+      throw new HyperboxException("Not implemented");
    }
 
    @Override
    public StorageControllerSubTypeOut getStorageControllerSubType(StorageControllerSubTypeIn scstIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerSubTypeGet, scstIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve Storage Controller SubType [" + scstIn.getId() + "] : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve Storage Controller SubType [" + scstIn.getId() + "] : " + trans.getError());
       }
 
       StorageControllerSubTypeOut scstOut = trans.extractItem(StorageControllerSubTypeOut.class);
@@ -309,7 +308,7 @@ public class Server implements _Server, _AnswerReceiver {
    public StorageControllerTypeOut getStorageControllerType(StorageControllerTypeIn sctIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerTypeGet, sctIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve Storage Controller Type [" + sctIn.getId() + "] : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve Storage Controller Type [" + sctIn.getId() + "] : " + trans.getError());
       }
 
       StorageControllerTypeOut sctOut = trans.extractItem(StorageControllerTypeOut.class);
@@ -320,7 +319,7 @@ public class Server implements _Server, _AnswerReceiver {
    public StoreOut getStore(StoreIn sIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.StoreGet, sIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Stores : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Stores : " + trans.getError());
       }
       return trans.extractItem(StoreOut.class);
    }
@@ -329,7 +328,7 @@ public class Server implements _Server, _AnswerReceiver {
    public StoreItemOut getStoreItem(StoreItemIn siIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.StoreItemGet, siIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Stores : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Stores : " + trans.getError());
       }
 
       return trans.getBody().poll().get(StoreItemOut.class);
@@ -337,7 +336,7 @@ public class Server implements _Server, _AnswerReceiver {
 
    private Transaction getTransaction(Request req) {
       if ((backend == null) || !backend.isConnected() || (getId() == null)) {
-         throw new HyperboxRuntimeException("Not connected to the server");
+         throw new HyperboxException("Not connected to the server");
       }
 
       if (!req.has(ServerIn.class)) {
@@ -352,7 +351,7 @@ public class Server implements _Server, _AnswerReceiver {
    public UserOut getUser(UserIn uIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.UserGet, uIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve user : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve user : " + trans.getError());
       }
 
       return trans.extractItem(UserOut.class);
@@ -362,7 +361,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StorageDeviceAttachmentOut> listAttachments(StorageControllerIn scIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerMediumAttachmentList, scIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of attachments : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of attachments : " + trans.getError());
       }
 
       List<StorageDeviceAttachmentOut> attachList = trans.extractItems(StorageDeviceAttachmentOut.class);
@@ -373,7 +372,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<String> listKeyboardMode(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.KeyboardModeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Keyboard Types : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Keyboard Types : " + trans.getError());
       }
 
       List<String> keyboardMode = new ArrayList<String>();
@@ -387,7 +386,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<MachineOut> listMachines() {
       Transaction t = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachineList));
       if (!t.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of machines: " + t.getError());
+         throw new HyperboxException("Unable to retrieve list of machines: " + t.getError());
       }
 
       List<MachineOut> objOutList = t.extractItems(MachineOut.class);
@@ -398,7 +397,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<MediumOut> listMediums() {
       Transaction t = getTransaction(new Request(Command.VBOX, HypervisorTasks.MediumList));
       if (!t.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of mediums: " + t.getError());
+         throw new HyperboxException("Unable to retrieve list of mediums: " + t.getError());
       }
 
       List<MediumOut> objOutList = t.extractItems(MediumOut.class);
@@ -409,7 +408,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<String> listMouseMode(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MouseModeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Mouse Types : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Mouse Types : " + trans.getError());
       }
 
       List<String> keyboardMode = new ArrayList<String>();
@@ -423,7 +422,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<OsTypeOut> listOsType() {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.OsTypeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of OS : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of OS : " + trans.getError());
       }
 
       List<OsTypeOut> osOutList = new ArrayList<OsTypeOut>();
@@ -442,7 +441,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<SessionOut> listSessions() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.SessionList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of sessions : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of sessions : " + trans.getError());
       }
 
       List<SessionOut> objOutList = trans.extractItems(SessionOut.class);
@@ -453,7 +452,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StorageControllerSubTypeOut> listStorageControllerSubType(StorageControllerTypeIn sctIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerSubTypeList, sctIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Storage Controller Sub types : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Storage Controller Sub types : " + trans.getError());
       }
 
       List<StorageControllerSubTypeOut> objOutList = trans.extractItems(StorageControllerSubTypeOut.class);
@@ -464,7 +463,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StorageControllerTypeOut> listStorageControllerType() {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerTypeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Storage Controller Types : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Storage Controller Types : " + trans.getError());
       }
 
       List<StorageControllerTypeOut> objOutList = trans.extractItems(StorageControllerTypeOut.class);
@@ -475,7 +474,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StoreItemOut> listStoreItems(StoreIn sIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.StoreItemList, sIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Stores Items : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Stores Items : " + trans.getError());
       }
 
       List<StoreItemOut> objOutList = trans.extractItems(StoreItemOut.class);
@@ -489,7 +488,7 @@ public class Server implements _Server, _AnswerReceiver {
       req.set(siIn);
       Transaction trans = getTransaction(req);
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Stores Items : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Stores Items : " + trans.getError());
       }
 
       List<StoreItemOut> objOutList = trans.extractItems(StoreItemOut.class);
@@ -500,7 +499,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StoreOut> listStores() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.StoreList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Stores : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Stores : " + trans.getError());
       }
 
       List<StoreOut> objOutList = trans.extractItems(StoreOut.class);
@@ -511,7 +510,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<TaskOut> listTasks() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.TaskList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of tasks : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of tasks : " + trans.getError());
       }
 
       List<TaskOut> objOutList = trans.extractItems(TaskOut.class);
@@ -522,7 +521,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<UserOut> listUsers() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.UserList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of users : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of users : " + trans.getError());
       }
 
       List<UserOut> objOutList = trans.extractItems(UserOut.class);
@@ -533,7 +532,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<NetworkInterfaceOut> listNetworkInterfaces(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.NetworkInterfaceList, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Network interfaces for [" + mIn + "] : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Network interfaces for [" + mIn + "] : " + trans.getError());
       }
 
       List<NetworkInterfaceOut> objOutList = trans.extractItems(NetworkInterfaceOut.class);
@@ -544,7 +543,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<NetworkAttachModeOut> listNetworkAttachModes() {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.NetworkAttachModeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Network Attach modes : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Network Attach modes : " + trans.getError());
       }
 
       List<NetworkAttachModeOut> objOutList = trans.extractItems(NetworkAttachModeOut.class);
@@ -555,7 +554,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<NetworkAttachNameOut> listNetworkAttachNames(NetworkAttachModeIn namIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.NetworkAttachNameList, namIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Network Attach modes : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Network Attach modes : " + trans.getError());
       }
 
       List<NetworkAttachNameOut> objOutList = trans.extractItems(NetworkAttachNameOut.class);
@@ -566,7 +565,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<NetworkInterfaceTypeOut> listNetworkInterfaceTypes() {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.NetworkAdapterTypeList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Network Interface types : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Network Interface types : " + trans.getError());
       }
 
       List<NetworkInterfaceTypeOut> objOutList = trans.extractItems(NetworkInterfaceTypeOut.class);
@@ -577,7 +576,7 @@ public class Server implements _Server, _AnswerReceiver {
    public TaskOut getTask(TaskIn tIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.TaskGet, tIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to get Task: " + trans.getError());
+         throw new HyperboxException("Unable to get Task: " + trans.getError());
       }
       TaskOut tOut = trans.extractItem(TaskOut.class);
       return tOut;
@@ -587,7 +586,7 @@ public class Server implements _Server, _AnswerReceiver {
    public SnapshotOut getRootSnapshot(String vmId) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.SnapshotGetRoot, new MachineIn(vmId)));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve snapshot information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve snapshot information: " + trans.getError());
       }
 
       SnapshotOut snapOut = trans.extractItem(SnapshotOut.class);
@@ -601,7 +600,7 @@ public class Server implements _Server, _AnswerReceiver {
       req.set(snapIn);
       Transaction trans = getTransaction(req);
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve snapshot information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve snapshot information: " + trans.getError());
       }
 
       SnapshotOut snapOut = trans.extractItem(SnapshotOut.class);
@@ -612,7 +611,7 @@ public class Server implements _Server, _AnswerReceiver {
    public SnapshotOut getCurrentSnapshot(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.SnapshotGetCurrent, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve snapshot information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve snapshot information: " + trans.getError());
       }
 
       SnapshotOut snapOut = trans.extractItem(SnapshotOut.class);
@@ -628,7 +627,7 @@ public class Server implements _Server, _AnswerReceiver {
    public ScreenshotOut getScreenshot(MachineIn mIn) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.MachineDisplayGetScreenshot, mIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve screenshot information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve screenshot information: " + trans.getError());
       }
 
       ScreenshotOut screen = trans.extractItem(ScreenshotOut.class);
@@ -639,7 +638,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<StorageDeviceAttachmentOut> listAttachments(String machineUuid) {
       Transaction trans = getTransaction(new Request(Command.VBOX, HypervisorTasks.StorageControllerMediumAttachmentList, new MachineIn(machineUuid)));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of Attachment : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of Attachment : " + trans.getError());
       }
 
       List<StorageDeviceAttachmentOut> objOutList = trans.extractItems(StorageDeviceAttachmentOut.class);
@@ -655,7 +654,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<HypervisorLoaderOut> listHypervisors() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.HypervisorList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to list hypervisors: " + trans.getError());
+         throw new HyperboxException("Unable to list hypervisors: " + trans.getError());
       }
 
       return trans.extractItems(HypervisorLoaderOut.class);
@@ -670,7 +669,7 @@ public class Server implements _Server, _AnswerReceiver {
       Transaction srvTrans = new Transaction(backend, new Request(Command.HBOX, HyperboxTasks.ServerGet));
       if (!srvTrans.sendAndWait()) {
          disconnect();
-         throw new HyperboxRuntimeException("Unable to retrieve server information: " + srvTrans.getError());
+         throw new HyperboxException("Unable to retrieve server information: " + srvTrans.getError());
       }
       ServerOut srvOut = srvTrans.extractItem(ServerOut.class);
 
@@ -711,13 +710,13 @@ public class Server implements _Server, _AnswerReceiver {
          if (AxBooleans.get(Configuration.getSetting(CFGKEY_SERVER_VALIDATE, CFGVAL_SERVER_VALIDATE))) {
             HelloOut helloOut = helloTrans.extractItem(HelloOut.class);
             if (helloOut == null) {
-               throw new HyperboxRuntimeException("Server did not present itself, will disconnect");
+               throw new HyperboxException("Server did not present itself, will disconnect");
             }
             Logger.info("Server Network Protocol Version: " + helloOut.getProtocolVersion());
 
             if (AxBooleans.get(Configuration.getSetting(CFGKEY_SERVER_VALIDATE_VERSION, CFGVAL_SERVER_VALIDATE_VERSION))) {
                if (!HyperboxAPI.getProtocolVersion().isCompatible(helloOut.getProtocolVersion())) {
-                  throw new HyperboxRuntimeException("Client and Server Network protocol do not match, cannot connect: Client version is "
+                  throw new HyperboxException("Client and Server Network protocol do not match, cannot connect: Client version is "
                         + HyperboxAPI.getProtocolVersion() + " and Server version is " + helloOut.getProtocolVersion());
                }
             }
@@ -739,7 +738,7 @@ public class Server implements _Server, _AnswerReceiver {
       } catch (Throwable e) {
          Logger.exception(e);
          disconnect();
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -818,7 +817,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<PermissionOut> listPermissions(UserIn usrIn) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.PermissionList, usrIn));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of permissions : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of permissions : " + trans.getError());
       }
 
       List<PermissionOut> permOutList = trans.extractItems(PermissionOut.class);
@@ -829,7 +828,7 @@ public class Server implements _Server, _AnswerReceiver {
    public HostOut getHost() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.HostGet));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve host information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve host information: " + trans.getError());
       }
 
       HostOut objOut = trans.extractItem(HostOut.class);
@@ -850,7 +849,7 @@ public class Server implements _Server, _AnswerReceiver {
    public List<ModuleOut> listModules() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.ModuleList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of modules : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve list of modules : " + trans.getError());
       }
 
       List<ModuleOut> objOutList = trans.extractItems(ModuleOut.class);
@@ -861,7 +860,7 @@ public class Server implements _Server, _AnswerReceiver {
    public ModuleOut getModule(String modId) {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.ModuleGet, new ModuleIn(modId)));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve module information: " + trans.getError());
+         throw new HyperboxException("Unable to retrieve module information: " + trans.getError());
       }
 
       ModuleOut objOut = trans.extractItem(ModuleOut.class);
@@ -872,7 +871,7 @@ public class Server implements _Server, _AnswerReceiver {
    public Set<String> listLogLevel() {
       Transaction trans = getTransaction(new Request(Command.HBOX, HyperboxTasks.ServerLogLevelList));
       if (!trans.sendAndWait()) {
-         throw new HyperboxRuntimeException("Unable to retrieve Log levels : " + trans.getError());
+         throw new HyperboxException("Unable to retrieve Log levels : " + trans.getError());
       }
 
       List<String> objOutList = trans.extractItems(String.class);

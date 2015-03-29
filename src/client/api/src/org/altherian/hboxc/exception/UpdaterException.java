@@ -20,10 +20,10 @@
 
 package org.altherian.hboxc.exception;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public abstract class UpdaterException extends HyperboxRuntimeException {
+public abstract class UpdaterException extends HyperboxException {
 
    public UpdaterException(String s) {
       super(s);

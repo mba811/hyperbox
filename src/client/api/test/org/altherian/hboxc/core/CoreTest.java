@@ -157,7 +157,7 @@ public abstract class CoreTest {
       assertTrue(core.getReader().getMachine(mIn).getSetting(MachineAttributes.CpuExecCap).getNumber().equals(execCap));
    }
    
-   @Test(expected = HyperboxRuntimeException.class)
+   @Test(expected = HyperboxException.class)
    public void vmModifyVmOnlineTestFail() {
       String uuid = UUID.randomUUID().toString();
       String name = Long.toString(System.currentTimeMillis());

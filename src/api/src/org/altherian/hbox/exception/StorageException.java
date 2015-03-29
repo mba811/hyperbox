@@ -21,7 +21,7 @@
 package org.altherian.hbox.exception;
 
 @SuppressWarnings("serial")
-public class StorageException extends HyperboxRuntimeException {
+public class StorageException extends HyperboxException {
 
    public StorageException(String s) {
       super(s);

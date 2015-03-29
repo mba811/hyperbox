@@ -23,7 +23,7 @@ package org.altherian.hboxc.front.gui.hypervisor;
 import net.miginfocom.swing.MigLayout;
 import org.altherian.hbox.comm.in.HypervisorIn;
 import org.altherian.hbox.constant.EntityType;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.HyperboxClient;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui._Cancelable;
@@ -70,7 +70,7 @@ public class HypervisorConfigureDialog implements _Saveable, _Cancelable {
          dialog.setSize(650, dialog.getHeight());
          dialog.setLocationRelativeTo(dialog.getParent());
          dialog.setVisible(true);
-      } catch (HyperboxRuntimeException t) {
+      } catch (HyperboxException t) {
          HyperboxClient.getView().postError(t.getMessage());
       }
       return hypIn;

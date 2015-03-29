@@ -20,7 +20,7 @@
 
 package org.altherian.hboxc.gui.vbox;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.front.gui.hypervisor._GlobalConfigureView;
 import org.altherian.hboxc.front.gui.hypervisor._HypervisorModel;
 import org.altherian.hboxc.front.gui.hypervisor._NetAdaptorConfigureView;
@@ -45,7 +45,7 @@ public class GenericModel implements _HypervisorModel {
       if (VBoxNetMode.HostOnly.is(modeId)) {
          return new HostOnlyNicEditor(srvId, modeId, adaptId);
       } else {
-         throw new HyperboxRuntimeException(modeId + " is not supported in GUI");
+         throw new HyperboxException(modeId + " is not supported in GUI");
       }
    }
 

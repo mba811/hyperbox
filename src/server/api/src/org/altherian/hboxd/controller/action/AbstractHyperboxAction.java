@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.controller.action;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 public abstract class AbstractHyperboxAction implements _HyperboxAction {
 
@@ -41,7 +41,7 @@ public abstract class AbstractHyperboxAction implements _HyperboxAction {
 
    @Override
    public void pause() {
-      throw new HyperboxRuntimeException("This operation is not supported");
+      throw new HyperboxException("This operation is not supported");
    }
 
    @Override
@@ -51,7 +51,7 @@ public abstract class AbstractHyperboxAction implements _HyperboxAction {
 
    @Override
    public void cancel() {
-      throw new HyperboxRuntimeException("This operation is not supported");
+      throw new HyperboxException("This operation is not supported");
    }
 
 }

@@ -20,10 +20,10 @@
 
 package org.altherian.hboxd.exception.security;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class SecurityException extends HyperboxRuntimeException {
+public class SecurityException extends HyperboxException {
 
    public SecurityException() {
       super("Not Authorized");

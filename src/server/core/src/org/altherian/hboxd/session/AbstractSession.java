@@ -23,7 +23,7 @@ package org.altherian.hboxd.session;
 import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.comm._Client;
 import org.altherian.hbox.comm.out.event.EventOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.SessionStates;
 import org.altherian.hboxd.event.EventManager;
 import org.altherian.hboxd.event.session.SessionStateEvent;
@@ -123,7 +123,7 @@ public abstract class AbstractSession implements _Session {
    public void putRequest(Request req) {
 
       if (!msgQueue.offer(req)) {
-         throw new HyperboxRuntimeException("Message queue is full, try again later.");
+         throw new HyperboxException("Message queue is full, try again later.");
       }
    }
 

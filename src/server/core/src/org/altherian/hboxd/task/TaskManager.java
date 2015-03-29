@@ -25,7 +25,7 @@ import org.altherian.hbox.comm.Answer;
 import org.altherian.hbox.comm.AnswerType;
 import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.exception.HyperboxCommunicationException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.ServerState;
 import org.altherian.hbox.states.TaskQueueEvents;
 import org.altherian.hbox.states.TaskState;
@@ -141,7 +141,7 @@ public final class TaskManager implements _TaskManager {
    @Override
    public _Task get(String taskId) {
       if (!tasks.containsKey(taskId)) {
-         throw new HyperboxRuntimeException("Unknown Task ID: " + taskId);
+         throw new HyperboxException("Unknown Task ID: " + taskId);
       }
 
       return tasks.get(taskId);
@@ -158,7 +158,7 @@ public final class TaskManager implements _TaskManager {
                ca.run(req, hbox);
                Logger.debug("Request #" + req.getExchangeId() + " [" + req.getCommand() + ":" + req.getName() + "]" + " succeeded.");
                SessionContext.getClient().putAnswer(new Answer(req, ca.getFinishReturn()));
-            } catch (HyperboxRuntimeException e) {
+            } catch (HyperboxException e) {
                Logger.debug("Request #" + req.getExchangeId() + " [" + req.getCommand() + ":" + req.getName() + "]" + " failed: " + e.getMessage());
                if (Logger.isLevel(LogLevel.Debug)) {
                   Logger.exception(e);

@@ -20,10 +20,10 @@
 
 package org.altherian.hboxd.exception;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public final class ActionCanceledException extends HyperboxRuntimeException {
+public final class ActionCanceledException extends HyperboxException {
 
    public ActionCanceledException() {
       super("Action was canceled");

@@ -20,10 +20,10 @@
 
 package org.altherian.hbox.exception.net;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class InvalidNetworkModeException extends HyperboxRuntimeException {
+public class InvalidNetworkModeException extends HyperboxException {
 
    private String mode;
 

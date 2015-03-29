@@ -24,7 +24,7 @@ import org.altherian.hbox.comm.io.StringSettingIO;
 import org.altherian.hbox.comm.out.hypervisor.MachineOut;
 import org.altherian.hbox.constant.EntityType;
 import org.altherian.hbox.constant.MachineAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -120,7 +120,7 @@ public final class MachineIn extends ObjectIn<EntityType> {
 
    public void modifyStorageController(StorageControllerIn strCtrIo) {
       if (strCtrs.containsKey(strCtrIo.getId()) && !getStorageController(strCtrIo.getId()).getAction().equals(Action.Modify)) {
-         throw new HyperboxRuntimeException("Cannot mofidy a Storage Controller [" + strCtrIo.getId() + "]");
+         throw new HyperboxException("Cannot mofidy a Storage Controller [" + strCtrIo.getId() + "]");
       }
 
       strCtrIo.setAction(Action.Modify);

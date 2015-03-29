@@ -27,7 +27,6 @@ import org.altherian.hbox.comm.SecurityItem;
 import org.altherian.hbox.comm.in.UserIn;
 import org.altherian.hbox.event._Event;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.event.EventManager;
 import org.altherian.hboxd.event.security.UserAddedEvent;
 import org.altherian.hboxd.event.security.UserModifiedEvent;
@@ -171,9 +170,9 @@ public class SecurityManager implements _SecurityManager {
             throw new InvalidCredentialsException();
          }
       } catch (NoSuchAlgorithmException e) {
-         throw new HyperboxRuntimeException("Unable to authenticate, internal error - " + e.getMessage(), e);
+         throw new HyperboxException("Unable to authenticate, internal error - " + e.getMessage(), e);
       } catch (InvalidKeySpecException e) {
-         throw new HyperboxRuntimeException("Unable to authenticate, internal error - " + e.getMessage(), e);
+         throw new HyperboxException("Unable to authenticate, internal error - " + e.getMessage(), e);
       }
 
       SecurityContext.setUser(this, user);
@@ -391,9 +390,9 @@ public class SecurityManager implements _SecurityManager {
       try {
          persistor.setUserPassword(user, PasswordEncryptionService.getEncryptedPassword(password, user.getSalt().getBytes()));
       } catch (NoSuchAlgorithmException e) {
-         throw new HyperboxRuntimeException("Unable to encrypt password", e);
+         throw new HyperboxException("Unable to encrypt password", e);
       } catch (InvalidKeySpecException e) {
-         throw new HyperboxRuntimeException("Unable to encrypt password", e);
+         throw new HyperboxException("Unable to encrypt password", e);
       }
    }
 

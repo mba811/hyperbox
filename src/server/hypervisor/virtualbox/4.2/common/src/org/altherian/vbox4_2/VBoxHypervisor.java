@@ -26,7 +26,7 @@ import org.altherian.hbox.comm.io.MachineLogFileIO;
 import org.altherian.hbox.constant.EntityType;
 import org.altherian.hbox.data.Machine;
 import org.altherian.hbox.exception.FeatureNotImplementedException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.exception.HypervisorException;
 import org.altherian.hbox.exception.MachineException;
 import org.altherian.hbox.exception.ServiceException;
@@ -291,7 +291,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
          uuid = machine.getId();
          return new VBoxMachine(uuid);
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       }
    }
 
@@ -305,7 +305,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
          }
          return machines;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       }
    }
 
@@ -314,7 +314,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
       try {
          return new VBoxMachine(vbMgr.getVBox().findMachine(uuid));
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       }
    }
 
@@ -337,7 +337,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
          updateMediumRegistry();
          return getMedium(filePath, DeviceType.HardDisk.toString());
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage(), e);
+         throw new HyperboxException(e.getMessage(), e);
       }
    }
 
@@ -594,7 +594,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
             mediumRegister.remove(uuid);
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage(), e);
+         throw new HyperboxException(e.getMessage(), e);
       }
    }
 
@@ -744,7 +744,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
       IProgress p = VBox.get().getHost().createHostOnlyNetworkInterface(holder);
       p.waitForCompletion(-1);
       if (p.getResultCode() != 0) {
-         throw new HyperboxRuntimeException("Error creating host only interface: " + p.getErrorInfo().getText());
+         throw new HyperboxException("Error creating host only interface: " + p.getErrorInfo().getText());
       }
       _NetAdaptor adaptor = getNetAdaptor(VBoxNetMode.HostOnly.getId(), holder.value.getId());
       EventManager.post(new NetAdaptorAddedEvent(this, adaptor.getMode().getId(), adaptor.getId()));
@@ -766,7 +766,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
       IProgress p = VBox.get().getHost().removeHostOnlyNetworkInterface(adaptorId);
       p.waitForCompletion(-1);
       if (p.getResultCode() != 0) {
-         throw new HyperboxRuntimeException("Error removing host only interface: " + p.getErrorInfo().getText());
+         throw new HyperboxException("Error removing host only interface: " + p.getErrorInfo().getText());
       } else {
          EventManager.post(new NetAdaptorRemovedEvent(this, VBoxNetMode.HostOnly.getId(), adaptorId));
       }
@@ -780,7 +780,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
          case Bridged:
             nic = vbMgr.getVBox().getHost().findHostNetworkInterfaceById(adaptorId);
             if (!nic.getInterfaceType().equals(HostNetworkInterfaceType.Bridged)) {
-               throw new HyperboxRuntimeException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
+               throw new HyperboxException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
             }
             return new VBoxBridgedAdaptor(nic);
          case Generic:
@@ -789,11 +789,11 @@ public abstract class VBoxHypervisor implements _Hypervisor {
                   return new VBoxAdaptor(driver, driver, type, true);
                }
             }
-            throw new HyperboxRuntimeException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
+            throw new HyperboxException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
          case HostOnly:
             nic = vbMgr.getVBox().getHost().findHostNetworkInterfaceById(adaptorId);
             if (!nic.getInterfaceType().equals(HostNetworkInterfaceType.HostOnly)) {
-               throw new HyperboxRuntimeException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
+               throw new HyperboxException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
             }
             return new VBoxHostOnlyAdaptor(nic);
          case Internal:
@@ -802,7 +802,7 @@ public abstract class VBoxHypervisor implements _Hypervisor {
                   return new VBoxAdaptor(internalNet, internalNet, type, true);
                }
             }
-            throw new HyperboxRuntimeException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
+            throw new HyperboxException("Adaptor of type " + type + " with ID " + adaptorId + " was not found");
          case NAT:
             throw new InvalidNetworkModeException(modeId, modeId + " does not support network adaptor");
          default:

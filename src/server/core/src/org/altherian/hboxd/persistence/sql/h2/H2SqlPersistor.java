@@ -26,7 +26,7 @@
 package org.altherian.hboxd.persistence.sql.h2;
 
 import org.altherian.hbox.Configuration;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.exception.PersistorException;
 import org.altherian.hboxd.persistence.sql.SqlPersistor;
 import org.altherian.tool.logging.Logger;
@@ -94,7 +94,7 @@ public class H2SqlPersistor extends SqlPersistor {
          }
          return conn;
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to get H2 connection", e);
+         throw new HyperboxException("Unable to get H2 connection", e);
       }
    }
 

@@ -29,7 +29,6 @@ import org.altherian.hbox.data.Device;
 import org.altherian.hbox.data.Machine;
 import org.altherian.hbox.exception.ConfigurationException;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hbox.utils.Settings;
 import org.altherian.hboxd.HBoxServer;
 import org.altherian.setting._Setting;
@@ -148,7 +147,7 @@ public class VBoxSettingManager {
             snapshotActions.get(setting.getName()).set(session.getMachine().findSnapshot(snap.getUuid()), setting);
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       } finally {
          unlockAuto(snap.getMachineId());
       }
@@ -265,7 +264,7 @@ public class VBoxSettingManager {
             vmActions.get(setting.getName()).set(session.getMachine(), setting);
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       } finally {
          unlockAuto(vm.getUuid());
       }
@@ -343,7 +342,7 @@ public class VBoxSettingManager {
             settingAction.set(session.getMachine().getNetworkAdapter(nic.getNicId()), setting);
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       } finally {
          unlockAuto(nic.getMachineUuid());
       }
@@ -422,7 +421,7 @@ public class VBoxSettingManager {
          }
       } catch (VBoxException e) {
          Logger.exception(e);
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       } finally {
          unlockAuto(strCtl.getMachineUuid());
       }
@@ -487,7 +486,7 @@ public class VBoxSettingManager {
             mediumActions.get(setting.getName()).set(rawMedium, setting);
          }
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       }
    }
 
@@ -505,7 +504,7 @@ public class VBoxSettingManager {
       try {
          return mediumActions.get(uniqueId).get(rawMedium);
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e.getMessage());
+         throw new HyperboxException(e.getMessage());
       }
    }
 

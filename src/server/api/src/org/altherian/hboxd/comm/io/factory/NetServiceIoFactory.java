@@ -22,7 +22,7 @@ package org.altherian.hboxd.comm.io.factory;
 
 import org.altherian.hbox.comm.io.NetServiceIO;
 import org.altherian.hbox.constant.NetServiceType;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NetService;
 
 public class NetServiceIoFactory {
@@ -64,7 +64,7 @@ public class NetServiceIoFactory {
          return svcIn;
       }
 
-      throw new HyperboxRuntimeException(svcIn.getType() + " is not supported for network operations");
+      throw new HyperboxException(svcIn.getType() + " is not supported for network operations");
    }
 
 }

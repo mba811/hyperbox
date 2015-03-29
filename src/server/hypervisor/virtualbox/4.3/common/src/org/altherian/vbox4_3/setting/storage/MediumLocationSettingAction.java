@@ -21,7 +21,7 @@
 package org.altherian.vbox4_3.setting.storage;
 
 import org.altherian.hbox.constant.MediumAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.setting._Setting;
 import org.altherian.vbox.settings.medium.MediumLocationSetting;
 import org.altherian.vbox4_3.setting._MediumSettingAction;
@@ -37,7 +37,7 @@ public final class MediumLocationSettingAction implements _MediumSettingAction {
    @Override
    public void set(IMedium medium, _Setting setting) {
       if (!get(medium).getString().contentEquals(setting.getString())) {
-         throw new HyperboxRuntimeException("Read-only setting");
+         throw new HyperboxException("Read-only setting");
       }
    }
 

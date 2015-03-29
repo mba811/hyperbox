@@ -21,10 +21,10 @@
 
 package org.altherian.hboxc.exception;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class InputValidationException extends HyperboxRuntimeException {
+public class InputValidationException extends HyperboxException {
 
    public InputValidationException(String s) {
       super(s);

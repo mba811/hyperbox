@@ -20,10 +20,10 @@
 
 package org.altherian.hboxc.front.gui;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 public interface _Saveable {
 
-   public void save() throws HyperboxRuntimeException;
+   public void save() throws HyperboxException;
 
 }

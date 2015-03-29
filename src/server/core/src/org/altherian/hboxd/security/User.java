@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.security;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.tool.AxStrings;
 
 public class User implements _User {
@@ -94,17 +94,17 @@ public class User implements _User {
    @Override
    public void save() {
       if (AxStrings.isEmpty(getId())) {
-         throw new HyperboxRuntimeException("ID cannot be empty");
+         throw new HyperboxException("ID cannot be empty");
       }
       if (AxStrings.isEmpty(getName())) {
-         throw new HyperboxRuntimeException("Name cannot be empty");
+         throw new HyperboxException("Name cannot be empty");
       }
    }
 
    @Override
    public void delete() {
       if (getId().contentEquals("0")) {
-         throw new HyperboxRuntimeException("Cannot delete the default admin account");
+         throw new HyperboxException("Cannot delete the default admin account");
       }
    }
 

@@ -22,7 +22,7 @@
 package org.altherian.hbox.data;
 
 import org.altherian.hbox.comm.io.SettingIO;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,12 +79,12 @@ public abstract class Entity {
     * 
     * @param name The name of the wanted setting.
     * @return The setting object containing the value.
-    * @throws HyperboxRuntimeException In case the setting does not exist.
+    * @throws HyperboxException In case the setting does not exist.
     * @see #hasSetting(String)
     */
    public SettingIO getSetting(String name) {
       if (!hasSetting(name)) {
-         throw new HyperboxRuntimeException("Setting [" + name + "] not found in " + this.getClass().getSimpleName());
+         throw new HyperboxException("Setting [" + name + "] not found in " + this.getClass().getSimpleName());
       }
       return settings.get(name);
    }
@@ -94,7 +94,7 @@ public abstract class Entity {
     * 
     * @param name The Enum.toString() ID to use
     * @return a SettingIO object that contains the setting data.
-    * @throws HyperboxRuntimeException In case the setting does not exist.
+    * @throws HyperboxException In case the setting does not exist.
     * @see #hasSetting(Enum)
     */
    public SettingIO getSetting(Enum<?> name) {

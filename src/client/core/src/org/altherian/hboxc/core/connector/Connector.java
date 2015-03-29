@@ -23,7 +23,7 @@ package org.altherian.hboxc.core.connector;
 
 import net.engio.mbassy.listener.Handler;
 import org.altherian.hbox.comm.in.UserIn;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.comm.io.factory.ConnectorIoFactory;
 import org.altherian.hboxc.event.EventManager;
 import org.altherian.hboxc.event.connector.ConnectorConnectedEvent;
@@ -103,7 +103,7 @@ public class Connector implements _Connector {
    @Override
    public void setAddress(String address) {
       if (AxStrings.isEmpty(address)) {
-         throw new HyperboxRuntimeException("Address cannot be empty");
+         throw new HyperboxException("Address cannot be empty");
       }
 
       this.address = address;
@@ -133,7 +133,7 @@ public class Connector implements _Connector {
          return server;
       } catch (Throwable e) {
          disconnect();
-         throw new HyperboxRuntimeException("Failed to connect to server", e);
+         throw new HyperboxException("Failed to connect to server", e);
       }
    }
 
@@ -162,7 +162,7 @@ public class Connector implements _Connector {
    @Override
    public _Server getServer() {
       if (!isConnected()) {
-         throw new HyperboxRuntimeException("Server is not connected");
+         throw new HyperboxException("Server is not connected");
       }
 
       return server;

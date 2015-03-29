@@ -20,7 +20,7 @@
 
 package org.altherian.vbox4_4.net;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NetService;
 import org.altherian.vbox.net.VBoxAdaptor;
 import org.virtualbox_4_4.HostNetworkInterfaceStatus;
@@ -34,7 +34,7 @@ public class VBoxBridgedAdaptor extends VBoxAdaptor {
 
    @Override
    protected void process(_NetService service) {
-      throw new HyperboxRuntimeException(service.getType() + " is not supported by Bridged adaptor");
+      throw new HyperboxException(service.getType() + " is not supported by Bridged adaptor");
    }
 
 }

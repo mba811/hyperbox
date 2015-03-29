@@ -67,7 +67,7 @@ import org.altherian.hbox.comm.out.storage.StorageControllerSubTypeOut;
 import org.altherian.hbox.comm.out.storage.StorageControllerTypeOut;
 import org.altherian.hbox.comm.out.storage.StorageDeviceAttachmentOut;
 import org.altherian.hbox.event.HyperboxEvents;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.TaskQueueEvents;
 import org.altherian.hboxc.event.EventManager;
 import org.altherian.hboxc.event.machine.MachineAddedEvent;
@@ -312,7 +312,7 @@ public class CachedServerReader implements _ServerReader {
             updateMachine(vmId);
          }
          // TODO catch the proper exception
-      } catch (HyperboxRuntimeException e) {
+      } catch (HyperboxException e) {
          // Virtualbox error meaning "Machine not found", so we remove from cache
          if ((e.getMessage() != null) && (e.getMessage().contains("0x80070005") || e.getMessage().contains("0x80BB0001"))) {
             deleteMachine(vmId);
@@ -352,7 +352,7 @@ public class CachedServerReader implements _ServerReader {
             Logger.debug("Known medium, updating cache");
             updateMedium(medIn);
          }
-      } catch (HyperboxRuntimeException e) {
+      } catch (HyperboxException e) {
          Logger.debug("Cannot fetch information from server, removing from cache if exists");
          deleteMedium(medIn);
       }
@@ -409,7 +409,7 @@ public class CachedServerReader implements _ServerReader {
          TaskOut tOut = reader.getTask(tIn);
          insertTask(tOut);
          // TODO catch the proper exception
-      } catch (HyperboxRuntimeException e) {
+      } catch (HyperboxException e) {
          invalidTaskIdSet.add(tIn.getId());
          removeTask(tIn.getId());
          throw e;
@@ -456,7 +456,7 @@ public class CachedServerReader implements _ServerReader {
    @Override
    public TaskOut getTask(TaskIn tIn) {
       if (invalidTaskIdSet.contains(tIn.getId())) {
-         throw new HyperboxRuntimeException("Task was not found");
+         throw new HyperboxException("Task was not found");
       }
       if (!tOutCache.containsKey(tIn.getId())) {
          refreshTask(tIn);
@@ -467,7 +467,7 @@ public class CachedServerReader implements _ServerReader {
    @Override
    public MediumOut getMedium(MediumIn medIn) {
       if (invalidMedOutSet.contains(medIn.getUuid())) {
-         throw new HyperboxRuntimeException(medIn.getUuid() + " does not relate to a medium");
+         throw new HyperboxException(medIn.getUuid() + " does not relate to a medium");
       }
       if (!medOutCache.containsKey(medIn.getUuid()) || !medOutCache.containsKey(medIn.getLocation())) {
          refreshMedium(medIn);
@@ -635,7 +635,7 @@ public class CachedServerReader implements _ServerReader {
    @Override
    public MachineOut getMachine(String vmId) {
       if (invalidMachineUuidSet.contains(vmId)) {
-         throw new HyperboxRuntimeException(vmId + " does not relate to a machine");
+         throw new HyperboxException(vmId + " does not relate to a machine");
       }
       if (!mOutCache.containsKey(vmId)) {
          refreshMachine(vmId);

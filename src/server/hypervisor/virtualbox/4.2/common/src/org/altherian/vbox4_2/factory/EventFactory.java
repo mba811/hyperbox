@@ -22,7 +22,6 @@ package org.altherian.vbox4_2.factory;
 
 import org.altherian.hbox.event._Event;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.HBoxServer;
 import org.altherian.tool.logging.Logger;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class EventFactory {
             factories.put(factory.getType(), factory);
          }
       } catch (HyperboxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

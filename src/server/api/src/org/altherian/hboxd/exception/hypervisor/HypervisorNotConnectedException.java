@@ -20,10 +20,10 @@
 
 package org.altherian.hboxd.exception.hypervisor;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class HypervisorNotConnectedException extends HyperboxRuntimeException {
+public class HypervisorNotConnectedException extends HyperboxException {
 
    public HypervisorNotConnectedException() {
       super("Hypervisor is not connected");

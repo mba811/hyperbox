@@ -27,7 +27,7 @@ import org.altherian.hbox.comm._AnswerReceiver;
 import org.altherian.hbox.comm.out.TaskOut;
 import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.comm.out.event.task.TaskStateEventOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.TaskState;
 import org.altherian.hboxc._EventReceiver;
 import org.altherian.hboxc.back._Backend;
@@ -71,7 +71,7 @@ public final class Transaction implements _AnswerReceiver, _EventReceiver {
 
    private void init() {
       if (startTime != null) {
-         throw new HyperboxRuntimeException("Transaction " + request.getExchangeId() + " has already been run");
+         throw new HyperboxException("Transaction " + request.getExchangeId() + " has already been run");
       }
       startTime = System.currentTimeMillis();
       lastMessageTime = startTime;
@@ -110,7 +110,7 @@ public final class Transaction implements _AnswerReceiver, _EventReceiver {
 
    public <T> T extractItem(Class<T> toExtract) {
       if (mainQ.size() == 0) {
-         throw new HyperboxRuntimeException("No data was sent by the server");
+         throw new HyperboxException("No data was sent by the server");
       }
       return mainQ.getFirst().get(toExtract);
    }
@@ -138,10 +138,10 @@ public final class Transaction implements _AnswerReceiver, _EventReceiver {
                try {
                   wait(500);
                   if ((start != null) && (System.currentTimeMillis() > (lastMessageTime + 15000))) {
-                     throw new HyperboxRuntimeException("Transaction " + request.getExchangeId() + " [" + request.getName() + "] has timeout after 15 sec");
+                     throw new HyperboxException("Transaction " + request.getExchangeId() + " [" + request.getName() + "] has timeout after 15 sec");
                   }
                } catch (InterruptedException e) {
-                  throw new HyperboxRuntimeException("Transaction " + request.getExchangeId() + " has been canceled");
+                  throw new HyperboxException("Transaction " + request.getExchangeId() + " has been canceled");
                }
             }
          }
@@ -169,7 +169,7 @@ public final class Transaction implements _AnswerReceiver, _EventReceiver {
                try {
                   wait(500);
                } catch (InterruptedException e) {
-                  throw new HyperboxRuntimeException("Transaction " + request.getExchangeId() + " has been canceled");
+                  throw new HyperboxException("Transaction " + request.getExchangeId() + " has been canceled");
                }
             }
          }

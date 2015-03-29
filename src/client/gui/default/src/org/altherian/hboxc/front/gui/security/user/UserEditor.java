@@ -24,7 +24,7 @@ package org.altherian.hboxc.front.gui.security.user;
 import net.miginfocom.swing.MigLayout;
 import org.altherian.hbox.comm.in.UserIn;
 import org.altherian.hbox.comm.out.security.UserOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxc.front.gui._Cancelable;
 import org.altherian.hboxc.front.gui._Saveable;
 import org.altherian.hboxc.front.gui.action.CancelAction;
@@ -163,18 +163,18 @@ public class UserEditor implements _Saveable, _Cancelable {
          }
 
          if ((firstPassValue.getPassword().length == 0) || (secondPassValue.getPassword().length == 0)) {
-            throw new HyperboxRuntimeException("Password cannot be empty");
+            throw new HyperboxException("Password cannot be empty");
          }
       }
 
       if (usernameValue.getText().isEmpty()) {
-         throw new HyperboxRuntimeException("Username cannot be empty");
+         throw new HyperboxException("Username cannot be empty");
       }
       usrIn.setUsername(usernameValue.getText());
 
       if ((firstPassValue.getPassword().length > 0) || (secondPassValue.getPassword().length > 0)) {
          if (!Arrays.equals(firstPassValue.getPassword(), secondPassValue.getPassword())) {
-            throw new HyperboxRuntimeException("Password do not match");
+            throw new HyperboxException("Password do not match");
          }
          usrIn.setPassword(firstPassValue.getPassword());
       }

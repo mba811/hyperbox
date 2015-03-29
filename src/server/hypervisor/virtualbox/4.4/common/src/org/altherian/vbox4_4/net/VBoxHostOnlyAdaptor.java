@@ -24,7 +24,7 @@ import org.altherian.hbox.comm.io.NetService_DHCP_IP4_IO;
 import org.altherian.hbox.comm.io.NetService_IP4_IO;
 import org.altherian.hbox.comm.io.NetService_IP6_IO;
 import org.altherian.hbox.constant.NetServiceType;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NetService;
 import org.altherian.hbox.hypervisor.net._NetService_IP4;
 import org.altherian.hbox.hypervisor.net._NetService_IP4_DHCP;
@@ -74,7 +74,7 @@ public class VBoxHostOnlyAdaptor extends VBoxAdaptor {
             dhcpSrv.setConfiguration(dhcpSvc.getAddress(), dhcpSvc.getMask(), dhcpSvc.getStartAddress(), dhcpSvc.getEndAddress());
          }
       } else {
-         throw new HyperboxRuntimeException("Service type " + service.getType() + " is not supported on " + getMode().getId() + " adaptor");
+         throw new HyperboxException("Service type " + service.getType() + " is not supported on " + getMode().getId() + " adaptor");
       }
    }
 
@@ -99,7 +99,7 @@ public class VBoxHostOnlyAdaptor extends VBoxAdaptor {
          svc.setEndAddress(dhcpSrv.getUpperIP());
          return svc;
       } else {
-         throw new HyperboxRuntimeException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
+         throw new HyperboxException("Service type " + serviceTypeId + " is not supported on " + getMode().getId() + " adaptor");
       }
    }
 

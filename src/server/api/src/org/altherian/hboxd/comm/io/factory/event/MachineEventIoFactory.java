@@ -28,7 +28,7 @@ import org.altherian.hbox.comm.out.event.machine.MachineStateEventOut;
 import org.altherian.hbox.comm.out.hypervisor.MachineOut;
 import org.altherian.hbox.event.HyperboxEvents;
 import org.altherian.hbox.event._Event;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.MachineStates;
 import org.altherian.hboxd.HBoxServer;
 import org.altherian.hboxd.comm.io.factory.MachineIoFactory;
@@ -43,7 +43,7 @@ public final class MachineEventIoFactory implements _EventIoFactory {
    private MachineOut getObjOut(String id) {
       try {
          return MachineIoFactory.get(HBoxServer.get().getMachine(id));
-      } catch (HyperboxRuntimeException e) {
+      } catch (HyperboxException e) {
          return MachineIoFactory.get(id, MachineStates.Unknown.getId());
       }
    }

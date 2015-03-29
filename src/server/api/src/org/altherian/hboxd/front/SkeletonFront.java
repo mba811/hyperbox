@@ -21,7 +21,6 @@
 package org.altherian.hboxd.front;
 
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.tool.logging.Logger;
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -58,12 +57,12 @@ public abstract class SkeletonFront implements _Front, Runnable {
             try {
                wait(1000);
             } catch (InterruptedException e) {
-               throw new HyperboxRuntimeException("Unable to start " + getClass().getSimpleName() + " because it was interrupted.");
+               throw new HyperboxException("Unable to start " + getClass().getSimpleName() + " because it was interrupted.");
             }
          }
       }
       if (status != STARTED) {
-         throw new HyperboxRuntimeException("An error occured while trying to start " + getClass().getSimpleName());
+         throw new HyperboxException("An error occured while trying to start " + getClass().getSimpleName());
       }
    }
 

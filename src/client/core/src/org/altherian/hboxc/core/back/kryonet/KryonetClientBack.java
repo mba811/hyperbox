@@ -27,7 +27,6 @@ import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.comm._AnswerReceiver;
 import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hbox.kryonet.KryoRegister;
 import org.altherian.hbox.kryonet.KryonetDefaultSettings;
 import org.altherian.hboxc.back._Backend;
@@ -155,10 +154,10 @@ public final class KryonetClientBack implements _Backend {
             if (!updateThreadEx.isEmpty()) {
                e = updateThreadEx.poll();
                if (e instanceof KryoNetException) {
-                  throw new HyperboxRuntimeException("Server is using an incompatible network protocol version", e);
+                  throw new HyperboxException("Server is using an incompatible network protocol version", e);
                }
             }
-            throw new HyperboxRuntimeException(e);
+            throw new HyperboxException(e);
          } finally {
             Logger.debug(e.getMessage());
             disconnect();
@@ -184,7 +183,7 @@ public final class KryonetClientBack implements _Backend {
    public void putRequest(Request req) {
       if (!isConnected()) {
          Logger.debug("Tried to send a message but client is not connected");
-         throw new HyperboxRuntimeException("Client is not connected to a server");
+         throw new HyperboxException("Client is not connected to a server");
       }
 
       try {

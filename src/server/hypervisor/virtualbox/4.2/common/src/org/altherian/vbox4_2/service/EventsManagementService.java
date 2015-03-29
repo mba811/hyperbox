@@ -21,7 +21,7 @@
 package org.altherian.vbox4_2.service;
 
 import org.altherian.hbox.event._Event;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.event._EventManager;
 import org.altherian.hboxd.service.SimpleLoopService;
 import org.altherian.tool.logging.Logger;
@@ -60,7 +60,7 @@ public final class EventsManagementService extends SimpleLoopService {
    }
 
    @Override
-   protected void afterLooping() throws HyperboxRuntimeException {
+   protected void afterLooping() throws HyperboxException {
       if (el != null) {
          VBox.get().getEventSource().unregisterListener(el);
          el = null;

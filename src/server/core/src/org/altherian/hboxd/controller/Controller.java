@@ -27,7 +27,6 @@ import org.altherian.hbox.comm._Client;
 import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.comm.out.event.server.ServerShutdownEventOut;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.HBoxServer;
 import org.altherian.hboxd.Hyperbox;
 import org.altherian.hboxd.comm.io.factory.ServerIoFactory;
@@ -101,7 +100,7 @@ public final class Controller implements _Controller {
             Logger.info(f.getClass().getSimpleName() + " has started");
          } catch (HyperboxException e1) {
             Logger.info(f.getClass().getSimpleName() + " failed to start");
-            throw new HyperboxRuntimeException(e1);
+            throw new HyperboxException(e1);
          }
       }
       Logger.info("Done starting Front-ends");

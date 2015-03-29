@@ -20,10 +20,10 @@
 
 package org.altherian.hbox.exception.net;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class NetworkAdaptorNotFoundException extends HyperboxRuntimeException {
+public class NetworkAdaptorNotFoundException extends HyperboxException {
 
    public NetworkAdaptorNotFoundException(String adaptorId) {
       this(adaptorId, "Could not find a network adaptor with ID " + adaptorId);

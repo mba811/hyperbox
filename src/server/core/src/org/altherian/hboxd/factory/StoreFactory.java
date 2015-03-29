@@ -21,7 +21,7 @@
 
 package org.altherian.hboxd.factory;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.store._Store;
 import org.altherian.hboxd.store.local.FolderStore;
 import java.io.File;
@@ -36,7 +36,7 @@ public class StoreFactory {
       if (moduleId.equalsIgnoreCase("localFolder")) {
          return new FolderStore(storeId, storeName, storePath);
       } else {
-         throw new HyperboxRuntimeException("Unsupported Store Type : " + moduleId);
+         throw new HyperboxException("Unsupported Store Type : " + moduleId);
       }
    }
 

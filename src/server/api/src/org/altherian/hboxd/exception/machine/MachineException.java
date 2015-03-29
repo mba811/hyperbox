@@ -20,10 +20,10 @@
 
 package org.altherian.hboxd.exception.machine;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public abstract class MachineException extends HyperboxRuntimeException {
+public abstract class MachineException extends HyperboxException {
 
    public MachineException(String s) {
       super(s);

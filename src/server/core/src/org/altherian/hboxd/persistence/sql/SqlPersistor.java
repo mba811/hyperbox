@@ -24,7 +24,7 @@ package org.altherian.hboxd.persistence.sql;
 import org.altherian.hbox.comm.SecurityAction;
 import org.altherian.hbox.comm.SecurityItem;
 import org.altherian.hbox.exception.FeatureNotImplementedException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.exception.PersistorException;
 import org.altherian.hboxd.factory.StoreFactory;
 import org.altherian.hboxd.persistence._Persistor;
@@ -58,7 +58,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to insert Store", e);
+         throw new HyperboxException("Unable to insert Store", e);
       }
    }
 
@@ -79,7 +79,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to update Store", e);
+         throw new HyperboxException("Unable to update Store", e);
       }
    }
 
@@ -88,7 +88,7 @@ public abstract class SqlPersistor implements _Persistor {
       try {
          getConn().createStatement().executeUpdate("DELETE FROM " + StoreSQL.TABLE + " WHERE " + StoreSQL.ID + " = " + store.getId() + " LIMIT 1");
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to delete store", e);
+         throw new HyperboxException("Unable to delete store", e);
       }
    }
 
@@ -101,7 +101,7 @@ public abstract class SqlPersistor implements _Persistor {
          try {
             ResultSet rSet = prepStmt.executeQuery();
             if (!rSet.next()) {
-               throw new HyperboxRuntimeException("No Store by this ID: " + id);
+               throw new HyperboxException("No Store by this ID: " + id);
             }
 
             String storeId = rSet.getString(StoreSQL.ID);
@@ -114,7 +114,7 @@ public abstract class SqlPersistor implements _Persistor {
             prepStmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to retrieve Store ID " + id, e);
+         throw new HyperboxException("Unable to retrieve Store ID " + id, e);
       }
    }
 
@@ -139,7 +139,7 @@ public abstract class SqlPersistor implements _Persistor {
             prepStmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to retrieve list of stores", e);
+         throw new HyperboxException("Unable to retrieve list of stores", e);
       }
       return storeList;
    }
@@ -156,7 +156,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to insert User", e);
+         throw new HyperboxException("Unable to insert User", e);
       }
    }
 
@@ -187,7 +187,7 @@ public abstract class SqlPersistor implements _Persistor {
             UserSQL.populateSelectQuery(stmt, userId);
             ResultSet rSet = stmt.executeQuery();
             if (!rSet.next()) {
-               throw new HyperboxRuntimeException("No User by this ID: " + userId);
+               throw new HyperboxException("No User by this ID: " + userId);
             }
 
             return UserSQL.extractUser(rSet);
@@ -195,7 +195,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to retrieve User with ID " + userId, e);
+         throw new HyperboxException("Unable to retrieve User with ID " + userId, e);
       }
    }
 
@@ -208,7 +208,7 @@ public abstract class SqlPersistor implements _Persistor {
             UserSQL.populateSelectPasswordQuery(stmt, userId);
             ResultSet rSet = stmt.executeQuery();
             if (!rSet.next()) {
-               throw new HyperboxRuntimeException("No User by this ID: " + userId);
+               throw new HyperboxException("No User by this ID: " + userId);
             }
 
             return UserSQL.extractPassword(rSet);
@@ -216,7 +216,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to retrieve User with ID " + userId, e);
+         throw new HyperboxException("Unable to retrieve User with ID " + userId, e);
       }
    }
 
@@ -244,7 +244,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to list User", e);
+         throw new HyperboxException("Unable to list User", e);
       }
    }
 
@@ -266,7 +266,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to delete User", e);
+         throw new HyperboxException("Unable to delete User", e);
       }
    }
 
@@ -288,7 +288,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to update User: " + e.getMessage(), e);
+         throw new HyperboxException("Unable to update User: " + e.getMessage(), e);
       }
    }
 
@@ -305,13 +305,13 @@ public abstract class SqlPersistor implements _Persistor {
          try {
             UserSQL.populateUpdatePasswordQuery(stmt, user, password);
             if (stmt.executeUpdate() < 1) {
-               throw new HyperboxRuntimeException("No password was updated");
+               throw new HyperboxException("No password was updated");
             }
          } finally {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to set password", e);
+         throw new HyperboxException("Unable to set password", e);
       }
    }
 
@@ -322,13 +322,13 @@ public abstract class SqlPersistor implements _Persistor {
          try {
             SettingSQL.populateSetSettingQuery(stmt, name, value);
             if (stmt.executeUpdate() < 1) {
-               throw new HyperboxRuntimeException("Unable to set setting " + name);
+               throw new HyperboxException("Unable to set setting " + name);
             }
          } finally {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to save setting " + name + ": " + e.getMessage(), e);
+         throw new HyperboxException("Unable to save setting " + name + ": " + e.getMessage(), e);
       }
    }
 
@@ -340,7 +340,7 @@ public abstract class SqlPersistor implements _Persistor {
             SettingSQL.populateLoadSettingQuery(stmt, name);
             ResultSet rSet = stmt.executeQuery();
             if (!rSet.next()) {
-               throw new HyperboxRuntimeException("No setting found for: " + name);
+               throw new HyperboxException("No setting found for: " + name);
             }
 
             return SettingSQL.extractSetting(rSet);
@@ -348,7 +348,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to load setting " + name + ": " + e.getMessage(), e);
+         throw new HyperboxException("Unable to load setting " + name + ": " + e.getMessage(), e);
 
       }
    }
@@ -383,7 +383,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to insert permission", e);
+         throw new HyperboxException("Unable to insert permission", e);
       }
    }
 
@@ -401,7 +401,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to list permissions for " + usr.getDomainLogonName(), e);
+         throw new HyperboxException("Unable to list permissions for " + usr.getDomainLogonName(), e);
       }
 
    }
@@ -420,7 +420,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to list permissions for " + usr.getDomainLogonName(), e);
+         throw new HyperboxException("Unable to list permissions for " + usr.getDomainLogonName(), e);
       }
    }
 
@@ -436,7 +436,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to delete permissions of " + usr.getDomainLogonName() + ": " + e.getMessage(), e);
+         throw new HyperboxException("Unable to delete permissions of " + usr.getDomainLogonName() + ": " + e.getMessage(), e);
       }
    }
 
@@ -452,7 +452,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to delete permission: " + usr.getDomainLogonName() + " - " + item + " - " + action + " - "
+         throw new HyperboxException("Unable to delete permission: " + usr.getDomainLogonName() + " - " + item + " - " + action + " - "
                + e.getMessage(), e);
       }
    }
@@ -469,7 +469,7 @@ public abstract class SqlPersistor implements _Persistor {
             stmt.close();
          }
       } catch (SQLException e) {
-         throw new HyperboxRuntimeException("Unable to delete permission: " + usr.getDomainLogonName() + " - " + item + " - " + action + " - "
+         throw new HyperboxException("Unable to delete permission: " + usr.getDomainLogonName() + " - " + item + " - " + action + " - "
                + itemId + " - " + e.getMessage(), e);
       }
    }

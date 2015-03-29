@@ -23,7 +23,7 @@ package org.altherian.hboxc.front.gui.net;
 import net.miginfocom.swing.MigLayout;
 import org.altherian.hbox.comm.io.NetService_NAT_IO;
 import org.altherian.hbox.comm.io.NetService_NAT_IP4_IO;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NATRule;
 import org.altherian.hboxc.front.gui._Cancelable;
 import org.altherian.hboxc.front.gui._Refreshable;
@@ -103,7 +103,7 @@ public class MachineNATRulesDialog implements _Saveable, _Cancelable, _Refreshab
    }
 
    @Override
-   public void save() throws HyperboxRuntimeException {
+   public void save() throws HyperboxException {
       rules = new NetService_NAT_IP4_IO(true);
       for (_NATRule rule : ip4.getRules()) {
          rules.addRule(rule);

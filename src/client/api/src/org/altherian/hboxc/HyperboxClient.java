@@ -21,7 +21,6 @@
 package org.altherian.hboxc;
 
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxc.front._Front;
 import org.altherian.tool.logging.Logger;
 import java.lang.reflect.InvocationTargetException;
@@ -63,7 +62,7 @@ public class HyperboxClient {
       } catch (Exception e) {
          Logger.error("Failed to load " + it + " : " + e.getLocalizedMessage());
          Logger.exception(e);
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

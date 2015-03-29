@@ -20,7 +20,7 @@
 
 package org.altherian.hboxd.security;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.exception.security.SecurityException;
 import org.altherian.tool.logging.Logger;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class SecurityContext {
    public static void initSecurityManager(_SecurityManager secMgr) {
 
       if (SecurityContext.secMgr != null) {
-         throw new HyperboxRuntimeException("Security Manager is already defined, cannot be redefined");
+         throw new HyperboxException("Security Manager is already defined, cannot be redefined");
       }
       SecurityContext.secMgr = secMgr;
    }

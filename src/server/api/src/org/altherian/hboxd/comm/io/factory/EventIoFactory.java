@@ -24,7 +24,6 @@ import org.altherian.hbox.comm.out.event.EventOut;
 import org.altherian.hbox.comm.out.event.UnknownEventOut;
 import org.altherian.hbox.event._Event;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.HBoxServer;
 import org.altherian.hboxd.comm.io.factory.event._EventIoFactory;
 import org.altherian.hboxd.core._Hyperbox;
@@ -51,7 +50,7 @@ public final class EventIoFactory {
             }
          }
       } catch (HyperboxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

@@ -24,7 +24,7 @@ import org.altherian.hbox.comm.Answer;
 import org.altherian.hbox.comm.Request;
 import org.altherian.hbox.comm._Client;
 import org.altherian.hbox.comm.out.event.EventOut;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.states.TaskState;
 import org.altherian.hboxd.core._Hyperbox;
 import org.altherian.hboxd.core.action._HyperboxAction;
@@ -120,7 +120,7 @@ public class HyperboxTask implements _Task, _Client {
          } catch (ActionCanceledException e) {
             Logger.debug("Request #" + req.getExchangeId() + " [" + req.getCommand() + ":" + req.getName() + "]" + " was canceled: " + e.getMessage());
             currentState = TaskState.Canceled;
-         } catch (HyperboxRuntimeException e) {
+         } catch (HyperboxException e) {
             Logger.debug("Request #" + req.getExchangeId() + " [" + req.getCommand() + ":" + req.getName() + "]" + " failed: " + e.getMessage());
             error = e;
             currentState = TaskState.Failed;
@@ -145,7 +145,7 @@ public class HyperboxTask implements _Task, _Client {
    @Override
    public void cancel() {
       if (!state.equals(TaskState.Running)) {
-         throw new HyperboxRuntimeException("Task must be running to be canceled");
+         throw new HyperboxException("Task must be running to be canceled");
       }
       ac.cancel();
       setState(TaskState.Canceled);

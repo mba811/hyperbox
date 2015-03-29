@@ -22,7 +22,6 @@ package org.altherian.hboxd;
 
 import org.altherian.hbox.Configuration;
 import org.altherian.hbox.exception.HyperboxException;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
 import org.altherian.hboxd.persistence._Persistor;
 import org.altherian.hboxd.server._Server;
 import org.altherian.tool.logging.Logger;
@@ -109,7 +108,7 @@ public class HBoxServer {
       } catch (Exception e) {
          Logger.error("Failed to load " + it + " : " + e.getLocalizedMessage());
          Logger.exception(e);
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 
@@ -251,7 +250,7 @@ public class HBoxServer {
 
    public static String getSettingOrFail(String key) {
       if (!hasSetting(key)) {
-         throw new HyperboxRuntimeException("Setting key not found: " + key);
+         throw new HyperboxException("Setting key not found: " + key);
       } else {
          return getSetting(key);
       }

@@ -25,7 +25,7 @@ import org.altherian.hbox.comm.io.NetService_NAT_IO;
 import org.altherian.hbox.comm.io.NetService_NAT_IP4_IO;
 import org.altherian.hbox.comm.io.NetService_NAT_IP6_IO;
 import org.altherian.hbox.constant.NetServiceType;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hbox.hypervisor.net._NATRule;
 import org.altherian.hboxc.front.gui.Gui;
 import org.altherian.hboxc.front.gui._Cancelable;
@@ -126,7 +126,7 @@ public class NATNetworkNATRulesDialog implements _Saveable, _Cancelable, _Refres
    }
 
    @Override
-   public void save() throws HyperboxRuntimeException {
+   public void save() throws HyperboxException {
       NetService_NAT_IP4_IO ip4svc = new NetService_NAT_IP4_IO(true);
       for (_NATRule rule : ip4.getRules()) {
          ip4svc.addRule(rule);

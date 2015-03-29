@@ -21,7 +21,7 @@
 package org.altherian.vbox4_2.storage;
 
 import org.altherian.hbox.constant.StorageControllerAttribute;
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 import org.altherian.hboxd.hypervisor.storage._RawMedium;
 import org.altherian.hboxd.hypervisor.storage._RawMediumAttachment;
 import org.altherian.hboxd.hypervisor.storage._RawStorageController;
@@ -216,7 +216,7 @@ public class VirtualboxStorageController implements _RawStorageController {
             }
          }
          if (!hasBeenAttached) {
-            throw new HyperboxRuntimeException("Could not find a free slot to attach this medium to.");
+            throw new HyperboxException("Could not find a free slot to attach this medium to.");
          }
       } finally {
          unlockAuto();
@@ -266,7 +266,7 @@ public class VirtualboxStorageController implements _RawStorageController {
             }
          }
          if (!hasBeenFound) {
-            throw new HyperboxRuntimeException("No such media is attached");
+            throw new HyperboxException("No such media is attached");
          }
       } finally {
          unlockAuto();
@@ -276,7 +276,7 @@ public class VirtualboxStorageController implements _RawStorageController {
    @Override
    public void detachMedium(long portNb, long deviceNb) {
       if (!isSlotTaken(portNb, deviceNb)) {
-         throw new HyperboxRuntimeException("No media attached to " + portNb + ":" + deviceNb + " on " + getName());
+         throw new HyperboxException("No media attached to " + portNb + ":" + deviceNb + " on " + getName());
       }
       // TODO handle locked and unlocked media - ask confirmation from the user
 
@@ -299,7 +299,7 @@ public class VirtualboxStorageController implements _RawStorageController {
          }
          return false;
       } catch (VBoxException e) {
-         throw new HyperboxRuntimeException(e);
+         throw new HyperboxException(e);
       }
    }
 

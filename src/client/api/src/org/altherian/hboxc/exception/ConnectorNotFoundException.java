@@ -20,10 +20,10 @@
 
 package org.altherian.hboxc.exception;
 
-import org.altherian.hbox.exception.HyperboxRuntimeException;
+import org.altherian.hbox.exception.HyperboxException;
 
 @SuppressWarnings("serial")
-public class ConnectorNotFoundException extends HyperboxRuntimeException {
+public class ConnectorNotFoundException extends HyperboxException {
 
    public ConnectorNotFoundException() {
       this("Connector not found");
