@@ -93,7 +93,7 @@ public class PopupMenuBuilder {
       machineMenu.add(new JMenuItem(new MachineStopAction(select)));
       machineMenu.add(new JMenuItem(new MachineResetAction(select)));
       machineMenu.add(new JMenuItem(new MachineAcpiPowerAction(select)));
-      machineMenu.add(new JMenuItem(new MachineLogGetAction(mOut.getServerId(), mOut.getId(), "")));
+      machineMenu.add(new JMenuItem(new MachineLogGetAction(mOut.getServerId(), mOut.getId())));
       machineMenu.add(new JSeparator());
       machineMenu.add(new JMenuItem(new MachineSaveStateAction(select)));
       machineMenu.add(new JMenuItem(new MachinePauseAction(select)));

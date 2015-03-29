@@ -7,20 +7,16 @@ import org.altherian.hboxc.front.gui.vm.MachineLogFileViewer;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
+@SuppressWarnings("serial")
 public class MachineLogGetAction extends AbstractAction {
 
    private String _srvId;
    private String _vmId;
-   private String _logId;
 
-   public MachineLogGetAction(String srvId, String vmId, String logId) {
+   public MachineLogGetAction(String srvId, String vmId) {
       super("View Log Files", IconBuilder.getTask(HypervisorTasks.MachineLogFileGet));
-
       _srvId = srvId;
       _vmId = vmId;
-      _logId = logId;
-
-      setEnabled(true);
    }
 
    @Override
