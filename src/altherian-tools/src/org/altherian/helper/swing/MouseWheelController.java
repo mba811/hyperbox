@@ -93,7 +93,6 @@ public class MouseWheelController implements MouseWheelListener {
 
       //  Keep track of original listeners so we can use them to
       //  redispatch an altered MouseWheelEvent
-
       realListeners = scrollPane.getMouseWheelListeners();
 
       for (MouseWheelListener mwl : realListeners) {
@@ -101,7 +100,6 @@ public class MouseWheelController implements MouseWheelListener {
       }
 
       //  Intercept events so they can be redispatched
-
       scrollPane.addMouseWheelListener(this);
    }
 
@@ -115,11 +113,9 @@ public class MouseWheelController implements MouseWheelListener {
       }
 
       //  Remove this class as the default listener
-
       scrollPane.removeMouseWheelListener(this);
 
       //  Install the default listeners
-
       for (MouseWheelListener mwl : realListeners) {
          scrollPane.addMouseWheelListener(mwl);
       }
@@ -128,20 +124,17 @@ public class MouseWheelController implements MouseWheelListener {
    }
 
    //  Implement MouseWheelListener interface
-
    /**
     * Redispatch a MouseWheelEvent to the real MouseWheelListeners
     */
    @Override
    public void mouseWheelMoved(MouseWheelEvent e) {
       //  Create an altered event to redispatch
-
       if (scrollAmount != 0) {
          e = createScrollAmountEvent(e);
       }
 
       //  Redispatch the event to original MouseWheelListener
-
       for (MouseWheelListener mwl : realListeners) {
          mwl.mouseWheelMoved(e);
       }
@@ -149,7 +142,6 @@ public class MouseWheelController implements MouseWheelListener {
 
    private MouseWheelEvent createScrollAmountEvent(MouseWheelEvent e) {
       //  Reset the scroll amount
-
       MouseWheelEvent mwe = new MouseWheelEvent(
             e.getComponent(),
             e.getID(),

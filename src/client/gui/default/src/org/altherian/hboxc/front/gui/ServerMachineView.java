@@ -58,6 +58,7 @@ import org.altherian.hboxc.front.gui.worker.receiver._SnapshotGetReceiver;
 import org.altherian.hboxc.front.gui.workers.MachineListWorker;
 import org.altherian.hboxc.front.gui.workers.SnapshotGetWorker;
 import org.altherian.hboxc.front.gui.workers.WorkerDataReceiver;
+import org.altherian.helper.swing.MouseWheelController;
 import org.altherian.helper.swing.SortedTreeModel;
 import org.altherian.tool.logging.Logger;
 import java.awt.Component;
@@ -543,10 +544,14 @@ public final class ServerMachineView implements _MachineSelector, _ServerSelecto
 
             if (node != null) {
                if (node.getUserObject() instanceof MachineOut) {
-                  rightPanel.add(new JScrollPane(new VmDetailedView((MachineOut) node.getUserObject()).getComponent()), "grow,push");
+                  JScrollPane sp = new JScrollPane(new VmDetailedView((MachineOut) node.getUserObject()).getComponent());
+                  MouseWheelController.install(sp);
+                  rightPanel.add(sp, "grow,push");
                }
                if (node.getUserObject() instanceof ConnectorOutput) {
-                  rightPanel.add(new JScrollPane(new ConnectorDetailedView((ConnectorOutput) node.getUserObject()).getComponent()), "grow,push");
+                  JScrollPane sp = new JScrollPane(new ConnectorDetailedView((ConnectorOutput) node.getUserObject()).getComponent());
+                  MouseWheelController.install(sp);
+                  rightPanel.add(sp, "grow,push");
                }
             }
          }
