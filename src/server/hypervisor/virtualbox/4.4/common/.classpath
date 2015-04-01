@@ -7,7 +7,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Server-VB-4.4/lib/vboxjws-doc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/VirtualBox-API"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Server-VB"/>
 	<classpathentry kind="output" path="eclipse-bin"/>
 </classpath>
