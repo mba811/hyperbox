@@ -109,6 +109,7 @@
 	<property name="server.hyp.vbox.dir"							value="${server.hyp.dir}/virtualbox" />
 	<property name="server.hyp.vbox.helper.dir"						value="${server.hyp.vbox.dir}/common" />
 	<property name="server.hyp.vbox.helper.src.dir"					value="${server.hyp.vbox.helper.dir}/${src.dir}" />
+	<property name="server.hyp.vbox.helper.class.dir"				value="${build.class.dir}/srv-vb-helper" />
 	
 	<property name="server.hyp.vbox.4_2.dir"						value="${server.hyp.vbox.dir}/4.2/common" />
 	<property name="server.hyp.vbox.4_2.src.dir"					value="${server.hyp.vbox.4_2.dir}/${src.dir}" />
@@ -375,16 +376,28 @@
 		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${api.src.dir}" destdir="${api.classes.dir}" classpathref="api.classpath" />
 		<echo file="${api.classes.dir}/api.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
 		<echo file="${api.classes.dir}/api.build.properties" append="true">protocol=${hbox.protocol.version}${line.separator}</echo>
+		
+		<jar destfile="${build.jar.dir}/hbox-api.jar">
+			<fileset dir="${api.classes.dir}" />
+		</jar>
 	</target>
 	
 	<target name="vbox.api.compile" depends="api.compile">
 		<mkdir dir="${vbox.api.classes.dir}" />
 		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${vbox.api.src.dir}" destdir="${vbox.api.classes.dir}" classpathref="api.classpath" />
+		
+		<jar destfile="${build.jar.dir}/vbox-api.jar">
+			<fileset dir="${vbox.api.classes.dir}" />
+		</jar>
 	</target>	
 
 	<target name="server.api.compile" depends="api.compile">
 		<mkdir dir="${server.api.classes.dir}" />
 		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.api.src.dir}" destdir="${server.api.classes.dir}" classpathref="server.api.classpath" />
+		
+		<jar destfile="${build.jar.dir}/hbox-srv-api.jar">
+			<fileset dir="${server.api.classes.dir}" />
+		</jar>
 	</target>
 	
 	<target name="server.api.deploy" depends="configure">
@@ -434,9 +447,18 @@
 			<fileset dir="doc/manual" includes="**/*" />
 		</copy>
 	</target>
+	
+	<target name="server.hyp.vbox.helper.compile" depends="server.api.compile">
+		<mkdir dir="${server.hyp.vbox.helper.class.dir}" />
+		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.hyp.vbox.helper.src.dir}" destdir="${server.hyp.vbox.helper.class.dir}" classpathref="server.api.classpath" />
+		
+		<jar destfile="${build.jar.dir}/hbox-srv-vb-helper.jar">
+			<fileset dir="${server.hyp.vbox.helper.class.dir}" />
+		</jar>
+	</target>
 
 	<!-- Virtualbox 4.2 WebServices Connector -->
-	<target name="server.hyp.vbox.4_2.ws.jar" if="server.hyp.vbox.4_2.ws.enable" depends="vbox.api.compile, server.api.compile">
+	<target name="server.hyp.vbox.4_2.ws.jar" if="server.hyp.vbox.4_2.ws.enable" depends="server.hyp.vbox.helper.compile, vbox.api.compile, server.api.compile">
 		<mkdir dir="${server.hyp.vbox.4_2.ws.class.dir}" />
 		<mkdir dir="${server.hyp.vbox.4_2.ws.jar.dir}" />
 		<!-- create single output directory for each lines just under -->
@@ -461,7 +483,7 @@
 	<!--######################################-->
 	
 	<!--    Virtualbox 4.2 XPCOM Connector    -->
-	<target name="server.hyp.vbox.4_2.xpcom.jar" if="server.hyp.vbox.4_2.xpcom.enable" depends="vbox.api.compile, server.api.compile">
+	<target name="server.hyp.vbox.4_2.xpcom.jar" if="server.hyp.vbox.4_2.xpcom.enable" depends="server.hyp.vbox.helper.compile, vbox.api.compile, server.api.compile">
 		<mkdir dir="${server.hyp.vbox.4_2.xpcom.classes.dir}" />
 		<mkdir dir="${server.hyp.vbox.4_2.xpcom.jar.dir}" />
 		<!-- create single output directory for each two lines just under -->
@@ -487,7 +509,7 @@
 	<!--######################################-->
 	
 	<!-- Virtualbox 4.3 WebServices Connector -->
-	<target name="server.hyp.vbox.4_3.ws.jar" if="server.hyp.vbox.4_3.ws.enable" depends="vbox.api.compile, server.api.compile">
+	<target name="server.hyp.vbox.4_3.ws.jar" if="server.hyp.vbox.4_3.ws.enable" depends="server.hyp.vbox.helper.compile, vbox.api.compile, server.api.compile">
 		<mkdir dir="${server.hyp.vbox.4_3.ws.class.dir}" />
 		<mkdir dir="${server.hyp.vbox.4_3.ws.jar.dir}" />
 		<!-- create single output directory for each lines just under -->
@@ -512,7 +534,7 @@
 	<!--######################################-->
 	
 	<!--    Virtualbox 4.3 XPCOM Connector    -->
-	<target name="server.hyp.vbox.4_3.xpcom.jar" if="server.hyp.vbox.4_3.xpcom.enable" depends="vbox.api.compile, server.api.compile">
+	<target name="server.hyp.vbox.4_3.xpcom.jar" if="server.hyp.vbox.4_3.xpcom.enable" depends="server.hyp.vbox.helper.compile, vbox.api.compile, server.api.compile">
 		<mkdir dir="${server.hyp.vbox.4_3.xpcom.classes.dir}" />
 		<mkdir dir="${server.hyp.vbox.4_3.xpcom.jar.dir}" />
 		<!-- create single output directory for each two lines just under -->
@@ -538,7 +560,7 @@
 	<!--######################################-->
 	
 	<!--    Virtualbox 4.3 MSCOM Connector    -->
-	<target name="server.hyp.vbox.4_3.mscom.jar" if="server.hyp.vbox.4_3.mscom.enable" depends="vbox.api.compile, server.api.compile">
+	<target name="server.hyp.vbox.4_3.mscom.jar" if="server.hyp.vbox.4_3.mscom.enable" depends="server.hyp.vbox.helper.compile, vbox.api.compile, server.api.compile">
 		<mkdir dir="${server.hyp.vbox.4_3.mscom.classes.dir}" />
 		<mkdir dir="${server.hyp.vbox.4_3.mscom.jar.dir}" />
 		<!-- create single output directory for each two lines just under -->
