@@ -1,8 +1,8 @@
 /*
- * Hyperbox - Enterprise Virtualization Manager
+ * Hyperbox - Virtual Infrastructure Manager
  * Copyright (C) 2014 Maxime Dor
  * 
- * http://hyperbox.altherian.org
+ * http://kamax.io/hbox/
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ import java.util.Set;
  *    &lt;desc&gt;This module provides the UNIX-based XPCOM connector for VirtualBox 4.3.&lt;/desc&gt;
  *    &lt;version&gt;1&lt;/version&gt;
  *    &lt;vendor&gt;Altherian&lt;/vendor&gt;
- *    &lt;url&gt;http://hyperbox.altherian.org&lt;/url&gt;
+ *    &lt;url&gt;http://kamax.io/hbox/&lt;/url&gt;
  *    &lt;providers&gt;
  *       &lt;provider&gt;
  *          &lt;type&gt;org.altherian.hboxd.hypervisor._Hypervisor&lt;/type&gt;

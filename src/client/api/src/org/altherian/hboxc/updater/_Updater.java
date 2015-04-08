@@ -1,8 +1,8 @@
 /*
- * Hyperbox - Enterprise Virtualization Manager
+ * Hyperbox - Virtual Infrastructure Manager
  * Copyright (C) 2014 Maxime Dor
  * 
- * http://hyperbox.altherian.org
+ * http://kamax.io/hbox/
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public interface _Updater {
    public final String CFGVAL_UPDATER_INTERVAL = "60";
 
    public final String CFGKEY_UPDATER_REPOSITORY_LOCATION = "updater.repository.location";
-   public final String CFGVAL_UPDATER_REPOSITORY_LOCATION = "http://hyperbox.altherian.org/update/";
+   public final String CFGVAL_UPDATER_REPOSITORY_LOCATION = "http://kamax.io/hbox/update/";
 
    public final String CFGKEY_UPDATER_REPOSITORY_EXTENSION = "updater.repository.extension";
    public final String CFGVAL_UPDATER_REPOSITORY_EXTENSION = "";

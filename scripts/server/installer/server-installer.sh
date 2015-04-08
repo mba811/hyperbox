@@ -1,10 +1,10 @@
 #!/bin/bash
 ###########################################################################
 #
-# Hyperbox - Enterprise Virtualization Manager
+# Hyperbox - Virtual Infrastructure Manager
 # Copyright (C) 2013-2015 Maxime Dor
 # 
-# http://hyperbox.altherian.org
+# http://kamax.io/hbox/
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ function displayLogo {
 	echo "#       #     #     #         #         #      #   #       # #      #  #     #"
 	echo "#       #     #     #         ######### #       #  ########   ######  #       #"
 	echo ""
-	echo "http://hyperbox.altherian.org"
+	echo "http://kamax.io/hbox/"
 	echo ""
 }
 
@@ -364,5 +364,5 @@ cleanUp
 echo "Installation finish at "$(date "+%d-%I-%Y @ %H:%m") >> $LOG_FILE
 
 echo "The Hyperbox Server is now installed and running."
-echo "To get started, please read the User Manual located in the doc directory, or visit http://hyperbox.altherian.org"
+echo "To get started, please read the User Manual located in the doc directory, or visit http://kamax.io/hbox/"
 echo
