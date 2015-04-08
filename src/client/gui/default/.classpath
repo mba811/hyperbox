@@ -4,5 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Client-API"/>
 	<classpathentry exported="true" kind="lib" path="lib/miglayout-4.0-swing.jar"/>
-	<classpathentry kind="output" path="eclipse-bin"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

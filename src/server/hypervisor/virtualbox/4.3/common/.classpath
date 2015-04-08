@@ -8,5 +8,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Server-VB"/>
-	<classpathentry kind="output" path="eclipse-bin"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

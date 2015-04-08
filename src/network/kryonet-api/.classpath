@@ -8,5 +8,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/kryonet.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/API"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="eclipse-bin"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
