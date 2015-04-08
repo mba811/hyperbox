@@ -70,10 +70,13 @@ public class UserProfileCoreStorage implements _CoreStorage {
          storage = new XStream();
          storage.alias(CONSOLE_VIEWER_ID, _ConsoleViewer.class, ConsoleViewer.class);
          storage.alias(CONNECTOR_ID, _Connector.class, Connector.class);
-         // legacy name
+
+         // legacy names
          storage.alias("org.altherian.hbox.comm.input.UserInput", UserIn.class);
-         // legacy name
+         storage.alias("org.altherian.hbox.comm.in.UserIn", UserIn.class);
          storage.alias("org.altherian.hbox.constant.Entity", EntityType.class);
+         storage.alias("org.altherian.hbox.constant.EntityType", EntityType.class);
+
          storage.alias("user", UserIn.class);
          storage.alias("entity", EntityType.class);
          storage.omitField(Connector.class, "server");

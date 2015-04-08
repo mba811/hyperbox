@@ -97,7 +97,7 @@ public final class Controller implements _ClientMessageReceiver, _RequestReceive
    }
 
    private void loadFront() throws HyperboxException {
-      String classToLoad = Configuration.getSetting("view.class", "org.altherian.hboxc.front.gui.Gui");
+      String classToLoad = Configuration.getSetting("view.class", "io.kamax.hboxc.front.gui.Gui");
 
       Logger.info("Loading frontend class: " + classToLoad);
       front = HyperboxClient.loadClass(_Front.class, classToLoad);
