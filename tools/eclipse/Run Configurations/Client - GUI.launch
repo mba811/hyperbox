@@ -9,7 +9,7 @@
 <setAttribute key="name.schedenig.eclipse.grepconsole.NotificationsDisabledIds"/>
 <setAttribute key="name.schedenig.eclipse.grepconsole.NotificationsEnabledIds"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Client/src/org/altherian/hboxc/HyperboxClientApplicationStart.java"/>
+<listEntry value="/Client/src/io.kamax/hboxc/HyperboxClientApplicationStart.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -47,7 +47,7 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;Client-GUI-VB-4.3&quot; type=&quot;1&quot;/&gt;&#13;&#10;"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.altherian.hboxc.HyperboxClientApplicationStart"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="io.kamax.hboxc.HyperboxClientApplicationStart"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Client"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dlog.file=none&#13;&#10;-Dlog.level=Tracking"/>
 </launchConfiguration>

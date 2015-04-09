@@ -9,7 +9,7 @@
 <setEntry value="c0c6256a-278f-4295-8c2a-08dd52990506"/>
 </setAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Server/src/org/altherian/hboxd/HyperboxInteractive.java"/>
+<listEntry value="/Server/src/io.kamax/hboxd/HyperboxInteractive.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -55,7 +55,7 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;Altherian Tools&quot; type=&quot;1&quot;/&gt;&#13;&#10;"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.altherian.hboxd.HyperboxInteractive"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="io.kamax.hboxd.HyperboxInteractive"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Server"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dlog.file=none&#13;&#10;-Dlog.level=Tracking"/>
 </launchConfiguration>
