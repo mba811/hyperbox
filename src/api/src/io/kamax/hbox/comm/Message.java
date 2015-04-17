@@ -32,7 +32,7 @@ import java.util.Map;
  * 
  * @see Answer
  * @see Request
- * @author noteirak
+ * @author max
  */
 public class Message implements _Container {
 

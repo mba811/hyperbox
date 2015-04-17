@@ -23,7 +23,7 @@ package io.kamax.hbox.states;
 /**
  * The different modules states on Hyperbox Server.
  * 
- * @author noteirak
+ * @author max
  */
 public enum ModuleState {
 

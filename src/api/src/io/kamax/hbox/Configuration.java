@@ -34,7 +34,7 @@ import java.util.Properties;
 /**
  * To be used by any class that require a configuration file based on a namespace.
  *
- * @author noteirak
+ * @author max
  */
 public class Configuration {
 

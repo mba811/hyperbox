@@ -23,7 +23,7 @@ package io.kamax.hbox.states;
 /**
  * Machine states of Hyperbox
  * 
- * @author noteirak
+ * @author max
  */
 public enum MachineStates {
 

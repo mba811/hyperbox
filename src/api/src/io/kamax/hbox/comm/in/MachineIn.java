@@ -35,7 +35,7 @@ import java.util.Set;
 /**
  * IO object used to send or receive data about a VM
  * 
- * @author noteirak
+ * @author max
  */
 public final class MachineIn extends ObjectIn<EntityType> {
 

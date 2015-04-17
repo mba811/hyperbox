@@ -27,7 +27,7 @@ import io.kamax.hbox.comm.out.event.EventOut;
  * This will be created by classes implementing _Front within the server,</br>
  * to provide a way to send back information to the client from whom the request originated from.
  * 
- * @author noteirak
+ * @author max
  */
 public interface _Client extends _AnswerReceiver {
 

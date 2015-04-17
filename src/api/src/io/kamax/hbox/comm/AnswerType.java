@@ -24,7 +24,7 @@ package io.kamax.hbox.comm;
 /**
  * Types of Answer used for communication between Hyperbox Server & Client
  * 
- * @author noteirak
+ * @author max
  */
 public enum AnswerType {
 

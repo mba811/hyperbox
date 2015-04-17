@@ -25,7 +25,7 @@ package io.kamax.hbox.constant;
  * Any extra custom setting can be set using customs IDs, but these settings will require a custom handler.<br/>
  * To use these with the settings classes into the vbox.constant package of the Hyperbox API
  *
- * @author noteirak
+ * @author max
  */
 // TODO should be separated into devices
 public enum MachineAttribute {

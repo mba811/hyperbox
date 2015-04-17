@@ -103,7 +103,7 @@ import com.esotericsoftware.kryo.Kryo;
 /**
  * Used to register classes that will be sent through the channel.
  * 
- * @author noteirak
+ * @author max
  */
 public class KryoRegister {
 

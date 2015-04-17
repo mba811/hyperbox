@@ -23,7 +23,7 @@ package io.kamax.hbox.constant;
 /**
  * Supported Chipset by Virtualbox
  * 
- * @author noteirak
+ * @author max
  */
 public enum Chipsets {
 

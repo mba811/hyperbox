@@ -29,10 +29,10 @@ import javax.swing.JScrollPane;
  * Credits to Rob Camick<br/>
  * <a href="http://tips4java.wordpress.com/2010/01/10/mouse-wheel-controller/">http://tips4java.wordpress.com/2010/01/10/mouse-wheel-controller/</a>
  * <p>
- * 2014.01.22 - noteirak - Modified to support static call & default scrolling amount
+ * 2014.01.22 - max - Modified to support static call & default scrolling amount
  * </p>
  * 
- * @author noteirak
+ * @author max
  * 
  */
 public class MouseWheelController implements MouseWheelListener {

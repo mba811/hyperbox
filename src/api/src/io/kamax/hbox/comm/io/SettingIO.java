@@ -30,7 +30,7 @@ import io.kamax.tool.logging.Logger;
  * @see BooleanSettingIO
  * @see StringSettingIO
  * @see PositiveNumberSettingIO
- * @author noteirak
+ * @author max
  */
 public class SettingIO {
 

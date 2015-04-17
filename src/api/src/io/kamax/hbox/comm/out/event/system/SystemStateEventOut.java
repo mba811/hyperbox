@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Event message representing a change into the System state
  * 
- * @author noteirak
+ * @author max
  */
 public class SystemStateEventOut extends EventOut {
 

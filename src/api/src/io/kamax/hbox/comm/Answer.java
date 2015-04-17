@@ -24,7 +24,7 @@ package io.kamax.hbox.comm;
  * Answers are sent from the Hyperbox Server/Manager to the Hyperbox Client as a response from a request.<br/>
  * Several answers can be sent from a single request, as long as a final answer with a type that finish the exchanged is sent.<br/>
  * 
- * @author noteirak
+ * @author max
  * @see AnswerType
  * @see Message
  * @see Request

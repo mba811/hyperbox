@@ -23,7 +23,7 @@ package io.kamax.hbox.states;
 /**
  * Represent the different kind of ACPI signals that can be send to a machine by Virtualbox
  * 
- * @author noteirak
+ * @author max
  */
 public enum ACPI {
 

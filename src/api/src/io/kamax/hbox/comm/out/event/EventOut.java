@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Raw Event Comm message, normally extended.
  * 
- * @author noteirak
+ * @author max
  */
 // TODO need to make abstract
 public abstract class EventOut {

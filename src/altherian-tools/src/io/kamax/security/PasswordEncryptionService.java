@@ -38,7 +38,7 @@ import javax.crypto.spec.PBEKeySpec;
  * Storage</a>
  * </p>
  * 
- * @author noteirak
+ * @author max
  * 
  */
 public class PasswordEncryptionService {

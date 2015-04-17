@@ -23,7 +23,7 @@ package io.kamax.hbox.constant;
 /**
  * Mouse modes supported by Virtualbox
  * 
- * @author noteirak
+ * @author max
  */
 public enum MouseMode {
 

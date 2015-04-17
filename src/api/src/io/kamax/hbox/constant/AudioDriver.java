@@ -23,7 +23,7 @@ package io.kamax.hbox.constant;
 /**
  * Audio mode supported by Virtualbox
  * 
- * @author noteirak
+ * @author max
  */
 public enum AudioDriver {
 

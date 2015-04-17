@@ -35,7 +35,7 @@ import io.kamax.hbox.comm.out.storage.StorageControllerOut;
  * Core tasks that can be performed on the Hyperbox server.<br/>
  * These core tasks are the Virtualbox Tasks.
  *
- * @author noteirak
+ * @author max
  */
 public enum HypervisorTasks {
 

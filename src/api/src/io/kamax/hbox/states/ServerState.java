@@ -23,7 +23,7 @@ package io.kamax.hbox.states;
 /**
  * The different Hyperbox system states.
  * 
- * @author noteirak
+ * @author max
  */
 public enum ServerState {
 

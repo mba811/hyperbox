@@ -23,7 +23,7 @@ package io.kamax.hbox.comm.io;
 /**
  * Helper class to implement a positive number type for the Setting Comm object
  * 
- * @author noteirak
+ * @author max
  */
 public final class PositiveNumberSettingIO extends SettingIO {
 

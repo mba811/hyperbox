@@ -23,7 +23,7 @@ package io.kamax.hbox.constant;
 /**
  * VB keyboard modes
  * 
- * @author noteirak
+ * @author max
  */
 public enum KeyboardMode {
 

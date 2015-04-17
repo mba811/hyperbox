@@ -24,7 +24,7 @@ package io.kamax.hbox.comm;
  * Represent the different kind of commands that can be sent via a Request message.<br/>
  * Commands are actions that are to be executed directly on the server, opposed to Tasks who are queued & executed in a FIFO order.
  * 
- * @author noteirak
+ * @author max
  */
 public enum Command {
 

@@ -32,7 +32,7 @@ package io.kamax.hbox.comm;
  * 
  * @see Answer
  * @see Message
- * @author noteirak
+ * @author max
  */
 public final class Request extends Message {
 

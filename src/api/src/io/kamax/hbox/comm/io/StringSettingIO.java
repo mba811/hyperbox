@@ -25,7 +25,7 @@ import io.kamax.hbox.utils.Settings;
 /**
  * Helper class to implement a String type for the Setting Comm object
  * 
- * @author noteirak
+ * @author max
  */
 public final class StringSettingIO extends SettingIO {
 

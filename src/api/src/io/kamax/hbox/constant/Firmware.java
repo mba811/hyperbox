@@ -23,7 +23,7 @@ package io.kamax.hbox.constant;
 /**
  * Firmware to use at boot of the VM
  * 
- * @author noteirak
+ * @author max
  */
 public enum Firmware {
 

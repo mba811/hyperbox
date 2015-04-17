@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 /**
  * - Allow to be closed on escape key
  * 
- * @author noteirak
+ * @author max
  * 
  */
 @SuppressWarnings("serial")
