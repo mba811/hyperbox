@@ -22,6 +22,7 @@
 
 <project name="Hyperbox" default="build">
 
+	<!-- Credit to http://stackoverflow.com/questions/1163998/do-i-have-a-way-to-check-the-existence-of-a-directory-in-ant-not-a-file -->
 	<macrodef name="assertDirAvailable">
 		<attribute name="dir" />
 		<sequential>
