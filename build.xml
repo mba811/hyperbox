@@ -21,6 +21,19 @@
 -->
 
 <project name="Hyperbox" default="build">
+
+	<macrodef name="assertDirAvailable">
+		<attribute name="dir" />
+		<sequential>
+			<fail message="@{dir} could not be found">
+				<condition>
+					<not>
+						<available file="@{dir}" type="dir" />
+					</not>
+				</condition>
+			</fail>
+		</sequential>
+	</macrodef>
 	
 	<property file="build.properties"/>
 	
@@ -166,10 +179,11 @@
 		<property name="os.family"						value="win"/>
 		<property name="platform"						value="${os.family}.${os.arch}" />
 		<property file="tools/${platform}/build.properties" />
+		<assertDirAvailable dir="${tools.launch4j.dir}" />
 		
 		<property name="client.install.dir"				location="${client.install.dir.win}"/>
 		<property name="server.install.dir"				location="${server.install.dir.win}"/>
-		<echo message="Launch4j path:        ${tools.launch4j.dir}" />
+		
 		<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${tools.launch4j.dir}/launch4j.jar:${tools.launch4j.dir}/lib/xstream.jar" />
 		<property name="client.out.exe"					value="hyperbox.exe"/>
 		<property name="server.out.exe"					value="hyperbox.exe"/>
@@ -185,6 +199,13 @@
 	</target>
 	
 	<target name="configure" depends="configureWin, configureLinux">
+		<assertDirAvailable dir="${tools.src.dir}" />
+		<assertDirAvailable dir="${api.src.dir}" />
+		<assertDirAvailable dir="${server.api.src.dir}" />
+		<assertDirAvailable dir="${server.core.src.dir}" />
+		<assertDirAvailable dir="${client.api.src.dir}" />
+		<assertDirAvailable dir="${client.src.dir}" />
+		
 		<property name="api.src.dir.abs"				location="${api.src.dir}" />
 		<property name="api.protocol.src.dir.abs"		location="${api.src.dir}/org/altherian/hbox/comm" />
 		<property name="server.src.dir.abs"				location="${server.src.dir}" />
