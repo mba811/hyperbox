@@ -66,13 +66,15 @@
 	<property name="vbox.api.jar.dir"								value="${build.jar.dir}/vbox-api" />
 	<property name="vbox.api.jar.file"								value="${vbox.api.jar.dir}/vbox-api.jar" />
 
-	<property name="client.dir"										value="${hbox.dir}/client/core" />
-	<property name="client.api.dir"									value="${hbox.dir}/client/api" />
-	<property name="client.gui.dir"									value="${hbox.dir}/client/gui/default" />
+	<property name="client.dir"										value="${hbox.dir}/client" />
+	<property name="client.core.dir"								value="${client.dir}/core" />
+	<property name="client.api.dir"									value="${client.dir}/api" />
+	<property name="client.gui.dir"									value="${client.dir}/gui" />
 
 	<property name="client.install.dir.win"							value="C:/Program Files/Hyperbox/Client" />
 	<property name="client.install.dir.linux"						value="/opt/hboxc" />
 
+	<property name="server.base.dir"								value="${hbox.dir}/server" />
 	<property name="server.dir"										value="${hbox.dir}/server" />
 	<property name="server.core.dir"								value="${server.dir}/core" />
 	<property name="server.api.dir"									value="${server.dir}/api" />
@@ -86,9 +88,9 @@
 	<property name="client.api.lib.dir"								value="${client.api.dir}/${lib.dir}" />
 	<property name="client.api.classes.dir"							value="${build.class.dir}/client-api" />
 	
-	<property name="client.src.dir"									value="${client.dir}/${src.dir}" />
-	<property name="client.lib.dir"									value="${client.dir}/${lib.dir}" />
-	<property name="client.classes.dir"								value="${build.class.dir}/client" />
+	<property name="client.core.src.dir"							value="${client.core.dir}/${src.dir}" />
+	<property name="client.core.lib.dir"							value="${client.core.dir}/${lib.dir}" />
+	<property name="client.core.classes.dir"						value="${build.class.dir}/client-core" />
 	
 	<property name="client.gui.src.dir"								value="${client.gui.dir}/${src.dir}" />
 	<property name="client.gui.lib.dir"								value="${client.gui.dir}/${lib.dir}" />
@@ -155,7 +157,7 @@
 		<path refid="client.api.classpath"/>
 		<path refid="kryo.api.classpath"/>
 		<pathelement location="${client.classes.dir}"/>
-		<fileset dir="${client.lib.dir}" includes="**/*.jar"/>
+		<fileset dir="${client.core.lib.dir}" includes="**/*.jar"/>
 	</path>
 	
 	<path id="client.gui.classpath">
@@ -205,12 +207,12 @@
 		<assertDirAvailable dir="${server.api.src.dir}" />
 		<assertDirAvailable dir="${server.core.src.dir}" />
 		<assertDirAvailable dir="${client.api.src.dir}" />
-		<assertDirAvailable dir="${client.src.dir}" />
+		<assertDirAvailable dir="${client.core.src.dir}" />
 		
 		<property name="api.src.dir.abs"				location="${api.src.dir}" />
 		<property name="api.protocol.src.dir.abs"		location="${api.src.dir}/org/altherian/hbox/comm" />
 		<property name="server.src.dir.abs"				location="${server.src.dir}" />
-		<property name="client.src.dir.abs"				location="${client.src.dir}" />
+		<property name="client.core.src.dir.abs"		location="${client.core.src.dir}" />
 		
 		<property name="os.type" 						value="${os.family}" />
 		<exec executable="git" outputProperty="hbox.version">
@@ -366,14 +368,14 @@
     </target>
 	
 	<target name="client.compile" depends="client.api.compile, kryo.api.compile">
-    	<mkdir dir="${client.classes.dir}" />
-    	<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${client.src.dir}" destdir="${client.classes.dir}" classpathref="client.classpath" />
-		<echo file="${client.classes.dir}/client.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
+    	<mkdir dir="${client.core.classes.dir}" />
+    	<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${client.core.src.dir}" destdir="${client.core.classes.dir}" classpathref="client.classpath" />
+		<echo file="${client.core.classes.dir}/client.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
     </target>
 	
 	<target name="client.deploy" depends="client.api.deploy">
 		<copy todir="${client.out.dir}/lib" flatten="true">
-			<fileset dir="${client.lib.dir}" includes="**/*.jar" />
+			<fileset dir="${client.core.lib.dir}" includes="**/*.jar" />
 		</copy>
 	</target>
 
@@ -382,7 +384,7 @@
         	<fileset dir="${api.classes.dir}" />
 			<fileset dir="${client.api.classes.dir}" />
         	<fileset dir="${kryo.api.classes.dir}" />
-        	<fileset dir="${client.classes.dir}" />
+        	<fileset dir="${client.core.classes.dir}" />
         </jar>
     </target>
 	
@@ -396,7 +398,7 @@
 			<fileset dir="${client.gui.lib.dir}" includes="**/*.jar" />
 		</copy>
 		<copy todir="${client.out.dir}/icons">
-			<fileset dir="${client.dir}/icons" includes="**" />
+			<fileset dir="${client.gui.dir}/icons" includes="**" />
 		</copy>
 		<copy todir="${client.out.dir}/icons" overwrite="true">
 			<fileset dir="media/img" includes="**" />
@@ -410,7 +412,7 @@
     </target>
 	
 	<target name="client.build.win" depends="client.deploy, client.jar" if="isWin">
-		<launch4j configFile="scripts/client/launch4j/main.xml" outfile="${client.out.dir}/${client.out.exe}" />
+		<launch4j configFile="${client.base.dir}/scripts/launch4j/main.xml" outfile="${client.out.dir}/${client.out.exe}" />
 	</target>
 	
 	<target name="client.build.linux" depends="client.deploy, client.jar" if="isLinux">
@@ -421,8 +423,8 @@
 	<extension-point name="client.build" depends="client.build.linux, client.build.win, client.gui.jar, kryo.api.client.deploy" />
 	
 	<target name="server.build.win" depends="server.jar, server.deploy" if="isWin">
-		<launch4j configFile="scripts/server/launch4j/main.xml" outfile="${server.out.dir}/${server.out.exe}" />
-		<copy file="external/common-daemons/prunsrv-${os.arch}.exe" tofile="${server.out.dir}/hboxd.exe" />
+		<launch4j configFile="${server.base.dir}/scripts/launch4j/main.xml" outfile="${server.out.dir}/${server.out.exe}" />
+		<copy file="${server.base.dir}/external/common-daemons/prunsrv-${os.arch}.exe" tofile="${server.out.dir}/hboxd.exe" />
 	</target>
 	
 	<target name="server.build.linux" depends="server.jar, server.deploy" if="isLinux">
