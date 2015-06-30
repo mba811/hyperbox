@@ -22,7 +22,6 @@
 
 <project name="Hyperbox" default="build">
 
-	<!-- Credit to http://stackoverflow.com/questions/1163998/do-i-have-a-way-to-check-the-existence-of-a-directory-in-ant-not-a-file -->
 	<macrodef name="assertDirAvailable">
 		<attribute name="dir" />
 		<sequential>
@@ -38,17 +37,19 @@
 	
 	<property file="build.properties"/>
 	
-	<property name="hbox.dir"										value="src" />
 	<property name="src.dir"										value="src" />
 	<property name="lib.dir"										value="lib" />
-	<property name="out.dir"										value="out" />
-	<property name="docs.dir"										value="docs" />
-	<property name="media.dir"										value="media" />
 	
-	<property name="build.dir"										value="${out.dir}/build" />
-	<property name="build.class.dir"								value="${build.dir}/classes" />
-	<property name="build.jar.dir"									value="${build.dir}/jars" />
-	<property name="build.module.jar.dir"							value="${build.jar.dir}/modules" />
+	<property name="hbox.base.dir"									value="." />
+	<property name="hbox.dir"										value="${hbox.base.dir}/src" />
+	<property name="hbox.out.dir"									value="${hbox.base.dir}/out" />
+	<property name="hbox.docs.dir"									value="${hbox.base.dir}/docs" />
+	<property name="hbox.media.dir"									value="${hbox.base.dir}/media" />
+	
+	<property name="hbox.build.dir"									value="${hbox.out.dir}/build" />
+	<property name="hbox.build.class.dir"							value="${hbox.build.dir}/class" />
+	<property name="hbox.build.jar.dir"								value="${hbox.build.dir}/jar" />
+	<property name="hbox.build.module.jar.dir"						value="${hbox.build.jar.dir}/modules" />
 	
 	<property name="tools.dir"										value="${hbox.dir}/altherian-tools" />
 	<property name="tools.src.dir"									value="${tools.dir}/${src.dir}" />
@@ -56,17 +57,12 @@
 	<property name="api.dir"										value="${hbox.dir}/api" />
 	<property name="api.src.dir"									value="${api.dir}/${src.dir}" />
 	<property name="api.lib.dir"									value="${api.dir}/${lib.dir}" />
-	<property name="api.classes.dir"								value="${build.class.dir}/api" />
+	<property name="api.classes.dir"								value="${hbox.build.class.dir}/api" />
 
 	<property name="kryo.api.dir"									value="${hbox.dir}/network/kryonet-api" />
-	<property name="vbox.api.dir"									value="${hbox.dir}/hypervisor/vbox-api" />
-	<property name="vbox.api.src.dir"								value="${vbox.api.dir}/${src.dir}" />
-	<property name="vbox.api.lib.dir"								value="${vbox.api.dir}/${lib.dir}" />
-	<property name="vbox.api.classes.dir"							value="${build.class.dir}/vbox-api" />
-	<property name="vbox.api.jar.dir"								value="${build.jar.dir}/vbox-api" />
-	<property name="vbox.api.jar.file"								value="${vbox.api.jar.dir}/vbox-api.jar" />
 
-	<property name="client.dir"										value="${hbox.dir}/client" />
+	<property name="client.base.dir"								value="${hbox.base.dir}/../client" />
+	<property name="client.dir"										value="${client.base.dir}/src" />
 	<property name="client.core.dir"								value="${client.dir}/core" />
 	<property name="client.api.dir"									value="${client.dir}/api" />
 	<property name="client.gui.dir"									value="${client.dir}/gui" />
@@ -74,8 +70,8 @@
 	<property name="client.install.dir.win"							value="C:/Program Files/Hyperbox/Client" />
 	<property name="client.install.dir.linux"						value="/opt/hboxc" />
 
-	<property name="server.base.dir"								value="${hbox.dir}/server" />
-	<property name="server.dir"										value="${hbox.dir}/server" />
+	<property name="server.base.dir"								value="${hbox.base.dir}/../server" />
+	<property name="server.dir"										value="${server.base.dir}/src" />
 	<property name="server.core.dir"								value="${server.dir}/core" />
 	<property name="server.api.dir"									value="${server.dir}/api" />
 	<property name="server.hyp.dir"									value="${server.dir}/hypervisor" />
@@ -83,49 +79,37 @@
 	<property name="server.install.dir.win"							value="C:/Program Files/Hyperbox/Server" />
 	<property name="server.install.dir.linux"						value="/opt/hboxd" />
 	
-	
 	<property name="client.api.src.dir"								value="${client.api.dir}/${src.dir}" />
 	<property name="client.api.lib.dir"								value="${client.api.dir}/${lib.dir}" />
-	<property name="client.api.classes.dir"							value="${build.class.dir}/client-api" />
+	<property name="client.api.classes.dir"							value="${hbox.build.class.dir}/client-api" />
 	
 	<property name="client.core.src.dir"							value="${client.core.dir}/${src.dir}" />
 	<property name="client.core.lib.dir"							value="${client.core.dir}/${lib.dir}" />
-	<property name="client.core.classes.dir"						value="${build.class.dir}/client-core" />
+	<property name="client.core.classes.dir"						value="${hbox.build.class.dir}/client-core" />
 	
 	<property name="client.gui.src.dir"								value="${client.gui.dir}/${src.dir}" />
 	<property name="client.gui.lib.dir"								value="${client.gui.dir}/${lib.dir}" />
-	<property name="client.gui.classes.dir"							value="${build.class.dir}/client-gui" />
+	<property name="client.gui.classes.dir"							value="${hbox.build.class.dir}/client-gui" />
 	
 	<property name="server.api.src.dir"								value="${server.api.dir}/${src.dir}" />
 	<property name="server.api.lib.dir"								value="${server.api.dir}/${lib.dir}" />
-	<property name="server.api.classes.dir"							value="${build.class.dir}/srv-api" />
-	
-	<property name="server.hyp.vbox.dir"							value="${server.hyp.dir}/virtualbox" />
-	<property name="server.hyp.vbox.helper.dir"						value="${server.hyp.vbox.dir}/common" />
-	<property name="server.hyp.vbox.helper.src.dir"					value="${server.hyp.vbox.helper.dir}/${src.dir}" />
-	<property name="server.hyp.vbox.helper.class.dir"				value="${build.class.dir}/srv-vb-helper" />
+	<property name="server.api.classes.dir"							value="${hbox.build.class.dir}/srv-api" />
 
 	<property name="kryo.api.src.dir"								value="${kryo.api.dir}/${src.dir}" />
 	<property name="kryo.api.lib.dir"								value="${kryo.api.dir}/${lib.dir}" />
-	<property name="kryo.api.classes.dir"							value="${build.class.dir}/kryo-api" />
+	<property name="kryo.api.classes.dir"							value="${hbox.build.class.dir}/kryo-api" />
 
 	<property name="server.core.src.dir"							value="${server.core.dir}/${src.dir}" />
 	<property name="server.core.lib.dir"							value="${server.core.dir}/${lib.dir}" />
-	<property name="server.core.classes.dir"						value="${build.class.dir}/srv" />
+	<property name="server.core.classes.dir"						value="${hbox.build.class.dir}/srv" />
 	
-	<property name="docs.out.dir"									value="${out.dir}/${docs.dir}" />
-	<property name="javadoc.out.dir"								value="${out.dir}/${docs.dir}/javadoc" />
-	<property name="media.dir.abs"									location="${media.dir}" />
+	<property name="docs.out.dir"									value="${hbox.out.dir}/${docs.dir}" />
+	<property name="javadoc.out.dir"								value="${hbox.out.dir}/${docs.dir}/javadoc" />
+	<property name="media.dir.abs"									location="${hbox.media.dir}" />
 		
 	<path id="api.classpath">
 		<pathelement location="${api.classes.dir}"/>
 		<fileset dir="${api.lib.dir}" includes="**/*.jar"/>
-	</path>
-	
-	<path id="vbox.api.classpath">
-		<path refid="api.classpath"/>
-		<pathelement location="${vbox.api.classes.dir}"/>
-		<fileset dir="${vbox.api.lib.dir}" includes="**/*.jar"/>
 	</path>
 	
 	<path id="server.api.classpath">
@@ -166,11 +150,11 @@
 		<fileset dir="${client.gui.lib.dir}" includes="**/*.jar"/>
 	</path>
 	
-	<condition property="isWin">
+	<condition property="ifWin">
 		<os family="windows" />
 	</condition>
 	
-	<condition property="isLinux">
+	<condition property="ifLinux">
 		<os family="unix" />
 	</condition>
 		
@@ -178,7 +162,7 @@
 		<delete dir="${out.dir}"/>
 	</target>
 	
-	<target name="configureWin" if="isWin">
+	<target name="configureWin" if="ifWin">
 		<property name="os.family"						value="win"/>
 		<property name="platform"						value="${os.family}.${os.arch}" />
 		<property file="tools/${platform}/build.properties" />
@@ -192,7 +176,7 @@
 		<property name="server.out.exe"					value="hyperbox.exe"/>
 	</target>
 	
-	<target name="configureLinux" if="isLinux">
+	<target name="configureLinux" if="ifLinux">
 		<property name="os.family" 						value="linux"/>
 		<property name="platform"						value="${os.family}.${os.arch}" />
 		<property file="tools/${platform}/build.properties" />
@@ -227,11 +211,11 @@
 			<arg line="describe --always"/>
 		</exec>
 
-		<property name="server.out.dir"						value="${out.dir}/bin/${platform}/server" />
+		<property name="server.out.dir"						value="${hbox.out.dir}/bin/${platform}/server" />
 		<property name="server.out.module.dir"				value="${server.out.dir}/modules" />
-		<property name="client.out.dir"						value="${out.dir}/bin/${platform}/client" />
+		<property name="client.out.dir"						value="${hbox.out.dir}/bin/${platform}/client" />
 		<property name="client.out.module.dir"				value="${client.out.dir}/modules" />
-		<property name="dist.out.dir"						value="${out.dir}/dist" />
+		<property name="dist.out.dir"						value="${hbox.out.dir}/dist" />
 		
 		<property name="server.out.dir.abs"					location="${server.out.dir}" />
 		<property name="client.out.dir.abs"					location="${client.out.dir}" />
@@ -258,7 +242,7 @@
 		<echo file="${api.classes.dir}/api.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
 		<echo file="${api.classes.dir}/api.build.properties" append="true">protocol=${hbox.protocol.version}${line.separator}</echo>
 		
-		<jar destfile="${build.jar.dir}/hbox-api.jar">
+		<jar destfile="${hbox.build.jar.dir}/hbox-api.jar">
 			<fileset dir="${api.classes.dir}" />
 		</jar>
 	</target>	
@@ -267,7 +251,7 @@
 		<mkdir dir="${server.api.classes.dir}" />
 		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.api.src.dir}" destdir="${server.api.classes.dir}" classpathref="server.api.classpath" />
 		
-		<jar destfile="${build.jar.dir}/hbox-srv-api.jar">
+		<jar destfile="${hbox.build.jar.dir}/hbox-srv-api.jar">
 			<fileset dir="${server.api.classes.dir}" />
 		</jar>
 	</target>
@@ -318,15 +302,6 @@
 		<copy todir="${client.out.dir}/doc/manual">
 			<fileset dir="doc/manual" includes="**/*" />
 		</copy>
-	</target>
-	
-	<target name="server.hyp.vbox.helper.compile" depends="server.api.compile">
-		<mkdir dir="${server.hyp.vbox.helper.class.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.hyp.vbox.helper.src.dir}" destdir="${server.hyp.vbox.helper.class.dir}" classpathref="server.api.classpath" />
-		
-		<jar destfile="${build.jar.dir}/hbox-srv-vb-helper.jar">
-			<fileset dir="${server.hyp.vbox.helper.class.dir}" />
-		</jar>
 	</target>
 	
 	<target name="kryo.api.compile" depends="api.compile">
@@ -411,23 +386,23 @@
         </jar>
     </target>
 	
-	<target name="client.build.win" depends="client.deploy, client.jar" if="isWin">
+	<target name="client.build.win" depends="client.deploy, client.jar" if="ifWin">
 		<launch4j configFile="${client.base.dir}/scripts/launch4j/main.xml" outfile="${client.out.dir}/${client.out.exe}" />
 	</target>
 	
-	<target name="client.build.linux" depends="client.deploy, client.jar" if="isLinux">
+	<target name="client.build.linux" depends="client.deploy, client.jar" if="ifLinux">
 		<copy file="scripts/client/hyperbox" tofile="${client.out.dir}/hyperbox" />
 		<chmod file="${client.out.dir}/hyperbox" perm="u+rx,g+rx,o+rx"/>
 	</target>
 	
 	<extension-point name="client.build" depends="client.build.linux, client.build.win, client.gui.jar, kryo.api.client.deploy" />
 	
-	<target name="server.build.win" depends="server.jar, server.deploy" if="isWin">
+	<target name="server.build.win" depends="server.jar, server.deploy" if="ifWin">
 		<launch4j configFile="${server.base.dir}/scripts/launch4j/main.xml" outfile="${server.out.dir}/${server.out.exe}" />
 		<copy file="${server.base.dir}/external/common-daemons/prunsrv-${os.arch}.exe" tofile="${server.out.dir}/hboxd.exe" />
 	</target>
 	
-	<target name="server.build.linux" depends="server.jar, server.deploy" if="isLinux">
+	<target name="server.build.linux" depends="server.jar, server.deploy" if="ifLinux">
 		<copy file="scripts/server/hyperbox" tofile="${server.out.dir}/hyperbox" />
 		<chmod file="${server.out.dir}/hyperbox" perm="ugo+rx" />
 		<copy file="scripts/server/initd/hboxd" tofile="${server.out.dir}/hboxd" />
@@ -451,13 +426,13 @@
 	<extension-point name="build.zip" depends="server.build.zip, client.build.zip" />
 	
 	<target name="configureDist" depends="configure">
-		<property name="dist.build.out.dir" value="${build.dir}/dist" />
+		<property name="dist.build.out.dir" value="${hbox.build.dir}/dist" />
 		<mkdir dir="${dist.build.out.dir}" />
 	</target>
 	
-	<target name="client.build.dist.win" if="isWin" depends="configureDist">
+	<target name="client.build.dist.win" if="ifWin" depends="configureDist">
 		<echo message="NSIS Dir:           ${tools.nsis.dir}" />
-		<copy file="scripts/client/installer/client-installer.nsi" tofile="${dist.build.out.dir}/client-installer.nsi" overwrite="true" />
+		<copy file="${client.base.dir}/scripts/installer/client-installer.nsi" tofile="${dist.build.out.dir}/client-installer.nsi" overwrite="true" />
 		<replace file="${dist.build.out.dir}/client-installer.nsi" token="@CLIENT_INSTALLER_OUTPUT@" value="${dist.out.dir.abs}/${client.out.dist.package}.exe" />
 		<replace file="${dist.build.out.dir}/client-installer.nsi" token="@CLIENT_OUT_BIN_DIR@" value="${client.out.dir.abs}" />
 		<replace file="${dist.build.out.dir}/client-installer.nsi" token="@CLIENT_INSTALL_DIR@" value="${client.install.dir}" />
@@ -468,7 +443,7 @@
 		</exec>
 	</target>
 	
-	<target name="client.build.dist.linux" if="isLinux" depends="configureDist">
+	<target name="client.build.dist.linux" if="ifLinux" depends="configureDist">
 		<copy file="${client.dir}/hyperbox-client.desktop" tofile="${client.out.dir}/hyperbox-client.desktop" overwrite="true" />
 		<copy file="scripts/client/installer/client-installer.sh" tofile="${client.out.dir}/client-installer.sh" overwrite="true" />
 		<chmod file="${client.out.dir}/client-installer.sh" perm="ugo+rx" />
@@ -482,10 +457,10 @@
 	
 	<extension-point name="client.build.dist" depends="client.build.dist.win,client.build.dist.linux" />
 	
-	<target name="server.build.dist.win" if="isWin" depends="configureDist">
+	<target name="server.build.dist.win" if="ifWin" depends="configureDist">
 		<echo message="NSIS Dir:           ${tools.nsis.dir}" />
 		<echo message="Binaries Dir:       ${server.out.dir.abs}" />
-		<copy file="scripts/server/installer/server-installer.nsi" tofile="${dist.build.out.dir}/server-installer.nsi" overwrite="true" />
+		<copy file="${server.base.dir}/scripts/installer/server-installer.nsi" tofile="${dist.build.out.dir}/server-installer.nsi" overwrite="true" />
 		<replace file="${dist.build.out.dir}/server-installer.nsi" token="@SERVER_INSTALLER_OUTPUT@" value="${dist.out.dir.abs}/${server.out.dist.package}.exe" />
 		<replace file="${dist.build.out.dir}/server-installer.nsi" token="@SERVER_OUT_BIN_DIR@" value="${server.out.dir.abs}" />
 		<replace file="${dist.build.out.dir}/server-installer.nsi" token="@SERVER_INSTALL_DIR@" value="${server.install.dir}" />
@@ -496,7 +471,7 @@
 		</exec>
 	</target>
 	
-	<target name="server.build.dist.linux" if="isLinux" depends="configureDist">
+	<target name="server.build.dist.linux" if="ifLinux" depends="configureDist">
 		<copy file="scripts/server/installer/server-installer.sh" tofile="${server.out.dir}/server-installer.sh" overwrite="true" />
 		<chmod file="${server.out.dir}/server-installer.sh" perm="ugo+rx" />
 		<exec executable="makeself" failonerror="true">
