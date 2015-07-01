@@ -165,7 +165,7 @@
 	<target name="configureWin" if="ifWin">
 		<property name="os.family"						value="win"/>
 		<property name="platform"						value="${os.family}.${os.arch}" />
-		<property file="tools/${platform}/build.properties" />
+		<property file="${hbox.base.dir}/tools/${platform}/build.properties" />
 		<assertDirAvailable dir="${tools.launch4j.dir}" />
 		
 		<property name="client.install.dir"				location="${client.install.dir.win}"/>
@@ -179,7 +179,7 @@
 	<target name="configureLinux" if="ifLinux">
 		<property name="os.family" 						value="linux"/>
 		<property name="platform"						value="${os.family}.${os.arch}" />
-		<property file="tools/${platform}/build.properties" />
+		<property file="${hbox.base.dir}/tools/${platform}/build.properties" />
 		
 		<property name="client.install.dir"				location="${client.install.dir.linux}" />
 		<property name="server.install.dir"				location="${server.install.dir.linux}" />
