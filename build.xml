@@ -37,12 +37,13 @@
 	
 	<property file="build.properties"/>
 	
+	<property name="out.dirname"									value="out" />
 	<property name="src.dir"										value="src" />
 	<property name="lib.dir"										value="lib" />
 	
 	<property name="hbox.base.dir"									value="." />
 	<property name="hbox.dir"										value="${hbox.base.dir}/src" />
-	<property name="hbox.out.dir"									value="${hbox.base.dir}/out" />
+	<property name="hbox.out.dir"									value="${hbox.base.dir}/${out.dirname}" />
 	<property name="hbox.docs.dir"									value="${hbox.base.dir}/docs" />
 	<property name="hbox.media.dir"									value="${hbox.base.dir}/media" />
 	
@@ -237,8 +238,8 @@
 	
 	<target name="api.compile" depends="configure">
 		<mkdir dir="${api.classes.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${tools.src.dir}" destdir="${api.classes.dir}" classpathref="api.classpath" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${api.src.dir}" destdir="${api.classes.dir}" classpathref="api.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${tools.src.dir}" destdir="${api.classes.dir}" classpathref="api.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${api.src.dir}" destdir="${api.classes.dir}" classpathref="api.classpath" />
 		<echo file="${api.classes.dir}/api.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
 		<echo file="${api.classes.dir}/api.build.properties" append="true">protocol=${hbox.protocol.version}${line.separator}</echo>
 		
@@ -249,7 +250,7 @@
 
 	<target name="server.api.compile" depends="api.compile">
 		<mkdir dir="${server.api.classes.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.api.src.dir}" destdir="${server.api.classes.dir}" classpathref="server.api.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${server.api.src.dir}" destdir="${server.api.classes.dir}" classpathref="server.api.classpath" />
 		
 		<jar destfile="${hbox.build.jar.dir}/hbox-srv-api.jar">
 			<fileset dir="${server.api.classes.dir}" />
@@ -280,7 +281,7 @@
 	
 	<target name="client.api.compile" depends="api.compile">
 		<mkdir dir="${client.api.classes.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${client.api.src.dir}" destdir="${client.api.classes.dir}" classpathref="client.api.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${client.api.src.dir}" destdir="${client.api.classes.dir}" classpathref="client.api.classpath" />
 	</target>
 	
 	<target name="client.api.deploy">
@@ -306,7 +307,7 @@
 	
 	<target name="kryo.api.compile" depends="api.compile">
 		<mkdir dir="${kryo.api.classes.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${kryo.api.src.dir}" destdir="${kryo.api.classes.dir}" classpathref="kryo.api.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${kryo.api.src.dir}" destdir="${kryo.api.classes.dir}" classpathref="kryo.api.classpath" />
 	</target>
 	
 	<target name="kryo.api.server.deploy" depends="server.api.deploy">
@@ -323,7 +324,7 @@
 
     <target name="server.compile" depends="server.api.compile, kryo.api.compile">
     	<mkdir dir="${server.core.classes.dir}" />
-    	<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${server.core.src.dir}" destdir="${server.core.classes.dir}" classpathref="server.classpath" />
+    	<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${server.core.src.dir}" destdir="${server.core.classes.dir}" classpathref="server.classpath" />
 		<echo file="${server.core.classes.dir}/server.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
     </target>
 
@@ -344,7 +345,7 @@
 	
 	<target name="client.compile" depends="client.api.compile, kryo.api.compile">
     	<mkdir dir="${client.core.classes.dir}" />
-    	<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${client.core.src.dir}" destdir="${client.core.classes.dir}" classpathref="client.classpath" />
+    	<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${client.core.src.dir}" destdir="${client.core.classes.dir}" classpathref="client.classpath" />
 		<echo file="${client.core.classes.dir}/client.build.properties" append="true">version=${hbox.version}${line.separator}</echo>
     </target>
 	
@@ -365,7 +366,7 @@
 	
 	<target name="client.gui.compile" depends="client.api.compile">
 		<mkdir dir="${client.gui.classes.dir}" />
-		<javac source="1.6" target="1.6" debug="on" includeantruntime="false" srcdir="${client.gui.src.dir}" destdir="${client.gui.classes.dir}" classpathref="client.gui.classpath" />
+		<javac source="1.6" target="1.6" debug="on" debuglevel="lines" includeantruntime="false" srcdir="${client.gui.src.dir}" destdir="${client.gui.classes.dir}" classpathref="client.gui.classpath" />
 	</target>
 	
 	<target name="client.gui.deploy" depends="client.deploy">
