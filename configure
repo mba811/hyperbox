@@ -63,10 +63,10 @@ checkForDirectory "$SRV_CORE_BASE_DIR" "Server Core"
 echo
 echo -n "Writting setting file... "
 echo "# General config file" > build.properties
-echo "client.base.dir=$CLT_BASE_DIR" >> build.properties
-echo "client.dir=$CLT_BASE_SRC_DIR" >> build.properties
-echo "server.base.dir=$SRV_BASE_DIR" >> build.properties
-echo "server.dir=$SRV_BASE_SRC_DIR" >> build.properties
+echo "hbox.client.base.dir=$CLT_BASE_DIR" >> build.properties
+echo "hbox.client.dir=$CLT_BASE_SRC_DIR" >> build.properties
+echo "hbox.server.base.dir=$SRV_BASE_DIR" >> build.properties
+echo "hbox.server.dir=$SRV_BASE_SRC_DIR" >> build.properties
 ok
 
 echo
